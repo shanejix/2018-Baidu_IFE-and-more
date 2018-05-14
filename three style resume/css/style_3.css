@@ -1,0 +1,72 @@
+*{
+	margin: 0;
+	padding:0;
+}
+body{
+	font-family: "微软雅黑"；
+	font-size: 1.5rem;
+	width: 66%;
+	max-width: 1200px;
+	min-width: 600px;
+	margin: 0 auto;
+	background: transparent;
+}
+header{
+	width: 99%;
+	background: gray;
+	height: 5rem;
+	line-height: 5rem;
+	color: white;
+	border: solid 0.1rem gray;
+	padding-left: 1%
+}
+/*全部项的样式*/
+.main div{
+	width: 100%;
+	height: 10rem;
+	border: solid 0.1rem lightgray;
+}
+.main div p{
+	width: 10%;
+	height: 10rem;
+	line-height: 10rem;
+	background: lightgray;
+	text-align: center;
+	border-bottom: solid 0.1rem white;
+}
+.main div dl{
+	width: 89%;
+	height: 9rem;
+	margin-top: 1rem;
+	margin-left: 1%;
+
+}
+.main div dl,.main div p{
+	float: left;
+	overflow: hidden;
+}
+
+.main div dl dt,.main div dl dd{
+	display: inline;
+}
+.main div dl dt{
+	margin-right: 1rem;
+}
+.main div dl dd{
+	margin-right: 3.5rem;
+}
+/*后三项的特别样式*/
+.main div.nlms dl dd.p1{
+	margin-right: 65%;
+}
+.main div.jyjl dl dd.p2{
+	margin-right: 72%;
+}
+.main div.xmjl dl dd{
+	margin-right: 52%;
+}
+
+
+a{
+	color: blue;
+}

@@ -1,0 +1,75 @@
+*{
+	margin: 0;
+	padding:0;
+}
+body{
+	font-family: "微软雅黑"；
+	font-size: 1.5rem;
+	width: 80%;
+	max-width: 1200px;
+	min-width: 600px;
+	margin: 0 auto;
+	background: transparent;
+}
+header{
+	font-size: 5rem;
+	font-weight: bold;
+	margin-bottom: 2rem;
+	background: rgb(0,0,250);
+	width: 22%;
+	height: 820px;
+	text-align: center;
+	color: white;
+	float: left;
+	overflow: hidden;
+	margin-top: 2rem;
+}
+.main{
+	width: 65%;
+	height: 820px;
+	margin-bottom: 2rem;
+	float: left;
+	background: transparent;
+	margin-left: 3%;
+	overflow: hidden;
+	margin-top: 2rem;
+	padding-top: 0.5rem;
+}
+
+.main p{
+	font-size: 2rem;
+	font-weight: bold;
+	margin-bottom: 1.5rem;
+}
+.main dl dt{
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.main dl dd{
+	font-size: 1.1rem;
+}
+
+.main .jbxx dl dt,.main .jbxx dl dd{
+	display: inline;
+}
+.main .jbxx dl dt{
+	margin-right: 1rem;
+}
+.main .jbxx dl dd{
+	margin-right: 3.5rem;
+}
+.main .lxfs dl dt,.main .lxfs dl dd{
+	display: inline;
+}
+.main .lxfs dl dt{
+	margin-right: 1rem;
+}
+.main .lxfs dl dd{
+	margin-right: 3.5rem;
+}
+a{
+	color: blue;
+}
+.main div{
+	margin-bottom: 2rem;
+}
