@@ -1,0 +1,35 @@
+html,
+body{
+	margin: 0;
+	height: 100%;
+}
+.mian,.left,.right{
+	float: left;
+}
+.main{
+	height: 100%;
+	width: 100%;
+}
+.main-inner{
+	margin: 0 220px;
+	background: gray;
+}
+
+.left,.right{
+	height: 100%;
+	position: absolute;
+}
+.left{
+	top: 0px;
+	left: 0px;
+	width: 200px;
+	background: yellow;
+	margin: -100%;
+}
+.right{
+	top: 0px;
+	right: 0px;
+	width: 200px;
+	background: blue;
+	margin: -200px;
+}

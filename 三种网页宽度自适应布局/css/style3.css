@@ -1,0 +1,23 @@
+html,
+body{
+	margin: 0;
+	height: 100%;
+}
+.left,.right{
+	height: 100%;
+}
+.left{
+	float: left;
+	width: 200px;
+	background: yellow;
+}
+.right{
+	float: right;
+	width: 200px;
+	background: blue;
+}
+.main{
+	height: 100%;
+	margin: 0 220px;
+	background: gray;
+}
