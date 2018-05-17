@@ -3,9 +3,6 @@ body{
 	margin: 0;
 	height: 100%;
 }
-.mian,.left,.right{
-	float: left;
-}
 .main{
 	height: 100%;
 	width: 100%;
@@ -17,7 +14,6 @@ body{
 
 .left,.right{
 	height: 100%;
-	position: absolute;
 }
 .left{
 	top: 0px;
