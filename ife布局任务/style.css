@@ -1,0 +1,115 @@
+*{
+	margin:0;
+	padding:0;
+}
+/*header*/
+header{
+	width: 100%;
+	height: 100px;
+	background: rgb(51,51,51);
+}
+header>div{
+	width: 960px;
+	height: 100px;
+	margin:0 auto;
+	position: relative;
+}
+header .logo{
+	font-size: 20px;
+	height: 100px;
+	line-height: 100px;
+	color: white;
+}
+header .nav-top{
+	position: absolute;
+	top: 5px;
+	right: 0px;
+}
+header .nav-top a{
+	color: white;
+}
+/*banner*/
+.contain .banner{
+	width: 100%;
+	height: 400px;
+	background: rgb(102,187,51);
+	position: relative;
+}
+.contain .banner .botton{
+	display: inline-block;
+	width: 25em;
+	position: absolute;
+	left: 100%;
+	margin-left: -25em;
+	top: 340px;
+}
+.contain .banner .botton span{
+	display: inline-block;
+	background: rgb(178,221,153);
+	width: 1.5em;
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+	vertical-align: bottom;
+	border:solid 1.1px black;
+}
+.contain .banner .botton span.special{
+	padding-top: 0.8em;
+	background-color: rgb(224,241,214);
+}
+/*nav-main*/
+.nav-main{
+	width: 100%;
+	height: 80px;
+	background: yellow;
+}
+.nav-main .nav-contain{
+	width: 960px;
+	margin:0 auto;
+}
+.nav-main .nav-contain a{
+	display: inline-block;
+	text-decoration: none;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+	margin-top: 33px;
+	width: 100px;
+	background: rgb(238,238,238);
+	border:1px solid gray;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+.nav-main .nav-contain a.special{
+	border-bottom: none;
+	background-color: white;
+}
+/*main*/
+.main{
+	width: 960px;margin: 0 auto;
+	margin-top: 10px; 
+}
+.main div.big{
+	width: 313px;
+}
+.main div.low{
+	width: 233px;
+}
+.main div.big,
+.main div.low{
+	display: inline-block;
+	text-align: center;
+	height: 300px;
+	line-height: 300px;
+	margin-bottom: 5px;
+	border:solid 1px gray;
+}
+/*footer*/
+footer{
+	width: 100%;
+	height: 100px;
+	background: gray;
+	margin-top: 10px;
+	text-align: center;
+	line-height: 50px;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>圣杯布局</title>
+	<style type="text/css">
+		*{margin: 0px;padding: 0px;}
+		.header,.footer{
+			width: 100%;
+			height: 50px;
+			line-height: 50px;
+			text-align: center;
+			float: left;
+			background: gray;
+		}
+		.container{
+			
+			margin:0 200px 0 200px;
+
+		}
+		.center,.left,.right{
+			height: 800px;
+			float: left;
+			position: relative;
+		}
+		.center{
+			width: 100%;
+			background: red;
+		}
+		.left{
+			width: 200px;
+			background: blue;
+			margin-left: -100%;
+			left: -200px;
+		}
+		.right{
+			background: blue;
+			margin-left: -200px;
+			width: 200px;
+			right: -200px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="header">header</div>
+	<div class="container">
+		<div class="center">这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部这是也页面的中部</div>
+		<div class="left">left</div>
+		<div class="right">right</div>
+	</div>
+	<div class="footer">footer</div>
+</body>
+</html>
