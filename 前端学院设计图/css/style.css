@@ -1,0 +1,43 @@
+/*clean default style*/
+*{
+	margin:0;
+	padding:0;
+	font-family: "[Montserrat]";
+}
+/*header*/
+header{
+	height: 998px;
+	width: 1600px;
+	position: relative;
+	background: url(../images/background.png) no-repeat scroll left;
+}
+header>div{
+	width: 772px;
+	height: 230px;
+	background: red;
+	position: absolute;
+	top:210px;
+	left: 50%;
+	margin-left: -386px;
+	color: white;
+}
+header>div p{
+	font-size: 20px;
+	line-height: 32px;
+	text-align: center;
+}
+header>div p span{
+	font-size: 62px;
+	line-height: 72px;
+	display: block;
+	margin-bottom: 60px;
+}
+header fieldset{
+	width: 973px;
+	height: 250px;
+	border:solid 1px white;
+	position: absolute;
+	top: 532px;
+	left: 50%;
+	margin-left: -486px;
+}
