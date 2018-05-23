@@ -86,7 +86,8 @@ header fieldset .form div label input[type=submit]{
 .main .main-awesome{
 	width: 1032px;
 	height: 800px;
-	margin: 0 auto;
+	background: red;
+	margin: 0 300px;
 	color: rgba(34,34,34);
 	overflow: hidden;
 }
@@ -204,7 +205,8 @@ header fieldset .form div label input[type=submit]{
 .main .main-products .main-products-top{
 	width: 1000px;
 	height: 618px;
-	margin: 0 auto;
+	background: red;
+	margin: 0 300px;
 	overflow: hidden;
 	text-align: center;
 }
