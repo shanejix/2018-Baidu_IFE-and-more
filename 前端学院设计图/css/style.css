@@ -86,7 +86,6 @@ header fieldset .form div label input[type=submit]{
 .main .main-awesome{
 	width: 1032px;
 	height: 800px;
-	background: red;
 	margin: 0 300px;
 	color: rgba(34,34,34);
 	overflow: hidden;
@@ -205,7 +204,6 @@ header fieldset .form div label input[type=submit]{
 .main .main-products .main-products-top{
 	width: 1000px;
 	height: 618px;
-	background: red;
 	margin: 0 300px;
 	overflow: hidden;
 	text-align: center;
@@ -240,7 +238,7 @@ header fieldset .form div label input[type=submit]{
 .main .main-products .main-products-bottom{
 	width: 1000px;
 	height: 950px;
-	margin: 0 auto;
+	margin: 0 300px;
 	box-sizing: margin-box;
 }
 .main .main-products .main-products-bottom p.pic1{
@@ -277,7 +275,7 @@ header fieldset .form div label input[type=submit]{
 .main .main-crew{
 	height: 1070px;
 	width: 1000px;
-	margin: 0 auto;
+	margin: 0 300px;
 	text-align: center;
 }
 .main .main-crew>p{
@@ -342,7 +340,7 @@ header fieldset .form div label input[type=submit]{
 .main .main-contact{
 	height: 750px;
 	width: 1000px;
-	margin: 0 auto;
+	margin: 0 30px;
 	text-align: center;
 	overflow: hidden;
 }
