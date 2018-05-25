@@ -11,12 +11,10 @@ a{
 	text-decoration: none;
 }
 body{
-	width: 1580px;
 	height: 1020px;
 }
 .contain{
 	height: 100%;
-	background: transparent;
 	position: relative;
 }
 .nav-left,
@@ -278,7 +276,6 @@ body{
   font-family: "ProximaNova";
   color: rgb(88, 93, 104);
   line-height: 1.357;
-  width: 677px;
 }
 .main .main-right div.main-right-body ul>p{
 	background: white;
