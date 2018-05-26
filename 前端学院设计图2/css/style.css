@@ -11,7 +11,8 @@ a{
 	text-decoration: none;
 }
 body{
-	height: 1020px;
+	/*height: 1020px;*/
+	height: 1300px;
 }
 .contain{
 	height: 100%;
@@ -19,6 +20,7 @@ body{
 }
 .nav-left,
 .nav-right{
+	height: 100%;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -67,7 +69,6 @@ body{
 .main .main-left{
 	overflow: hidden;
 	width: 32%;
-	height: 940px;
 	float: left;
 }
 .main .main-left input{
@@ -354,7 +355,6 @@ body{
 .nav-left{
 	background: rgba(29,37,49);
 	width: 100px;
-	height: 100%;
 }
 .nav-left ul.left-top{
 	position: fixed;
@@ -376,7 +376,7 @@ body{
 .nav-right{
 	background: rgba(34,44,60);
 	width: 255px;
-	height: 1020px;
+	/*height: 1020px;*/
 	left: 95px;
 	
 }
@@ -472,4 +472,20 @@ body{
 	width: 400px;
 	height: 100%;
 	left: 350px;
+}
+.nav-right ul.products li.list{
+	background: red;
+	padding-left: 20px;
+}
+.nav-right ul.products li.list1{
+	background: url(../images/Icons.png) no-repeat left 18px;
+}
+.nav-right ul.products li.list2{
+	background: url(../images/Icons.png) no-repeat left -18px;
+}
+.nav-right ul.products li.list3{
+	background: url(../images/Icons.png) no-repeat left -55px;
+}
+.nav-right ul.products li.list4{
+	background: url(../images/Icons.png) no-repeat left -92px;
 }
