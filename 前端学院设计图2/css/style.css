@@ -12,7 +12,7 @@ a{
 }
 body{
 	/*height: 1020px;*/
-	height: 1300px;
+	height: 1320px;
 }
 .contain{
 	height: 100%;
@@ -106,16 +106,28 @@ body{
   color: rgb(127, 143, 164);
   line-height: 2.571;
 }
+.main .main-left ul li p{
+	margin-top: 15px;
+	overflow: hidden;
+	padding-top: 10px;
+	width: 300px;
+  font-size: 14px;
+  color: rgb(88, 93, 104);
+  line-height: 1.357;
+  width: 307px;
+  height: 40px;
+}
 .main .main-left ul li p+span{
-	display: none;
-	position: absolute;
-	bottom: 25px;
-	right: 20px;
+	display: block;
+	position: relative;
+	left: 300px;
+	top: -30px;
 	text-align: center;
 	background: rgb(40,158,245);
   border-radius: 50%;
   width: 24px;
   height: 24px;
+  display: none;
 }
 
 .main .main-left ul li dl{
@@ -156,17 +168,7 @@ body{
   text-align: left;
   padding-top: 5px;
 }
-.main .main-left ul li p{
-	margin-top: 15px;
-	overflow: hidden;
-	padding-top: 10px;
-	width: 300px;
-  font-size: 14px;
-  color: rgb(88, 93, 104);
-  line-height: 1.357;
-  width: 307px;
-  height: 40px;
-}
+
 
 /*main main-left update*/
 .main .main-left ul li.update dl dt{
@@ -178,7 +180,7 @@ body{
   text-align: left;
 }
 .main .main-left ul li.update p+span{
-	display: inline;
+	display: block;
 }
 .main .main-left ul li.update{
 	border-left: 3px solid rgb(35, 153, 241);
