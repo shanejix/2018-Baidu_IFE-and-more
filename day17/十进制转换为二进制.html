@@ -12,27 +12,31 @@
 
 		function dec2bin(decNumber) {
 		    // 在这里实现你的转化方法，注意需要判断输入必须为一个非负整数
-		    var quo;
-			var temp = [];
-		    var result = '';
-		    while (decNumber){
-		        quo = decNumber % 2;
-		       // console.log(quo);
-		        decNumber = parseInt(decNumber /2);
-		        //console.log(decNumber);
-		        temp.push(quo);
-		 //       console.log(temp);
-	        }
-	        temp=temp.reverse();
-	     //   console.log(temp);
-	        result=temp.join("");
-	     //  console.log(result);
-	     //   while(temp){
-		 //   	result += temp.pop();
-		 //   	console.log(result);
-		 //   }
-		
-		    return result;
+		   // if (typeof(decNumber)==Number && decNumber>=0) {
+			    var quo;
+				var temp = [];
+			    var result = '';
+			    while (decNumber){
+			        quo = decNumber % 2;
+			       // console.log(quo);
+			        decNumber = parseInt(decNumber /2);
+			        //console.log(decNumber);
+			        temp.push(quo);
+			 //       console.log(temp);
+		        }
+		        temp=temp.reverse();
+		     //   console.log(temp);
+		        result=temp.join("");
+		     //  console.log(result);
+		     //   while(temp){
+			 //   	result += temp.pop();
+			 //   	console.log(result);
+			 //   }
+			
+			    return result;
+	    	//}else{
+	    	//	alert("输入必须为一个非负整数");
+	    	//}
 		}
 //		console.log(dec2bin(9));	
 		// 实现党点击转化按钮时，将输入的十进制数字转化为二进制，并显示在result的p标签内

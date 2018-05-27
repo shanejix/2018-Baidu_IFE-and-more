@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript</title>
+    <style>
+        
+        span {
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            margin-bottom: 20px;
+            border: 1px solid #000;
+            margin-right: 20px;
+        }
+        .container {
+            width: 1200px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+	var today = new Date();
+	var time = today.getHours();
+	if (time< 6) {
+		alert("凌晨好！");
+	}
+	else if(time < 9){
+		alert("早上好！");
+	}
+	else if(time < 12){
+		alert("上午好！");
+	}
+	else if(time < 14){
+		alert("中午好！");
+	}
+	else if(time < 18){
+		alert("下午好！");
+	}else{
+		alert("晚上好！");
+	}
+    </script>
+
+    <div>
+        <h1>转化为二进制</h1>
+        <input id="dec-number" type="number" placeholder="输入一个十进制非负整数">
+        <input id="bin-bit" type="number" placeholder="输入转化后二进制数字位数">
+        <button id="trans-btn">转化为二进制</button>
+        <p id="result">运算结果</p>
+    </div>
+
+    <script>
+        var num = document.getElementById('dec-number');
+        var btn = document.getElementById('trans-btn');
+        var result = document.getElementById('result');
+        var binBit = document.getElementById('bin-bit');
+        
+        //要用的dom先取出来清晰明了
+        function dec2bin(decNumber) {
+            decNumber = parseInt(decNumber);//转化为整数
+            var remainder;
+            var arr = [];
+            if (decNumber >= 0 ) {
+                while (decNumber != 0){
+                    remainder = decNumber % 2;
+                    decNumber = Math.floor(decNumber / 2); //math.floor()向下取整
+                    arr.push(remainder); 
+                } 
+                return arr;
+            } else {
+                alert('请输入一个非负整数');
+            }
+        }
+        btn.onclick = function () {
+            var res = dec2bin(num.value);
+            var len = res.length; 
+            if (len <= binBit.value) { 
+                for (var i = 0; i < binBit.value - len; i++) {
+                    res.push(0); 
+                }
+            } else {
+                console.log('bit长度不够');//条件判断，非数字非正数，弹出警告
+            }
+            result.innerHTML = res.reverse().join(''); 
+        }
+    </script>
+    <div>
+        <h1>3的小游戏</h1>
+        <p id="text" class="text">
+        	
+
+
+        </p>
+    </div>
+    
+    <script>
+        var s ;
+        var text = document.getElementById('text')
+        for (var i = 1; i <= 100; i++) {
+            s = i.toString();
+            if ( i % 3 == 0 || s.search(3) !== -1 ) {//将数字转化字符串，利用search()
+                text.innerText += 'PA,';
+            } else {
+                text.innerText += i + ',';
+            }
+        }
+    </script>
+
+    <div>
+        <h1>九九乘法表</h1>
+        <div id="container" class="container">
+
+        </div>
+    </div>
+    
+
+    <script>
+        
+        var container = document.getElementById('container');
+        for (var i = 1; i <= 9; i++) {
+            for (var j = 1; j <= i; j++) {
+                container.innerHTML += '<span>' + i + '*' + j + '=' + i * j + '</span>';
+            }
+            container.innerHTML += '<br>';
+        }
+    </script>
+</body>
+</html>
