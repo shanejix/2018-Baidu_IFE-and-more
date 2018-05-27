@@ -3,30 +3,68 @@
 <head>
     <meta charset="UTF-8">    
     <title>IFE ECMAScript</title>
+    <style>
+        
+        span {
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            margin-bottom: 20px;
+            border: 1px solid #000;
+            margin-right: 20px;
+        }
+        .container {
+            width: 1200px;
+        }
+    </style>
 </head>
-<body>        
-    <table>
+<body> 
+    <div>
+        <h1>九九乘法表</h1>
+        <div id="container" class="container">
+
+        </div>
+    </div>
+    
+
+    <script>
+        
+        var container = document.getElementById('container');
+        for (var i = 1; i <= 9; i++) {
+            for (var j = 1; j <= i; j++) {
+                container.innerHTML += '<span>' + i + '*' + j + '=' + i * j + '</span>';
+            }
+            container.innerHTML += '<br>';
+        }
+    </script>
+
+
+    <table border="1" cellpadding="10" >
+
+	    <script >
+		//小练习，练习使用循环实现一个九九乘法表
+		//第一步，最低要求：在Console中按行输出 n * m = t
+		//然后，尝试在网页中，使用table来实现一个九九乘法表
+		var cloumn;//lie
+		var row;//hang
+		
+		for (row=1; row < 10; row++) {
+			//document.getElementsByTagName("table").appendChild("<tr></tr>")
+			document.write("<tr>")
+			for (cloumn = 1; cloumn <= row; cloumn++) {
+				
+				//console.log(row,'*',cloumn,'=',sum);
+				document.write("<td>"+row+'*'+cloumn+'='+row*cloumn+"</td>");
+				
+			}
+				document.write("</tr>")
+				//console.log('\n')
+		}
+	    </script>
+
     	
     </table>
-    <script>
-	//小练习，练习使用循环实现一个九九乘法表
-	//第一步，最低要求：在Console中按行输出 n * m = t
-	//然后，尝试在网页中，使用table来实现一个九九乘法表
-	var cloumn;//lie
-	var row;//hang
-	var sum;
-	for (row=1; row < 10; row++) {
-		//document.getElementsByTagName("table").appendChild("<tr></tr>")
-		for (cloumn = 1; cloumn <= row; cloumn++) {
-			sum=row*cloumn;
-			//console.log(row,'*',cloumn,'=',sum);
-			document.write(row,'*',cloumn,'=',sum,"&nbsp&nbsp&nbsp&nbsp");
-			//document.getElementsByTagName("tr").lastChild.innerHTML=document.write(row,'*',cloumn,'=',sum,"&nbsp&nbsp&nbsp&nbsp");
-			
-		}
-			document.write("<br />");
-			//console.log('\n')
-	}
-    </script>
 </body>
 </html>
