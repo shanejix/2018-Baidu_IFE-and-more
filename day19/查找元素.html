@@ -48,11 +48,14 @@
         var spanlist = section.getElementsByTagName("span");
         for (var i = 0; i < spanlist.length; i++) {
             
-            if (spanlist[i].innerHTML=="HTML") {//innerHTML可读，可写
+        //    if (spanlist[i].innerHTML=="HTML") {//innerHTML可读，可写
+        //    if (spanlist[i].lastChild.nodeValue=="HTML") {//.lastChild.nodeValue读取节点
+            if (spanlist[i].textContent=="HTML") {//.textContent 读取文本节点，可读可写
                 console.log(spanlist[i]);
             }
         }
     }
+    //findAllHtmlSpanInOneSection("news-normal");
 
     function findListItem(sectionId, spanCont) {
         // 返回某个section下，所有所包含span内容为spanCont的LI标签
@@ -75,7 +78,7 @@
              console.log(links[i].innerHTML);
          }
     }
-    getActiveLinkContent("wrapper");
+    //getActiveLinkContent("wrapper");
     </script>
 </body>
 </html>
