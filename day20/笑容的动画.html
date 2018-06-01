@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>smile</title>
+	<style type="text/css">
+		#smile{
+			height: 480px;
+			width: 480px;
+			background: url(smile.jpg) no-repeat;
+			background-position: 0px 0px;
+		}
+	</style>
+	
+</head>
+<body>
+	<div id="smile"></div>
+	<script type="text/javascript">
+		function changPosition(elementid){
+			var element = document.querySelector("#"+elementid);
+			//console.log(element);
+			var n = 0;
+			var m = 0;
+			if (n<=8160) {
+				m = -n+"px";
+				element.style.background-position="0 m"
+				n = n +480;
+			}else{
+				n=0;
+			}
+			setInterval(changPosition,500);
+		}
+		changPosition("smile");
+	</script>
+</body>
+</html>

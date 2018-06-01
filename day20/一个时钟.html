@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		一个时钟
+	</title>
+	<style type="text/css">
+		#time{
+			position: relative;
+			top: 200px;
+			left: 40%;
+			border: 1px solid red;
+			height: 50px;
+			width: 200px;
+			text-align: center;
+			padding-top: 20px;
+			font-weight: bold;
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body onload="nowtime()">
+	<div id="time"></div>
+	<script type="text/javascript">
+		
+		//console.log(time);
+		function nowtime(){
+			var today = new Date();
+			var h = today.getHours();
+			var m = today.getMinutes();
+			var s = today.getSeconds();
+			var time = document.querySelector("#time");
+			//console.log(time);
+			checktime(h);
+			checktime(m);
+			checktime(s);
+			time.innerHTML=h +':' +m + ':' + s;
+			setTimeout(nowtime,500);
+		}
+		function checktime(t){
+			if (t<10) {
+				return t="0"+t;
+			}
+			return t;
+		}
+	</script>
+</body>
+</html>
