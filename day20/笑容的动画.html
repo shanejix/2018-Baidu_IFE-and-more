@@ -7,7 +7,6 @@
 			height: 480px;
 			width: 480px;
 			background: url(smile.jpg) no-repeat;
-			background-position: 0px 0px;
 		}
 	</style>
 	
@@ -15,21 +14,29 @@
 <body>
 	<div id="smile"></div>
 	<script type="text/javascript">
-		function changPosition(elementid){
-			var element = document.querySelector("#"+elementid);
-			//console.log(element);
-			var n = 0;
-			var m = 0;
-			if (n<=8160) {
-				m = -n+"px";
-				element.style.background-position="0 m"
-				n = n +480;
-			}else{
-				n=0;
-			}
-			setInterval(changPosition,500);
-		}
-		changPosition("smile");
+		var element = document.querySelector("#smile");
+		var i=0;
+		var p = 1;
+		function changBackground(){
+			
+			if (p) {
+				element.style.backgroundPositionY="-"+480*i+"px";
+				i++;
+				if (i==17) {
+					p=0;
+				};
+			};
+			if (!p) {
+				i--;
+				element.style.backgroundPositionY="-"+480*i+"px";
+				if (i==0) {
+					p=1;
+				};
+			};
+		};
+		setInterval(changBackground,100);
+		console.log(i);
+		console.log(p);
 	</script>
 </body>
 </html>

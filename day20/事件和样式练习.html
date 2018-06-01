@@ -46,17 +46,27 @@
             }
         }
         */
-        var ul = document.querySelectorAll(".palette");
+        
+        var ul = document.querySelectorAll(".palette")[0];
         ul.onclick = function(e){
         		var t = e.target;
                 var c = t.style.backgroundColor;
-                var p = document.getElementsByClassName("color-picker")[0]
-                if(t.nodeName == 'li'){
+                var p = document.getElementsByClassName("color-picker")[0];
                     p.innerHTML = c;	
                 	p.style.color = c;
-                }
         };
         //console.log(ul);
+        
+        /*
+        var oUl = document.querySelector('.palette');
+            oUl.onclick = function(e){
+                var t = e.target;
+                var c = t.style.backgroundColor;
+                var para = document.getElementsByClassName('color-picker')[0];
+                para.innerHTML = c;
+                para.style.color = c;
+            }
+        */    
     </script>
 </body>
 </html>
