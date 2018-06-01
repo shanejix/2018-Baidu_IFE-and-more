@@ -15,12 +15,47 @@
 		//淡入动画结束后，按钮文字变为“淡出”
 		//暂时不要使用 CSS animation 
 		var btn = document.querySelector("#fade-btn");
-		var obj = document.querySelector("fade-obj");
-		var op = obj.style.opacity;
-		btn.onclick = function(){
-			console.log(op);
+		var obj = document.querySelector("#fade-obj");
+		var p =1;
+		var o = 1;
+		var max= 10;
+		var count=0;
+		function changOpacity(){
+			btn.disabled = true;
+			if (o) {
+				obj.style.opacity=p
+				p-=0.1;
+				count++;
+				if (count>max) {
+					btn.disabled = false;
+					btn.innerHTML="淡入";
+					count=0;
+					clearInterval(t);
+				};
+			};
+			if (!o) {
+				obj.style.opacity=p;
+				p+=0.1;
+				count++;
+				if (count>max) {
+					btn.disabled = false;
+					btn.innerHTML="淡出";
+					count=0;
+					clearInterval(m);
+				};
+			};
+			
+		};
+		btn.onclick=function(){
+			if (btn.innerHTML=="淡出") {
+					o=1;
+					t=setInterval(changOpacity,500,max);
+				};
+			if (btn.innerHTML=="淡入") {
+					o=0;
+					m=setInterval(changOpacity,500,max);
+			};
 		}
-		
 	</script>
 </body>
 </html>

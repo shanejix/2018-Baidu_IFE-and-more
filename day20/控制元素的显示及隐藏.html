@@ -31,20 +31,20 @@
     </select>
     <script type="text/javascript">
     	//当用户选择了 School 的单选框时，显示 School 的下拉选项，隐藏 Company 的下拉选项
-    	var school=document.querySelectorAll("#school");
-    	var company=document.querySelectorAll("#company");
-    	//var schoolselect=document.querySelectorAll("#school-select");
-    	//var companyselect=document.querySelectorAll("#company-select");
-    	function displayElement(elementid){
-    		document.getElementById("elementid").style.display="none";
+    	var school=document.querySelectorAll("#school")[0];
+    	var company=document.querySelectorAll("#company")[0];
+    	var schoolselect=document.querySelector("#school-select");
+    	var companyselect=document.querySelector("#company-select");
+    	school.onclick=function(){
+    		schoolselect.style.display="block";
+    		companyselect.style.display="none";
     	};
-    	document.querySelectorAll("select").style.display="block";
-
-    	school.onclick=displayElement("school-select");
-    	console.log(companyselect);
-    		
-    	
-
+    	//当用户选择了 company 的单选框时，显示 conpany的下拉选项，隐藏 school 的下拉选项
+    	company.onclick=function(){
+    		schoolselect.style.display="none";
+    		companyselect.style.display="block";
+    	};
+    	console.log(schoolselect);
     </script>
 
 
