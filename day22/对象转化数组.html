@@ -31,6 +31,20 @@
 		];
 		*/
 		//something code
+		function obj2Array(obj){
+			var scorearr=[];
+			
+			for (x in obj) {
+				var personarr=[];
+				personarr.push(x);
+				for (y in obj[x]){
+					personarr.push(obj[x][y]);
+				};
+				scorearr.push(personarr);
+			};
+			return scorearr;
+		};
+		console.log(obj2Array(scoreObject));
 	</script>
 </body>
 </html>

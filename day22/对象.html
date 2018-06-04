@@ -4,6 +4,7 @@
 	<title>object</title>
 </head>
 <body>
+	<script type="text/javascript">
 	var tree = {
 	    "id": 0,
 	    "name": "root",
@@ -56,31 +57,85 @@
 	        }
 	    }
 	};
-<script type="text/javascript">
+var dlrlist=[];
+var ldrlist=[];
+var lrdlist=[];
 // 假设id和name均不会重复，根据输入name找到对应的id
 function findIdByName(name) {
-
-}
-
+	var id;
+	function dlr(node){
+		if (node!==null) {
+			if (node.name==name) {
+				id=node.id;
+			};
+			dlr(node.left);
+			dlr(node.right);
+		};
+	};
+	dlr(tree);
+	return id;
+};
 // 假设id和name均不会重复，根据输入id找到对应的name
 function findNameById(id) {
-
-}
-
+	var name;
+	function dlr(node){
+		if (node!==null) {
+			if (node.id==id) {
+				name=node.name;
+			};
+			dlr(node.left);
+			dlr(node.right);
+		};
+	};
+	dlr(tree);
+	return name;
+};
 // 把这个对象中所有的名字以“前序遍历”的方式全部输出到console中
 function getListWithDLR() {
-
+	//前序遍历,递归算法，根>=左孩子>=右孩子
+	function dlr(node){
+		if (node!==null) {
+			dlrlist.push(node.name);
+			dlr(node.left);
+			dlr(node.right);
+		};
+	}
+	dlr(tree);
+	console.log(dlrlist);
 }
 
 // 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中
 function getListWithLDR() {
-
+	//中序遍历，递归算法，左孩子>=根>=右孩子
+	function ldr(node){
+		if (node!==null) {
+			ldr(node.left);
+			ldrlist.push(node.name);
+			ldr(tree.right);
+		};	};
+	ldr(tree);
+	console.log(ldrlist);
 }
 
 // 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
 function getListWithLRD() {
-
+	//后序遍历，递归算法，左孩子>=右孩子>=根
+	function lrd(node){
+		if (node!==null) {
+			lrd(node.left);
+			lrd(node.right);
+			lrdlist.push(node.name);
+		};
+	};
+	lrd(tree);
+	console.log(ldrlist)
 }
+console.log("*****************************前序遍历*****************************")
+getListWithDLR();
+console.log("*****************************中序遍历*****************************")
+getListWithLDR();
+console.log("*****************************后序遍历*****************************")
+getListWithLRD();
 </script>
 </body>
 </html>
