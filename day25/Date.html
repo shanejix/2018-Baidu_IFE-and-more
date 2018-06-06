@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>date</title>
+</head>
+<body>
+	<div>
+	<select id="year-select">
+	    <option value="2000">2000</option>
+	    <option value="2001">2001</option>
+	    <option value="2002">2002</option>
+	    ……
+	    <option value="2032">2002</option>
+	</select>
+
+	<select id="month-select">
+	    <option value="1">1</option>
+	    <option value="2">2</option>
+	    ……
+	    <option value="12">12</option>
+	</select>
+
+	<select id="day-select">
+	    <option value="1">1</option>
+	    <option value="2">2</option>
+	    ……
+	    <option value="31">31</option>
+	</select>
+
+	<select id="hour-select">
+	    <option value="0">00</option>
+	    <option value="1">01</option>        
+	    ……
+	    <option value="23">23</option>
+	</select>
+
+	<select id="minute-select">
+	    <option value="0">0</option>
+	    <option value="1">1</option>
+	    ……
+	    <option>59</option>
+	</select>
+
+	<select id="second-select">
+	    <option value="0">0</option>
+	    <option value="1">1</option>
+	    ……
+	    <option>59</option>
+	</select>
+	</div>
+<p id="result-wrapper">现在距离 2001年1月1日星期X HH:MM:SS 还有 X 天 X 小时 X 分 X 秒</p>
+<script type="text/javascript">
+		/*使用上方的HTML结构（可以根据需要自行微调）为基础编写JavaScript代码
+	当变更任何一个select选择时，更新 result-wrapper 的内容
+	当所选时间早于现在时间时，文案为 现在距离 "所选时间" 已经过去 xxxx
+	当所选时间晚于现在时间时，文案为 现在距离 "所选时间" 还有 xxxx
+	注意当前时间经过所选时间时候的文案变化
+	注意选择不同月份的时候，日期的可选范围不一样，比如1月可以选31天，11月只有30天，注意闰年
+	同样，需要注意，通过优雅的函数封装，使得代码更加可读且可维护*/
+	function getNowtimeMilliseconds(){
+		var time =new Date();
+		return time.getTime();
+	};
+	function getSettimeMilliseconds(){
+		var yearselect=document.querySelector("#year-select").value;
+		var monthselect=document.querySelector("#month-select").value;
+		var dayselect=document.querySelector("#day-select").value;
+		var hourselect=document.querySelector("#hour-select").value;
+		var minuteselect=document.querySelector("#minute-select").value;
+		var secondselect=document.querySelector("#second-select").value;
+		var settime =new Date();
+		settime.setFullYear(yearselect,monthselect,dayselect);
+		settime.setHours(hourselect);
+		settime.setMinutes(minuteselect);
+		settime.setSeconds(secondselect);
+		return settime.getTime();
+	}
+	function comparetime(){
+		var nowtime =getNowtimeMilliseconds();
+		var settime =getSettimeMilliseconds();
+		var dtime=nowtime-settime;
+		var day =parseInt(dtime/86400000);
+		var h = parseInt(dtime%86400000/3600000);
+		var m =parseInt(dtime%86400000%3600000/60000);
+		var s =parseInt(dtime%86400000%3600000%60000/1000);
+		var p=document.getElementById("result-wrapper");
+		if (dtime>0) {
+			p.innerHTML="所选时间已经过去"+day+"天"+h+"小时"+m+"分钟"+s+"秒";
+		}
+		if (dtime<0) {
+			p.innerHTML="所选时间已经过去"+-day+"天"+-h+"小时"+-m+"分钟"+-s+"秒";
+		}
+	}
+	var divselects=document.querySelectorAll("div");
+	divselects[0].onchange=function(e){
+		if (e.target.nodeName.toLowerCase()=="select") {
+			comparetime();
+		}
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>a clock</title>
+</head>
+<body>
+	<p></p>
+	<script type="text/javascript">
+		var p =document.getElementsByTagName("p");
+		function startTime(){
+			var today=new Date;
+			var year =today.getFullYear();
+			var month= today.getMonth()+1;
+			var date = today.getDate();
+			var weekday =getweekday();
+			var h=today.getHours();
+			var m=today.getMinutes();
+			var s = today.getSeconds();
+			var o = morningorafternoon(h);
+			month=checknumber(month);
+			date=checknumber(date);
+			h=checknumber(h);
+			m=checknumber(m);
+			s=checknumber(s);
+			p[0].innerHTML="today is " + year+" "+month+" "+date+" "+ weekday+" "+h+":"+m+":"+s+o;
+			setTimeout(startTime,500);
+		} 
+		function morningorafternoon(h){
+			var o;
+			if (h<=12) {
+				return o="AM";
+			}else{
+				return o="PM";
+			}
+		}
+		function checknumber(num){
+			if (num<10) {
+				return num="0"+num;
+			}
+			return num;
+		}
+		function getweekday(){
+			var today=new Date;
+			var d = today.getDay();
+			var weekday=new Array;
+			weekday[0]="Mon";
+			weekday[1]="Tues";
+			weekday[2]="Wed";
+			weekday[3]="Thur";
+			weekday[4]="Fri";
+			weekday[5]="Sat";
+			weekday[6]="Sun";
+			return weekday[d];
+		}
+		startTime();
+	</script>
+</body>
+</html>
