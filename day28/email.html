@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>email</title>
+	<style type="text/css">
+		div{
+			width: 200px;
+		}
+		ul{
+			list-style: none;
+
+		}
+		ul li{
+			background: yellow;
+			cursor: pointer;
+		}
+		ul li:hover{
+			background: red;
+		}
+		ul li:active{
+			background: blue;
+		}
+		input{
+		}
+		.cheked{
+			background: pink;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+	    <input id="email-input" type="text">
+	    <ul id="email-sug-wrapper" class="email-sug"></ul>
+	</div>
+	<script type="text/javascript">
+		var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+		var emailsugwrapper = document.querySelector("#email-sug-wrapper");
+		var div = document.querySelector(".wrapper");
+		var input = document.querySelector("#email-input");
+		var nowSelectTipIndex = 0;
+		//clean nbsp
+		function clearnbsp(str){
+			while(str[0]==" " || str[0]=="　"){
+				str=str.slice(1);
+			}
+			while(str[str.length-1]==" " || str[0]=="　"){
+				str=str.slice(0,str.length-1);
+			}
+			return str;
+		}
+
+		div.oninput = function() {
+	    	//获取用户输入，生成提示框中的提示内容，将提示内容添加到email-sug-wrapper中
+	    	addsubwrapper(createsubwrapper(clearnbsp(getinputvalue("#email-input"))));
+	    	//控制email-sug-wrapper的显示/隐藏状态
+	    	//displayemailsugwrapper();
+	    	displayul();
+		}
+		div.onclick = function(e){
+			if (e.target.nodeName=="LI") {
+				input.value=e.target.innerHTML;
+				undisplayul();
+			}
+		}
+		div.keydown = function(e){
+			console.log(e.keyCode);
+		}
+		//获取用户输入
+		function getinputvalue(element) {
+			//拿到input输入框的输入内容trim后返回 
+			var element = document.querySelector(element);
+			let elementvalue=element.value+"@";
+			//这个@是为了解决后面输入值少一位的情况，莫名的加入验证输入值中是否含有@，输入值会缺失一位
+			elementvalue=elementvalue.replace(/</g,"&lt");
+			return elementvalue;
+			
+		}
+		//生成提示框中的提示内容
+		function createsubwrapper(inputvalue) {
+			//prerocess @
+			var lilist =[];
+			var pos =inputvalue.indexOf("@");
+			var temarr =[];
+			var str=[];
+			var b ;
+			str=inputvalue.slice(pos+1,inputvalue.length-1);
+			if (str) {
+					temarr=[];
+					for(var m =0;m < postfixList.length;m++){
+						var arr = postfixList[m].split("");
+							for(var i =0;i < str.length;i++){
+								if(str[i]==arr[i]){
+									b=true;
+								}else{
+									b=false;
+									break;
+								}
+							}
+							if (b) {
+								temarr.push(arr.join(""));
+							}
+					}
+				 	if(temarr) {
+						inputvalue=inputvalue.slice(0,pos);
+							for(var j=0;j<temarr.length;j++){
+						    	var li =document.createElement("li");
+								li.innerHTML=inputvalue+"@"+temarr[j];
+								lilist.push(li);
+							}
+						    return lilist;
+					}
+			}else if(pos&&str==""){
+		    	inputvalue=inputvalue.slice(0,pos);
+			    for(var i=0;i<postfixList.length;i++){
+			    	//把用户输入和每一个postfix进行结合成为每一个Li
+			    	var li =document.createElement("li");
+					li.innerHTML=inputvalue+"@"+postfixList[i];
+					lilist.push(li);
+			    }
+		    	//返回生成的提示内容
+		    	return lilist;
+		    }else if(inputvalue.slice(0,1)==" "||inputvalue.slice(0,1)=="@") {
+		    	return lilist=[];
+		    }else{
+		    	for(var i=0;i<postfixList.length;i++){
+			    	//把用户输入和每一个postfix进行结合成为每一个Li
+			    	var li =document.createElement("li");
+					li.innerHTML=inputvalue+"@"+postfixList[i];
+					lilist.push(li);
+			    }
+		    	//返回生成的提示内容
+		    	return lilist;
+		    }
+		}
+		//将提示内容添加到
+		function addsubwrapper(list) {
+		    //将内容添加到email-sug-wrapper中
+		    var emailsugwrapper = document.querySelector("#email-sug-wrapper");
+		    emailsugwrapper.innerHTML="";
+		    for(var i=0;i<list.length;i++){
+		    	emailsugwrapper.appendChild(list[i]);
+		    }
+		}
+		/*
+		//控制email-sug-wrapper的显示/隐藏状态
+		function displayemailsugwrapper() {
+		    if (clearnbsp(getinputvalue("#email-input"))){
+		        emailsugwrapper.style.display="block";
+		    } else {
+		        emailsugwrapper.style.display="none";
+		    }
+		}
+		*/
+		function displayul(){
+			emailsugwrapper.style.display="block";
+		}
+		function undisplayul(){
+			emailsugwrapper.style.display="none";
+		}
+	</script>
+</body>
+</html>
