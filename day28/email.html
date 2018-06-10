@@ -22,7 +22,7 @@
 		}
 		input{
 		}
-		.cheked{
+		.checked{
 			background: pink;
 		}
 	</style>
@@ -38,7 +38,7 @@
 		var div = document.querySelector(".wrapper");
 		var input = document.querySelector("#email-input");
 		var nowSelectTipIndex = 0;
-		//clean nbsp
+		
 		function clearnbsp(str){
 			while(str[0]==" " || str[0]=="　"){
 				str=str.slice(1);
@@ -50,10 +50,12 @@
 		}
 
 		div.oninput = function() {
-	    	//获取用户输入，生成提示框中的提示内容，将提示内容添加到email-sug-wrapper中
-	    	addsubwrapper(createsubwrapper(clearnbsp(getinputvalue("#email-input"))));
-	    	//控制email-sug-wrapper的显示/隐藏状态
-	    	//displayemailsugwrapper();
+			var lilist=createsubwrapper(clearnbsp(getinputvalue("#email-input")));
+			//console.log(lilist[0]);
+			if (lilist[0]) {
+				lilist[0].setAttribute("class","checked");
+			}
+	    	addsubwrapper(lilist);
 	    	displayul();
 		}
 		div.onclick = function(e){
@@ -62,12 +64,51 @@
 				undisplayul();
 			}
 		}
-		div.keydown = function(e){
-			console.log(e.keyCode);
+		div.onkeydown = function(e){
+			if (e.keyCode==27) {
+				input.value="";
+				undisplayul();
+			}
+			var lilist=createsubwrapper(clearnbsp(getinputvalue("#email-input")));
+			function checknum(){
+						if (nowSelectTipIndex>=lilist.length) {
+							nowSelectTipIndex=lilist.length-1;
+						}
+						if (nowSelectTipIndex<=0) {
+							nowSelectTipIndex=0;
+						}
+					}
+			if (lilist) {
+				
+				if (e.keyCode==38) {
+					nowSelectTipIndex--;
+					checknum();
+					if (lilist[nowSelectTipIndex]) {
+						lilist[nowSelectTipIndex].setAttribute("class","checked");
+					}
+					if (lilist[nowSelectTipIndex+1]) {
+						lilist[nowSelectTipIndex+1].setAttribute("class","");
+					}
+				}
+				if (e.keyCode==40) {
+					nowSelectTipIndex++;
+					checknum();
+					if (lilist[nowSelectTipIndex]) {
+						lilist[nowSelectTipIndex].setAttribute("class","checked");
+					}
+					if (lilist[nowSelectTipIndex-1]) {
+						lilist[nowSelectTipIndex-1].setAttribute("class","");
+					}
+				}
+				if (e.keyCode==13) {
+					input.value=document.querySelector(".checked").innerHTML;
+					undisplayul();
+				}
+			}
+
+			addsubwrapper(lilist);
 		}
-		//获取用户输入
 		function getinputvalue(element) {
-			//拿到input输入框的输入内容trim后返回 
 			var element = document.querySelector(element);
 			let elementvalue=element.value+"@";
 			//这个@是为了解决后面输入值少一位的情况，莫名的加入验证输入值中是否含有@，输入值会缺失一位
@@ -112,23 +153,19 @@
 			}else if(pos&&str==""){
 		    	inputvalue=inputvalue.slice(0,pos);
 			    for(var i=0;i<postfixList.length;i++){
-			    	//把用户输入和每一个postfix进行结合成为每一个Li
 			    	var li =document.createElement("li");
 					li.innerHTML=inputvalue+"@"+postfixList[i];
 					lilist.push(li);
 			    }
-		    	//返回生成的提示内容
 		    	return lilist;
 		    }else if(inputvalue.slice(0,1)==" "||inputvalue.slice(0,1)=="@") {
 		    	return lilist=[];
 		    }else{
 		    	for(var i=0;i<postfixList.length;i++){
-			    	//把用户输入和每一个postfix进行结合成为每一个Li
 			    	var li =document.createElement("li");
 					li.innerHTML=inputvalue+"@"+postfixList[i];
 					lilist.push(li);
 			    }
-		    	//返回生成的提示内容
 		    	return lilist;
 		    }
 		}
@@ -141,16 +178,8 @@
 		    	emailsugwrapper.appendChild(list[i]);
 		    }
 		}
-		/*
 		//控制email-sug-wrapper的显示/隐藏状态
-		function displayemailsugwrapper() {
-		    if (clearnbsp(getinputvalue("#email-input"))){
-		        emailsugwrapper.style.display="block";
-		    } else {
-		        emailsugwrapper.style.display="none";
-		    }
-		}
-		*/
+		
 		function displayul(){
 			emailsugwrapper.style.display="block";
 		}
