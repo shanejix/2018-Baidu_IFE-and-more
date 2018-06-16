@@ -31,9 +31,27 @@
 				}
 			})
 			if (productnum>0&&regionnum>0) {
+				if (regionnum!==1) {
+					var tr = document.createElement("tr");
+					var headarr=["product","region","1","2","3","4","5","6","7","8","9","10","11","12"];
+					headarr.forEach((i)=>{
+						var th=document.createElement("th");
+						th.innerHTML=i;
+						tr.appendChild(th);
+					})
+					table.appendChild(tr);
+				}
+
 				while(listarr){
 					if (regionnum==1) {
-						console.log(listarr);
+						var tr = document.createElement("tr");
+						var headarr=["region","product","1","2","3","4","5","6","7","8","9","10","11","12"];
+						headarr.forEach((i)=>{
+							var th=document.createElement("th");
+							th.innerHTML=i;
+							tr.appendChild(th);
+						})
+						table.appendChild(tr);
 						div.appendChild(arrtotable(productnum,listarr));
 						break;	
 					}
