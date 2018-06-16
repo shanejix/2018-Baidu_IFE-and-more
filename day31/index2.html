@@ -2,6 +2,14 @@
 <html>
 <head>
 	<title></title>
+	<style type="text/css">
+		table,th,td{
+			border:1px gray solid;
+		}
+		table{
+			border-collapse: collapse;
+		}
+	</style>
 </head>
 <body>
 	<div id="region-wrapper">
@@ -10,6 +18,7 @@
 	<div id="product-wrapper">
 		
 	</div>
+	<div id="table-wrapper"></div>
 	<script type="text/javascript" src="ife31data.js"></script>
 	<script type="text/javascript">
 		var regionwrapper=document.getElementById("region-wrapper");
@@ -64,6 +73,7 @@
 						element.querySelector("input[checkboxtype=all]").checked=false;
 					}
 				}
+				createtable(getData());
 			});
 		}
 		createcheckbox("region-wrapper"	,regionarr);
@@ -73,6 +83,8 @@
 		function getData(){
 			var regarr=[];
 			var proarr=[];
+			var listarr=[];
+			var temparr=[];
 			regionwrapper.querySelectorAll("input[checkboxtype=solo]").forEach((i)=>{
 				if (i.checked==true) {
 					regarr.push(i.previousElementSibling.innerHTML);
@@ -84,27 +96,113 @@
 				}
 			})
 			if (regarr.length==1&&proarr.length==1) {
-
+				
+				for (var j = 0; j < sourceData.length; j++) {
+					if(regarr[0]==sourceData[j].region&&proarr[0]==sourceData[j].product){
+						
+						temparr=[];
+						temparr.push(sourceData[j].region);
+						temparr.push(sourceData[j].product);
+						sourceData[j].sale.forEach((i)=>{
+							temparr.push(i);
+						})
+						listarr.push(temparr);
+					}
+				}
 			}
 			if (regarr.length==1&&proarr.length>1) {
-
+				for (var j = 0; j < sourceData.length; j++) {
+						if(regarr[0]==sourceData[j].region){
+							proarr.forEach((i)=>{
+								if (i==sourceData[j].product) {
+									temparr=[];
+									temparr.push(sourceData[j].region);
+									temparr.push(sourceData[j].product);
+									sourceData[j].sale.forEach((i)=>{
+										temparr.push(i);
+									})
+									if (temparr) {
+										listarr.push(temparr);
+									}
+								}
+							})
+						}
+					}
 			}
 			if (proarr.length==1&&regarr.length>1) {
-
+				for (var j = 0; j < sourceData.length; j++) {
+						if(proarr[0]==sourceData[j].product){
+							
+							regarr.forEach((i)=>{
+								if (i==sourceData[j].region) {
+									temparr=[];
+									temparr.push(sourceData[j].product);
+									temparr.push(sourceData[j].region);
+									sourceData[j].sale.forEach((i)=>{
+										temparr.push(i);
+									})
+									if (temparr) {
+										listarr.push(temparr);
+									}
+								}
+							})
+							
+						}
+					}
 			}
 			if (regarr.length>1&&proarr.length>1) {
-				
+				for (var m = 0; m < sourceData.length; m++) {
+					for (var j = 0; j < regarr.length; j++) {
+						if(regarr[j]==sourceData[m].region){
+							proarr.forEach((i)=>{
+								if (i==sourceData[m].product) {
+									temparr=[];
+									temparr.push(sourceData[m].product);
+									temparr.push(sourceData[m].region);
+									sourceData[m].sale.forEach((i)=>{
+										temparr.push(i);
+									})
+									listarr.push(temparr);
+								}
+							})
+						}
+					}
+				}
 			}
-
+			return listarr;
 		}
-		regionwrapper.querySelectorAll("input[checkboxtype=solo]").forEach((i)=>{
-						i.checked=true;
-					});
-		productwrapper.querySelectorAll("input[checkboxtype=solo]").forEach((i)=>{
-						i.checked=true;
-					});
-		getData();
+		//getData();
 
+		//表格渲染
+		function createtable(listarr){
+			/*
+			var div=document.getElementById("table-wrapper");
+			var table = document.createElement("table");
+			var th = document.createElement("th");
+			var headarr=["product","region","1","2","3","4","5","6","7","8","9","10","11","12"];
+			headarr.forEach((i)=>{
+				var td=document.createElement("td");
+				td.innerHTML=i;
+				th.appendChild(td);
+			})
+			table.appendChild(th);
+			div.appendChild(table);
+			*/
+			var div=document.getElementById("table-wrapper");
+			var table = document.createElement("table");
+    			div.innerHTML="";
+			for (var n = 0; n < listarr.length; n++) {
+				var tr = document.createElement("tr");
+				listarr[n].forEach((i)=>{
+					var td = document.createElement("td");
+					td.innerHTML=i;
+					tr.appendChild(td);
+				})
+				table.appendChild(tr);
+			}
+			div.appendChild(table);
+		}
+		//createtable(getData());
 	</script>
 </body>
 </html>
