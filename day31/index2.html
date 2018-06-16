@@ -101,8 +101,8 @@
 					if(regarr[0]==sourceData[j].region&&proarr[0]==sourceData[j].product){
 						
 						temparr=[];
-						temparr.push(sourceData[j].region);
 						temparr.push(sourceData[j].product);
+						temparr.push(sourceData[j].region);
 						sourceData[j].sale.forEach((i)=>{
 							temparr.push(i);
 						})
@@ -188,19 +188,58 @@
 			table.appendChild(th);
 			div.appendChild(table);
 			*/
+			//console.log(listarr);
+			var regionnum=0;
+			var productnum=0;
 			var div=document.getElementById("table-wrapper");
 			var table = document.createElement("table");
-    			div.innerHTML="";
-			for (var n = 0; n < listarr.length; n++) {
-				var tr = document.createElement("tr");
-				listarr[n].forEach((i)=>{
-					var td = document.createElement("td");
-					td.innerHTML=i;
-					tr.appendChild(td);
-				})
-				table.appendChild(tr);
+			div.innerHTML="";
+
+			regionwrapper.querySelectorAll("input[checkboxtype=solo]").forEach((i)=>{
+				if (i.checked==true) {
+					regionnum++;
+				}
+			})
+			productwrapper.querySelectorAll("input[checkboxtype=solo]").forEach((i)=>{
+				if (i.checked==true) {
+					productnum++;
+				}
+			})
+			if (productnum>0&&regionnum>0) {
+				console.log(listarr);
+				while(listarr){
+					var temparr=[];
+					for (var i = 0; i < regionnum; i++) {
+						temparr.push(listarr.shift());
+					}
+					div.appendChild(arrtotable(regionnum,temparr));
+				}
 			}
-			div.appendChild(table);
+			
+			function arrtotable(spannum,arr){
+				if (spannum>0) {
+					for (var k = 0; k < arr.length; k++) {
+						if (k==0) {
+							var tr = document.createElement("tr");
+							var tr=document.createElement("tr");
+							var td = document.createElement("td");
+							td.innerHTML=arr[0][0];
+							td.setAttribute("rowspan",spannum);
+							tr.appendChild(td);
+							console.log(tr);
+						}else{
+							var tr = document.createElement("tr");
+						}
+						for (var j = 1; j < arr[k].length; j++) {
+							var td = document.createElement("td");
+							td.innerHTML=arr[k][j];
+							tr.appendChild(td);
+						}
+						table.appendChild(tr);
+					}
+					return table;
+				}
+			}
 		}
 		//createtable(getData());
 	</script>
