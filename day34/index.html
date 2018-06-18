@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<select id="region-select">
+		<option>please select</option>
+		<option>华东</option>
+		<option>华南</option>
+		<option>华北</option>
+	</select>
+	<select id="product-select">
+		<option>please select</option>
+		<option>手机</option>
+		<option>笔记本</option>
+		<option>智能音箱</option>
+	</select>	
+	<div id="region-select-wrapper"></div>
+	<div id="product-select-wrapper"></div>
+
+	<script type="text/javascript" src="ife31data.js"></script>
+	<script type="text/javascript">
+		var region = document.querySelector("#region-select");
+		var product = document.querySelector("#product-select");
+		var regionwrapper = document.querySelector("#region-select-wrapper");
+		var body = document.querySelector("body");
+		//
+		body.onchange = function(e){
+			var regionvalue=region.value;
+			var productvalue=product.value;
+			if (regionvalue&&productvalue=="please select") {
+				gerneratingtable(dataprocessing(regionvalue));
+			}
+			if (productvalue&&regionvalue=="please select") {
+				gerneratingtable(dataprocessing(productvalue));
+			}
+			if (regionvalue&&productvalue&&regionvalue!=="please select"&&productvalue!=="please select") {
+				var tem=dataprocessing(productvalue);
+				var arr=[];
+				for (var i = 0; i < tem.length; i++) {
+					if(tem[i][0]==regionvalue){
+						arr.push(tem[i]);
+						break;
+					}
+				}
+				gerneratingtable(arr);
+			}
+		}
+		//
+		function dataprocessing(value){
+			var arrtem=["region","product","1","2","3","4","5","6","7","8","9","10","11","12"];
+			var arr=[];
+			arr.push(arrtem);
+			if (value=="please select") {
+				return arr=[];
+			}
+			for (var i = 0; i < sourceData.length; i++) {
+
+				if (sourceData[i].region==value) {
+					//console.log("catch");
+					arrtem=[];
+					arrtem.push(value,sourceData[i].product);
+					for (var j = 0; j < sourceData[i].sale.length; j++) {
+						arrtem.push(sourceData[i].sale[j]);
+					}
+					arr.push(arrtem);
+				}
+				if (sourceData[i].product==value) {
+					arrtem=[];
+					arrtem.push(sourceData[i].region,value);
+					for (var j = 0; j < sourceData[i].sale.length; j++) {
+						arrtem.push(sourceData[i].sale[j]);
+					}
+					arr.push(arrtem);
+				}
+			}
+			//console.log(arr);
+			return arr;
+		}
+		//
+		function gerneratingtable(arr){
+			regionwrapper.innerHTML="";
+			var table=document.createElement("table");
+			for (var i = 0; i < arr.length; i++) {
+				var tr=document.createElement("tr");
+				for (var j = 0; j < arr[i].length; j++) {
+					var td=document.createElement("td");
+					td.innerHTML=arr[i][j]
+					tr.appendChild(td);
+				}
+				table.appendChild(tr);
+			}
+			regionwrapper.appendChild(table);
+		}
+	</script>
+</body>
+</html>
