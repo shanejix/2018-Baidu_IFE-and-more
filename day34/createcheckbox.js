@@ -45,8 +45,32 @@ function createcheckbox(elementid,dataarr){
 						element.querySelector("input[checkboxtype=all]").checked=false;
 					}
 				}
+				//
 				createtable(getData());
-				drawbar();
+
+				//drawbar();drawcanvas();
+				var table = document.getElementById("table-wrapper");
+
+				table.onmouseover=function(e){
+					var node=e.target.parentNode;
+					if (node.nodeName=="TR") {
+						var tdlist = node.querySelectorAll("td");
+						var arrtemp=[];
+						for (var j = 0; j < tdlist.length; j++) {
+							if (Number(tdlist[j].innerHTML)) {
+								arrtemp.push(Number(tdlist[j].innerHTML));
+							}
+						}
+						drawbar(arrtemp);
+						drawcanvas(arrtemp);
+					}
+				}
+				table.onmouseout=function(e){
+					document.querySelector("#bar").innerHTML="";
+					document.querySelector("#bar2").innerHTML="";
+				}
+				//
+				
 			});
 		}
 		createcheckbox("region-wrapper"	,regionarr);
