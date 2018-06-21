@@ -46,32 +46,40 @@ function createcheckbox(elementid,dataarr){
 					}
 				}
 				//
-				createtable(getData());
-
-				//drawbar();drawcanvas();
-				var table = document.getElementById("table-wrapper");
-
-				table.onmouseover=function(e){
-					var node=e.target.parentNode;
-					if (node.nodeName=="TR") {
-						var tdlist = node.querySelectorAll("td");
-						var arrtemp=[];
-						for (var j = 0; j < tdlist.length; j++) {
-							if (Number(tdlist[j].innerHTML)) {
-								arrtemp.push(Number(tdlist[j].innerHTML));
-							}
-						}
-						drawbar(arrtemp);
-						drawcanvas(arrtemp);
-					}
-				}
-				table.onmouseout=function(e){
-					document.querySelector("#bar").innerHTML="";
-					document.querySelector("#bar2").innerHTML="";
-				}
+				var arr=getData();
 				//
+				drawline(arr);
+				//
+				createtable(arr);
 				
 			});
+
+			//drawbar();drawcanvas();
+			var table = document.getElementById("table-wrapper");
+
+			table.onmouseover=function(e){
+				document.querySelector("#linebar").style.display="none";
+
+				var node=e.target.parentNode;
+				if (node.nodeName=="TR") {
+					var tdlist = node.querySelectorAll("td");
+					var arrtemp=[];
+					for (var j = 0; j < tdlist.length; j++) {
+						if (Number(tdlist[j].innerHTML)) {
+							arrtemp.push(Number(tdlist[j].innerHTML));
+						}
+					}
+					drawbar(arrtemp);
+					drawcanvas(arrtemp,"bar2");
+				}
+			}
+			table.onmouseout=function(e){
+				document.querySelector("#linebar").style.display="block";
+
+				document.querySelector("#bar").innerHTML="";
+				document.querySelector("#bar2").innerHTML="";
+			}
+
 		}
 		createcheckbox("region-wrapper"	,regionarr);
 		createcheckbox("product-wrapper",productarr);

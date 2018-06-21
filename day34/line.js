@@ -1,5 +1,7 @@
-function drawcanvas(arr){
-	var div = document.getElementById("bar2");
+function drawcanvas(arr,id){
+
+	var div = document.getElementById(id);
+	
 	div.innerHTML="";
 	var canvas = document.createElement("canvas");
 	canvas.setAttribute("width","700");
