@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		table,th,td{
+			border:1px gray solid;
+		}
+		table{
+			border-collapse: collapse;
+			margin-top: 15px;	
+		}
+		th,td{
+			padding: 5px 10px;
+			text-align: center;
+		}
+		span{
+			width: 5px;
+			height: 5px;
+			padding-left: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="region-wrapper"></div>
+	<div id="product-wrapper"></div>
+	<div id="table-wrapper"></div>
+	<div id="bar"></div>
+	<script type="text/javascript" src="ife31data.js"></script>
+	<script type="text/javascript">
+		var regionwrapper=document.getElementById("region-wrapper");
+		var productwrapper=document.getElementById("product-wrapper");
+		var regionarr=["华北","华南","华东"];
+		var productarr=["手机","笔记本","智能音箱"];
+	</script>
+	<script type="text/javascript" src="createcheckbox.js"></script>
+	<script type="text/javascript" src="getdata.js"></script>
+	<script type="text/javascript" src="createtable.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
