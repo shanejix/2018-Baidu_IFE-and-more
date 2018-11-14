@@ -1,0 +1,10 @@
+.tree input{
+    display:none;
+}
+.tree input+label{
+    background: url(../images/add.png) left middle no-repeat;
+    padding-left: 40px;
+}
+.tree input+label+div{
+    padding-left: 20px;
+}

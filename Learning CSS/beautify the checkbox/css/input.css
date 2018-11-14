@@ -1,0 +1,13 @@
+.checkbox input{
+    display: none;
+}
+.checkbox input+label{
+    background: url(../images/check-circle.png) left center no-repeat;
+    background-size: 20px 20px;
+    padding-left: 20px;
+}
+.checkbox input:checked+label{
+    background: url(../images/check-circle-fill.png) left center no-repeat;
+    background-size: 20px 20px;
+    padding-left: 20px;
+}
