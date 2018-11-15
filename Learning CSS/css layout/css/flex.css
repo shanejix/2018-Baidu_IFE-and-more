@@ -1,0 +1,18 @@
+.container{
+    display: flex;
+    border: red 1px solid;
+    width: 900px;
+    height: 300px;
+}
+.container .flex{
+    background: yellowgreen;
+    margin: 5px;
+    flex: 1;
+}
+.container .flex1{
+    width:50px;
+    flex: none;
+}
+.container .flex2{
+    flex: 2;
+}

@@ -1,0 +1,23 @@
+.table-box{
+    display: table;
+    border:red solid 1px;
+    /* width: 1200px;
+    height: 200px; */
+}
+.table-row{
+    display: table-row;
+}
+.table-cell{
+    display: table-cell;
+    vertical-align: middle;
+}
+.left2{
+    width: 200px;
+    height: 600px;
+    background: yellow;
+}
+.right2{
+    width: 600px;
+    height: 600px;
+    background: beige;
+}

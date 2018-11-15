@@ -1,10 +1,32 @@
 .tree input{
-    display:none;
+    display: none;
 }
 .tree input+label{
-    background: url(../images/add.png) left middle no-repeat;
+    background: url(../images/add.png) left center no-repeat,
+                url(../images/folder.png) 20px center no-repeat;
+    background-size: 20px 20px;
+    /* background-image: url(../images/add.png),url(../images/folder.png);
+    background-position: left center,20px center;
+    background-repeat: no-repeat; */
     padding-left: 40px;
+    display: block;
 }
 .tree input+label+div{
+    padding-left: 40px;
+    display: none;
+}
+.tree input+label+div p{
+    background: url(../images/file.png) left center no-repeat;
+    background-size: 20px 20px;
     padding-left: 20px;
+}
+
+.tree input:checked+label{
+    background: url(../images/subtrat.png) left center no-repeat,
+                url(../images/folder.png) 20px center no-repeat;
+    background-size: 20px 20px;
+    
+}
+.tree input:checked+label+div{
+    display: block;
 }

@@ -1,0 +1,20 @@
+.container{
+    width: 900px;
+    height: 300px;
+    border: 1px solid red;
+    font-size: 0px;
+}
+.left{
+    display: inline-block;
+    width: 300px;
+    height: 100%;;
+    background: yellow;
+    font-size: 20px;
+}
+.right{
+    display: inline-block;
+    width: 600px;
+    height: 100%;
+    background:burlywood;
+    font-size: 20px;
+}
