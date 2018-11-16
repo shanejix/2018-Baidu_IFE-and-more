@@ -1,0 +1,13 @@
+.container{
+    width: 200px;
+    height: 400px;
+    background: yellow;
+    /* clip-path: inset(100px 50px); */
+    /* clip-path: circle(50px at 100px 100px);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 10% 10%, 40px 10px); */
+    transition:clip-path .4s;
+}
+.container:hover{
+    clip-path: circle(80px at 100px 100px);
+    
+}

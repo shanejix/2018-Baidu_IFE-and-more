@@ -1,0 +1,21 @@
+.container{
+    margin: 0 auto;
+    max-width: 800px;
+    font-size: 18px;
+    line-height: 2em;
+    font-family: STKaiti;
+}
+.text1{
+    text-shadow: 1px 1px 0 #aaa;
+}
+.text2{
+    text-shadow: 0 0 1px rgba(128,128,128,.2);
+}
+.text3{
+    background: black;
+    text-shadow: -1px -1px 0 white,
+        -1px 1px 0 white,
+        1px -1px 0 white,
+        1px 1px 0 white;
+    /* text-shadow: 0 0 2px white; */
+}

@@ -1,0 +1,118 @@
+.container{
+    height:480px;
+    width:480px;
+    background: url(../images/smile.jpg) left top no-repeat;
+    margin: 100px auto;
+    animation: smile 3s;
+
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(1);
+}
+@keyframes smile{
+    0%{
+        background-position:0px 0px;
+    }
+    5.88%{
+        background-position:0px -480px;
+    }
+    11.76%{
+        background-position:0px -960px;
+    }
+    17.64%{
+        background-position:0px -1140px;
+    }
+    23.52%{
+        background-position:0px -1920px;
+    }
+    29.41%{
+        background-position:0px -2400px;
+    }
+    35.29%{
+        background-position:0px -2880px;
+    }
+    41.17%{
+        background-position:0px -3360px;
+    }
+    47.04%{
+        background-position:0px -3840px;
+    }
+    52.94%{
+        background-position:0px -4320px;
+    }
+    58.82%{
+        background-position:0px -4800px;
+    }
+    64.7%{
+        background-position:0px -5280px;
+    }
+    70.58%{
+        background-position:0px -5760px;
+    }
+    76.47%{
+        background-position:0px -6240px;
+    }
+    82.35%{
+        background-position:0px -6720px;
+    }
+    88.23%{
+        background-position:0px -7200px;
+    }
+    94.17%{
+        background-position:0px -7680px;
+    }
+    100%{
+        background-position:0px -8160px;
+    }
+
+    /* 94.17%{
+        background-position:0px -7680px;
+    }
+    88.23%{
+        background-position:0px -7200px;
+    }
+    82.35%{
+        background-position:0px -6720px;
+    }
+    76.47%{
+        background-position:0px -6240px;
+    }
+    70.58%{
+        background-position:0px -5760px;
+    }
+    64.7%{
+        background-position:0px -5280px;
+    }
+    58.82%{
+        background-position:0px -4800px;
+    }
+    52.94%{
+        background-position:0px -4320px;
+    }
+    47.04%{
+        background-position:0px -3840px;
+    }
+    41.17%{
+        background-position:0px -3360px;
+    }
+    35.29%{
+        background-position:0px -2880px;
+    }
+    29.41%{
+        background-position:0px -2400px;
+    }
+    23.52%{
+        background-position:0px -1920px;
+    }
+    17.64%{
+        background-position:0px -1140px;
+    }
+    11.76%{
+        background-position:0px -960px;
+    }
+    5.88%{
+        background-position:0px -480px;
+    }
+    0%{
+        background-position:0px 0px;
+    } */
+}

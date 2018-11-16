@@ -1,0 +1,31 @@
+.con{
+    width: 80px;
+    height: 50px;
+    background: blue;
+    transition: width 1s,background-color 1s;
+    transition-delay: .5s;
+    transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.con:hover{
+    width: 500px;
+    background-color: red;
+}
+.con2{
+    margin-top: 100px;
+    width: 80px;
+    height: 50px;
+    background: blue;
+    animation: run 1s linear;
+    animation-iteration-count: infinite;
+}
+@keyframes run{
+    %0{
+        width: 100px;
+    }
+    50%{
+        width:800px;
+    }
+    100%{
+        width:100px;
+    }
+}

@@ -1,0 +1,10 @@
+.container{
+    margin: 200px auto;
+    width: 0px;
+    height: 0px;
+    /* border-bottom: 100px solid red;
+    border-right: 100px solid black; */
+    border: 100px solid yellow;
+    /* border-top-left-radius: 200px 20px; */
+    border-radius: 200px 200px 20px 20px / 500px 500px 50px 50px;
+}
