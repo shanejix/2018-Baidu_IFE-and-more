@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>transtion</title>
+	<style type="text/css">
+		.container{
+			width: 200px;
+			height: 200px;
+			margin: 100px auto;
+			/*border:1px solid red;*/
+			position: relative;
+		}
+		input{
+			display: none;
+		}
+		label{
+			position: absolute;
+			top: 130px;
+			left: 40px;
+			width: 120px;
+			height:50px;
+			border-radius: 5px;
+			text-align: center;
+			line-height: 50px;
+			border:red solid 1px;
+			background: yellowgreen;
+		}
+		.content{
+			width: 200px;
+			height: 100px;
+			text-align: center;
+			font-size: 30px;
+			line-height: 100px;
+			/*background: yellow;*/
+			position: absolute;
+			top: 0px;
+			transition: color 0.5s;
+			border-radius: 5px;
+		}
+		input:checked+label+.content{
+			color: blue;
+		}
+		input+label+.content div{
+			width: 0px;
+			height: 5px;
+			background: blue;
+			margin: 0 auto;
+			transition: width .5s;
+		}
+		input:checked+label+.content div{
+			width: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<input type="checkbox" name="button" id="button">
+		<label for="button">click change</label>
+		<div class="content">
+			transtion
+			<div></div>
+		</div>
+	</div>
+</body>
+</html>
