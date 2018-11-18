@@ -26,6 +26,7 @@
         width:800px;
     }
     100%{
-        width:100px;
+        width:150px;
+        background-color:red;
     }
 }
