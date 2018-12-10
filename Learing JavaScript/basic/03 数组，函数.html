@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>数组，函数</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <script>
+        /**
+         * 数组：一组有序的数据
+         * 
+         * 数组的定义：
+         * 
+         * 1. 通过构造函数创建数组
+         * 
+         * var arr = new Array();
+         * 
+         * 2. 通过字面量创建数组
+         * 
+         * var arr = [];
+         * 
+         * 数组下标等于数组长度-1；
+         * 
+         * 数组可读写；
+        */
+
+        //直接输出数组名(-->数组的地址)，有内容就显示，没有内容就不显示
+
+        //通过构造函数创建数组：
+
+        var arr1 = new Array();//数组为空，长度为0
+        var arr2 = new Array(3);//数组的长度为3
+        var arr3 = new Array(10, 20, 30);//数组长度为3，分别被初始化为10，20，30
+
+        alert(arr1);
+        console.log(arr1);
+        console.log(arr1[0])//数组长度为0，越界下标的值为undefined
+        console.log(arr1[1])//数组长度为0，越界下标的值为undefined
+        console.log(arr1[2])//数组长度为0，越界下标的值为undefined
+
+
+        alert(arr2);
+        console.log(arr2);
+        console.log(arr2[0]);//数组的长度为3，未被初始化值为undefined
+        console.log(arr2[1]);//数组的长度为3，未被初始化值为undefined
+        console.log(arr2[2]);//数组的长度为3，未被初始化值为undefined
+        console.log(arr2[6]);//数组的长度为3，越界下标的值为undefined
+        console.log(arr2[7]);//数组的长度为3，越界下标的值为undefined
+        console.log(arr2[8]);//数组的长度为3，越界下标的值为undefined
+
+        alert(arr3);
+        console.log(arr3);
+        console.log(arr3[0]);//10
+        console.log(arr3[1]);//20
+        console.log(arr3[2]);//30
+        console.log(arr3[3]);//数组的长度为3，越界下标的值为undefined
+        console.log(arr3[4]);//数组的长度为3，越界下标的值为undefined
+        console.log(arr3[5]);//数组的长度为3，越界下标的值为undefined
+
+        //通过字面量创建数组：
+
+        var arr4 = [];//数组为空
+        var arr5 = [3];//数组的长度为1，并且arr5[0]被初始化为3
+        var arr6 = [3, 4, 5];//数组的长度为3，分别被初始化为3，4，5
+
+        alert(arr4);
+        console.log(arr4);
+        console.log(arr4[0]);//数组为空，越界下标的数组的值为undefined
+        console.log(arr4[1]);//数组为空，越界下标的数组的值为undefined
+        console.log(arr4[2]);//数组为空，越界下标的数组的值为undefined
+
+        alert(arr5);
+        console.log(arr5);
+        console.log(arr5[0]);//数组第一个值3
+        console.log(arr5[1]);//越界下标数组的值为undefined
+        console.log(arr5[2]);//越界下标数组的值为undefined
+
+        alert(arr6);
+        console.log(arr6);
+        console.log(arr6[0]);//3
+        console.log(arr6[1]);//4
+        console.log(arr6[2]);//5
+        console.log(arr6[3]);//越界下标数组的值为undefined
+        console.log(arr6[4]);//越界下标数组的值为undefined
+        console.log(arr6[5]);//越界下标数组的值为undefined
+
+
+            //字面量的方式更简单
+
+        //数组中存储的数据类型一定是一样的吗？
+
+        var arr7 = ["嘿嘿嘿", undefined, null, true, new Object(), 100, [100]];
+        console.log(arr7);
+            //弱类型的语言真心强大，这样做有什么实际意义吗？
+
+        //数组的长度可以改变吗？
+
+        var arr8 = new Array(3);
+
+        console.log(arr8);
+        console.log(arr8.length);
+
+        arr8[3] = 100;
+        console.log(arr8);
+        console.log(arr8.length);
+
+            //卧槽！！！这也太好用了吧！！！完全动态数组啊
+
+        //去掉数组中所有的0；
+
+        var arr9 = [0, 0, 0, 1, 2, 8, 6, 0, 0, 0, 4, 7];
+        var newarr = [];
+        for (var i = 0; i < arr9.length; i++) {
+            if (arr9[i] != 0)
+                newarr[newarr.length] = arr9[i];
+        }
+        console.log(newarr);
+
+        //倒序遍历数组？
+
+        var arr10 = [1, 2, 3, 4, 5, 6, 7, 8];
+        for (var i = arr10.length - 1; i >= 0; i--)
+            console.log(arr10[i]);
+
+        //反转数组
+
+        var arr11 = [1, 2, 3, 4, 5, 6, 7];
+        console.log(arr11);
+        var mid = arr11.length / 2;
+        var temp;
+        for (var i = 0; i < mid; i++) {
+            temp = arr11[i];
+            arr11[i] = arr11[arr11.length - 1 - i];
+            arr11[arr11.length - 1 - i] = temp;
+        }
+        console.log(arr11);
+
+        //冒泡排序
+
+        var arr12 = [10, 0, 20, 30, 44, 58, 1, 2, 18];
+        for (var i = 0; i < arr12.length - 1; i++) {
+            for (var j = 0; j < arr12.length - 1 - i; j++) {
+                if (arr12[j] < arr12[j + 1]) {
+                    var temp = arr12[j];
+                    arr12[j] = arr12[j + 1];
+                    arr12[j + 1] = temp;
+                }
+            }
+        }
+        console.log(arr12);
+
+    </script>
+    <script>
+        /**
+         * 函数：
+         * 
+         * 把重复的代码封装--->代码复用（作用）
+         * 
+         * 定义：
+         * 
+         * function 函数名（）｛
+         *      函数体   ；
+         * ｝
+         * 
+         * 调用：
+         * 
+         * 函数名（）；
+         * 
+         * 注意事项：
+         * 
+         * 和变量一样，函数需先定义后使用，
+         * 函数重名后面的会覆盖前面的，
+         * 遵循驼峰命名法，
+         * 如果一个函数没有返回值，而被接收了，结果就是undefined，和变量声明没有初始化一样都是undefined
+         * 
+        */
+        
+        //案例
+
+        function print() {
+            return "heieihei";
+        }
+        var result = print();
+
+        console.log(result);//result接收函数返回的结果并打印
+        console.log(print());//直接打印函数返回的结果
+        console.log(print);//函数名--->指向函数的实体-->指针
+
+        //返回值：
+
+        function f1(){
+            return ;
+        }
+        function f2(){
+            console.log("heihei");
+        }
+
+        console.log(f1());//undefined
+        console.log(f2());//undefined
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>鼠标移动事件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+    <!-- <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 2000px;
+        }
+
+        img {
+            position: absolute;
+            border: 1px red solid;
+            width: 100px;
+            height: 100px;
+
+            /* 鼠标和图片的位置可以通过图片元素的margin（父级有的话也需要调整） */
+            margin-top: -50px;
+            margin-left: -50px;
+        }
+    </style> -->
+    <style>
+        .login-header {
+            width: 100%;
+            text-align: center;
+            height: 30px;
+            font-size: 24px;
+            line-height: 30px;
+        }
+
+        ul,
+        li,
+        ol,
+        dl,
+        dt,
+        dd,
+        div,
+        p,
+        span,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        a {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .login {
+            width: 512px;
+            position: absolute;
+            border: #ebebeb solid 1px;
+            height: 280px;
+            left: 50%;
+            right: 50%;
+            background: #ffffff;
+            box-shadow: 0px 0px 20px #ddd;
+            z-index: 9999;
+            margin-left: -250px;
+            margin-top: 140px;
+            display: none;
+        }
+
+        .login-title {
+            width: 100%;
+            margin: 10px 0px 0px 0px;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            font-size: 18px;
+            position: relative;
+            cursor: move;
+            -moz-user-select: none;
+            /*火狐*/
+            -webkit-user-select: none;
+            /*webkit浏览器*/
+            -ms-user-select: none;
+            /*IE10*/
+            -khtml-user-select: none;
+            /*早期浏览器*/
+            user-select: none;
+        }
+
+        .login-input-content {
+            margin-top: 20px;
+        }
+
+        .login-button {
+            width: 50%;
+            margin: 30px auto 0px auto;
+            line-height: 40px;
+            font-size: 14px;
+            border: #ebebeb 1px solid;
+            text-align: center;
+        }
+
+        .login-bg {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            background: #000000;
+            filter: alpha(opacity=30);
+            -moz-opacity: 0.3;
+            -khtml-opacity: 0.3;
+            opacity: 0.3;
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000000;
+        }
+
+        .login-button a {
+            display: block;
+        }
+
+        .login-input input.list-input {
+            float: left;
+            line-height: 35px;
+            height: 35px;
+            width: 350px;
+            border: #ebebeb 1px solid;
+            text-indent: 5px;
+        }
+
+        .login-input {
+            overflow: hidden;
+            margin: 0px 0px 20px 0px;
+        }
+
+        .login-input label {
+            float: left;
+            width: 90px;
+            padding-right: 10px;
+            text-align: right;
+            line-height: 35px;
+            height: 35px;
+            font-size: 14px;
+        }
+
+        .login-title span {
+            position: absolute;
+            font-size: 12px;
+            right: -20px;
+            top: -30px;
+            background: #ffffff;
+            border: #ebebeb solid 1px;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <img id="bird" src="" alt="bird"> -->
+    <script>
+
+        //页面的鼠标移动事件：图片跟着鼠标飞
+
+        document.onmousemove = function (e) {
+
+            //鼠标相对于可视区域的横坐标
+
+            // console.log(e.clientX);
+            // document.getElementById("bird").style.left=e.clientX+"px";
+            //鼠标相对于可视区域的纵坐标
+
+            // console.log(e.clientY);
+            // document.getElementById("bird").style.top=e.clientY+"px";
+
+            //火狐和谷歌支持事件参数对象：e，谷歌和ie8支持window.event；
+            //window.event和e需要兼容
+
+            //pageX和pageY是鼠标相对于页面边界的坐标--在谷歌和火狐中支持ie8中不支持
+
+            //兼容代码
+
+            function getScroll() {
+                return {
+                    left: window.pageXOffset || document.body.scrollLeft || document.documentElement.scrollLeft || 0,
+                    top: window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop || 0
+                }
+            }
+            //可视区域横坐+向左卷曲出去的横坐标
+            document.getElementById("bird").style.left = window.event.clientX + getScroll().left + "px";
+            //可视区域纵坐标+向上卷曲出去的纵坐标
+            document.getElementById("bird").style.top = window.event.clientY + getScroll().top + "px";
+
+        };
+    </script>
+
+
+    <script>
+        //图片跟着鼠标飞：兼容所有浏览器
+
+        //window.event和事件参数对象e的兼容
+
+        //clientX,clientY兼容
+
+        //scrollLeft，scrollTop兼容
+
+        //pagX，pagY和clientX+scrollLeft和clientY+scrollTop
+
+        //------->封装到函数中
+
+
+        //封装到对象中
+
+        var event = {
+            //window.event和事件参数对象e的兼容
+            getEvent: function (evt) {
+                return window.event || evt;
+            },
+
+            //可视区域横坐标的兼容
+            getClientX: function (evt) {
+                return this.getEvent(evt).clientX;
+            },
+
+            //可视区域纵坐标的兼容
+            getClientY: function (evt) {
+                return this.getEvent(evt).clientY;
+            },
+
+            //页面向左卷曲出去的坐标
+            getScrollLeft: function () {
+                return window.pageXOffset || document.body.scrollLeft || document.documentElement.scrollLeft || 0;
+            },
+
+            //页面向上卷曲出去的纵坐标
+            getScrollTop: function () {
+                return window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop || 0;
+            },
+
+            //相对于页面的横坐标（pageX或者clientX+scrollLeft）
+            getPageX: function (evt) {
+                return this.getEvent(evt).pageX ? this.getEvent(evt).pageX : this.getClientX(evt) + this.getScrollLeft();
+            },
+
+            //相对于页面的纵坐标（pageX或者client或者clientY+scrollTop）
+            getPageY: function (evt) {
+                return this.getEvent(evt).pageY ? this.getEvent(evt).pageY : this.getClientY(evt) + this.getScrollTop();
+            }
+        }
+
+        //最终代码
+
+        document.onmousemove = function (e) {
+            document.getElementById("bird").style.left = event.getPageX(e) + "px";
+            document.getElementById("bird").top = event.getPageY(e) + "px";
+        };
+    </script>
+
+
+
+    <!-- simple:移动登录框 -->
+
+    <div class="login-header"><a id="link" href="javascript:void(0);">点击，弹出登录框</a></div>
+    <div id="login" class="login">
+        <div id="title" class="login-title">登录会员
+            <span><a id="closeBtn" href="javascript:void(0);" class="close-login">关闭</a></span></div>
+        <div class="login-input-content">
+            <div class="login-input">
+                <label>用户名：</label>
+                <input type="text" placeholder="请输入用户名" name="info[username]" id="username" class="list-input">
+            </div>
+            <div class="login-input">
+                <label>登录密码：</label>
+                <input type="password" placeholder="请输入登录密码" name="info[password]" id="password" class="list-input">
+            </div>
+        </div>
+        <div id="loginBtn" class="login-button"><a href="javascript:void(0);" id="login-button-submit">登录会员</a></div>
+    </div>
+    <!--登录框-->
+    <div id="bg" class="login-bg"></div>
+    <!--遮挡层-->
+
+    <script>
+        //获取必要元素
+        var login_header = document.getElementById("link");
+        var login = document.getElementsByClassName("login")[0];
+        var login_bg = document.getElementsByClassName("login-bg")[0];
+        var close_login = document.getElementsByClassName("close-login")[0];
+        var login_title = document.getElementsByClassName("login-title")[0];
+
+
+        //login_header注册点击事件
+        login_header.onclick = function () {
+            login.style.display = "block";
+            login_bg.style.display = "block";
+        }
+        //close_login注册点击事件
+        close_login.onclick = function () {
+            login.style.display = "none";
+            login_bg.style.display = "none";
+        }
+
+        //为login_title注册事件
+        login_title.onmousedown = function (e) {
+            console.log(e);
+            var spaceX = e.clientX - login.offsetLeft;
+            var spaceY = e.clientY - login.offsetTop;
+            document.onmousemove = function (e) {
+                var x = e.clientX - spaceX + 250;
+                var y = e.clientY - spaceY - 140;
+                login.style.left = x + "px";
+                login.style.top = y + "px";
+            }
+        }
+        //鼠标抬起时，注销鼠标移动事件
+        document.onmouseup = function () {
+            document.onmousemove = null;
+        }
+    </script>
+
+    <script>
+    /**
+     * 
+     * 组织浏览器默认跳转事件
+     * 
+     * window.event.preventDefault():
+    */
+
+
+    /**
+     * 图片跟着鼠标飞中
+     * 
+     * 跟元素的magin值有关
+     * 
+    */
+    </script>
+
+</body>
+
+</html>

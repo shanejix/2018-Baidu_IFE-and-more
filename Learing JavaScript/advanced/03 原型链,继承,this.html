@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>原型链，继承</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <script>
+        //构造函数-Person
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+            //构造函数中的方法
+            this.eat = function () {
+                console.log("Person eat");
+            }
+        }
+        //添加公共的属性
+        Person.prototype.sex = "female";
+        //添加公共的方法
+        Person.prototype.say = function () {
+            console.log("person say");
+        }
+        //实例化对象，并初始化
+        var per = new Person("Sara", 22);
+        per.say();
+
+        //为了共享数据，节省内空间，可以吧属性和方法写在原型里
+
+        console.dir(per);
+        console.dir(Person);
+
+        //实例对象的__proto__和构造函数的原型prototype相同
+        console.log(per.__proto__ == Person.prototype);//true
+
+        //原型链：实例对象和原型对象之间的关系，通过__proto__来建立
+
+        //构造函数-Student
+        function Student() {
+
+        }
+        Student.prototype.say = function () {
+            console.log("student say");
+        }
+        console.dir(Student.prototype.constructor);
+        //原型指向了Person的实例--
+        Student.prototype = new Person("Lori", 20);
+        var stu = new Student();
+        stu.eat();//Person eat
+        stu.say();//Person say
+
+        console.dir(Student.prototype.constructor);
+        console.dir(Student.prototype.constructor == Person);//true
+
+        //原型的指向可以发生改变--->那么应该在原型指向改变之后添加方法
+
+        //实例对象的原型__proto__指向的是该对象所在的构造函数的原型对象
+
+        //构造函数的原型（prototype）改变了，实例对象的原型（__proto__）指向也会改变
+
+        //实例对象和原型对象之间的关系是通过__proto__原型来联系起来的，这个关系就是原型链
+
+        console.log(per.__proto__ == Person.prototype);//ture
+        console.log(per.__proto__.__proto__ == Person.prototype.__proto__);//ture
+        console.log(Person.prototype.__proto__ == Object.prototype);//ture
+        console.log(Object.prototype.__proto__);//null
+
+        //实例对象中有__proto__原型
+
+        //构造函数中有prototype原型
+
+        //prototype对象中也有__proto__那么指向哪儿呢？
+
+        //实例对象中__proto__指向的是构造函数的prototype，所以，prototype这个对象中的__proto__指向的应该是某个构造函数的原型prototype
+
+        //person实例对象__proto__--->Person.prototype的__proto__--->Object的prototype的__proto__--->null
+
+    </script>
+
+    <div id="div"></div>
+    <script>
+        var div = document.getElementById("div");
+
+        //一个原型链
+
+        console.log(div);//div
+        console.log(div.__proto__);//HTMLDivElement{}
+        console.log(div.__proto__.__proto__);//HTMLElement{}
+        console.log(div.__proto__.__proto__.__proto__);//Element{}
+        console.log(div.__proto__.__proto__.__proto__.__proto__);//Node{}
+        console.log(div.__proto__.__proto__.__proto__.__proto__.__proto__);//EventTarget{}
+        console.log(div.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__);//{}
+        console.log(div.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__);//null
+
+    </script>
+
+    <script>
+        //继承--通过原型实现
+
+        //构造函数-animal
+        function Animal(name, height, width, weidth) {
+            this.name = name;
+            this.height = height;
+            this.width = width;
+            this.weidth = weidth;
+        }
+        //原型中添加方法
+        Animal.prototype.eat = function () {
+            console.log("animal eat");
+        }
+        //构造函数-Dog
+        function Dog(color) {
+            this.color = color;
+        }
+        //js中通过原型来实现继承--改变原型的指向即可
+        Dog.prototype = new Animal("ahshiqi", 20, 50, 30);
+
+        //原型指向改变的同时，实现继承，直接促初始化了属性，继承的属性一样---缺陷
+
+        Dog.prototype.say = function () {
+            console.log("wang!wang!");
+        }
+
+        var dog = new Dog("red");
+        var dog2 = new Dog("red");
+        dog.eat();
+        dog.say();
+
+        console.log(dog.name);
+        console.log(dog.height);
+        console.log(dog.width);
+        console.log(dog.weidth);
+
+        console.log(dog2.name);
+        console.log(dog2.height);
+        console.log(dog2.width);
+        console.log(dog2.weidth);
+
+        //缺陷：原型指向改变的同时，实现继承，同时初始化属性，继承属性的值一样
+
+
+        console.dir(Dog);//
+        console.dir(Animal);//
+        console.dir(Dog.prototype);//Animal
+        console.dir(Dog.prototype.constructor);//Animal
+    </script>
+    <script>
+        //继承--借用构造函数
+
+        //构造函数-animal
+        function Animal(name, height, width, weidth) {
+            this.name = name;
+            this.height = height;
+            this.width = width;
+            this.weidth = weidth;
+        }
+        //原型中添加方法
+        Animal.prototype.eat = function () {
+            console.log("animal eat");
+        }
+        //构造函数-Dog
+        function Dog(color, name, height, width, weidth) {
+            this.color = color;
+            //借用构造函数
+            Animal.call(this, name, height, width, weidth);
+        }
+
+        var dog2 = new Dog("red", "dog2", 20, 30, 50);
+        console.log(dog2.color, dog2.name, dog2.height, dog2.width, dog2.weidth);
+        var dog3 = new Dog("blue", "dog23", 80, 90, 10);
+        console.log(dog3.color, dog3.name, dog3.height, dog3.width, dog3.weidth);
+
+        // dog2.eat();//error
+
+        console.dir(Dog);
+
+        //借用构造函数：构造函数名字.call(当前对象，属性···)
+
+        //解决了属性继承，并没有解决方法继承
+
+
+    </script>
+    <script>
+        //组合继承：原型继承+借用构造函数继承
+
+        //构造函数-animal
+        function Animal(name, height, width, weidth) {
+            this.name = name;
+            this.height = height;
+            this.width = width;
+            this.weidth = weidth;
+        }
+        //原型中添加方法
+        Animal.prototype.eat = function () {
+            console.log("animal eat");
+        }
+        //构造函数-Dog
+        function Dog(color, name, height, width, weidth) {
+            this.color = color;
+            //借用构造函数
+            Animal.call(this, name, height, width, weidth);
+        }
+        //改变原型指向--继承
+        Dog.prototype = new Animal();//不传值
+
+        var dog4 = new Dog("red", "dog4", 20, 30, 50);
+        console.log(dog4.color, dog4.name, dog4.height, dog4.width, dog4.weidth);
+        var dog5 = new Dog("blue", "dog25", 80, 90, 10);
+        console.log(dog5.color, dog5.name, dog5.height, dog5.width, dog5.weidth);
+
+        dog4.eat();
+        dog5.eat();
+
+        console.dir(Dog);
+
+        //属性和方法都继承了
+
+    </script>
+    <script>
+        //拷贝继承
+
+        var obj1 = {
+            name: "sara",
+            age: 20,
+            sleep: function () {
+                console.log("sleep");
+            }
+        }
+
+        var obj2 = obj1;
+        console.log(obj2.name, obj2.age);
+        obj2.sleep();
+
+        //改变了地址的指向
+
+        function Person() {
+
+        }
+        Person.prototype.age = 10;
+        Person.prototype.sex = "female";
+        Person.prototype.play = function () {
+            console.log("play game");
+        };
+        var obj3 = {};
+
+        //遍历prototype对象中的属性，拷贝
+        for (var key in Person.prototype) {
+            obj3[key] = Person.prototype[key];
+        }
+
+        console.log(obj3);
+        obj3.play();
+    </script>
+    <script>
+        //this指向问题
+
+        //普通函数中的this是谁？
+
+        function f1() {
+            console.log(this);//Window
+        }
+        f1();
+        //方法中的this是谁？
+
+        function F1(mm) {
+            this.mm = mm;
+            this.say = function () {
+                console.log(this);//当前实例对象
+            }
+        }
+        var ff = new F1("qq");
+        ff.say();
+        //定时器函数中的this是谁？
+        setInterval(function () {
+            console.log(this);//Window
+        }, 1000)
+        //构造函数中的this是谁？
+        function F2(kk) {
+            this.kk = kk;
+            console.log(this);//实例对象
+        }
+        new F2("dd");
+        //原型对象中的this是谁？
+        function F3() {
+
+        }
+        F3.prototype.f1 = function () {
+            console.log(this);//实例对象
+        }
+        var ff3 = new F3();
+        ff3.f1();
+
+    </script>
+    <script>
+        //函数是对象，对象不一定是函数
+
+        //对象中有__proto__原型，
+
+        //函数中有prototype原型
+
+        //既有__proto__又有prototype说明是函数也是对象
+
+
+        //所有的函数实际上都是Function的构造函数创建出来的实例对象
+
+        var ff = new Function("num1", "num2", "return num1+num2");
+
+        console.log(ff(10, 20));//30
+
+        console.log(ff.__proto__ == Function.prototype);//ture
+
+        //so 函数实际上是对象
+    </script>
+
+
+    <script>
+    /**
+     * 小结：
+     * 
+     * 原型：
+     * 
+     * 每个实例对象都有一个__proto__对象
+     * 
+     * 每个构造函数都有一个prototype对象
+     * 
+     * 继承：
+     * 
+     * 1.通过原型实现继承，改变原型的指向，属性在初始化的时候固定，如果是多个对象实例化，那么实例化对象的属性都是一样的
+     * 
+     * 2.借用构造函数实现继承，不能继承方法
+     * 
+     * 3.组合继承,可以继承属性和方法
+     * 
+     * 4.拷贝继承，把一个对象中的属性和方法拷贝到另一个对象
+     * 
+     * 创建对象的三种方式：
+     * 
+     * 1.通过字面量的方式创建对象
+     * 
+     * 2.通过系统构造函数创建对象
+     * 
+     * 3.通过自定义构造函数创建对象
+     * 
+     * 原型链：实例对象和原型对象之间的关系，主要是通过__proto__和prototype来联系
+     * 
+     * 原型额作用：实现数据共享，继承，都是为了节省内存空间
+     * 
+     * 属性和方法都需要共享，那么就把属性和方法都添加到原型中
+     * 
+     * 
+     * 函数中this的指向：
+     * 
+     * 普通函数-->window
+     * 
+     * 定时器-->window
+     * 
+     * 构造函数-->实例对象
+     * 
+     * 构造函数的原型-->实例对象
+     * 
+     * 方法中的this-->实例对象
+     * 
+     * 
+     * 函数是对象，构造函数也是函数，也是对象
+     * 
+     * 对象不一定是函数
+     * 
+     * 对象中有__proto__
+     * 
+     * 函数中有prototype
+    */
+    </script>
+</body>
+
+</html>

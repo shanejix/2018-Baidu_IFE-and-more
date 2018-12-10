@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DOM2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+    <style>
+        #container{
+            width: 500px;
+            height: 200px;
+            border: 1px solid red;
+            /* position: relative; */
+        }
+        #container #top{
+            list-style: none;
+            box-shadow: 0 0 0 2px black;
+            cursor: pointer;
+        }
+        #container #top div{
+            float: left;
+            margin-right: 2px;
+            width: 98px;
+            height: 40px;
+            background-color: yellow;
+            line-height: 40px;
+            text-align: center;
+        }
+        #container #top div:hover{
+            background-color: red;
+        }
+        #container #top:after{
+            content: " ";
+            display: block;
+            clear:both;
+        }
+        #container #bottom{
+            width: 500px;
+            height: 160px;
+            box-shadow: 0 0 0 2px yellow;
+        }
+        #container #bottom div{
+            position: absolute;
+            width: 500px;
+            height: 160px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 案例:点击按钮禁用文本框 -->
+
+    <input type="button" value="click disable text" id="btndisable">
+    <input type="text" value="text" id="text">
+    <script>
+        document.getElementById("btndisable").onclick = function () {
+            document.getElementById("text").disabled = true;
+        }
+    </script>
+
+    <br>
+
+
+    <!-- 案例：阻止点击超链接弹出对话框 -->
+
+    <!-- 第一种写法： -->
+    <a href="http://www.baidu.com" onclick="alert('was clicked')" id="baidu">baidu</a>
+    <script>
+        console.log(document.getElementById("baidu").onclick);//alert在onclick()内部，
+        //如果点击了-弹框了（alert()执行了），不想链接跳转直接 return false；
+        console.log(document.getElementById("baidu").onclick());//undifined
+    </script>
+
+    <a href="http://www.baidu.com" onclick="alert('was clicked'); return false;">baidu1</a>
+
+    <br>
+
+    <!-- 第二种写法 -->
+    <a href="http://www.baidu.com" onclick="return fn()" id="baidu2">baidu2</a>
+    <script>
+        function fn() {
+            alert("was clicked 2");
+            return false;
+        }
+        console.log(document.getElementById("baidu2").onclick);
+        console.log(document.getElementById("baidu2").onclick());//false
+    </script>
+
+    <br>
+
+    <!-- 第三种写法： -->
+    <a href="http://www.baidu.com" id="baidu3">baidu3</a>
+    <script>
+        console.log(document.getElementById("baidu3").onclick);//null
+
+        document.getElementById("baidu3").onclick = function () {
+            alert("was clicked 3");
+            return false;
+        }
+
+        console.log(document.getElementById("baidu3").onclick);//
+        console.log(document.getElementById("baidu3").onclick());//false
+    </script>
+
+
+    <!-- 案例：鼠标进入和鼠标离开，连个事件：onmouseover，onmouseout -->
+
+
+    <ul id="mouse">
+        <li>红色</li>
+        <li>黄色</li>
+        <li>白色</li>
+        <li>黑丝</li>
+        <li>紫色</li>
+    </ul>
+    <script>
+        document.getElementById("mouse").style.listStyle = "none";
+        var lis = document.getElementById("mouse").getElementsByTagName("li");
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].style.backgroundColor = "yellow";
+
+            lis[i].onmouseover = function () {
+                // lis[i].style.backgroundColor="red";//为什么报错，list[i]为什么不行???
+                this.style.backgroundColor = "red";
+
+                console.log(i);//5----why???
+                console.log(lis[i]);//undefined????
+                console.log(this);//right
+
+                //猜想一下：当打开浏览页面正常显示时，js代码已经执行完毕了，虽然每个li都绑定了事件（假设时实现了），此时i=5；lis[5]--undefined;
+                //this ---动态的与mouesover结合---真香
+            }
+            lis[i].onmouseout = function () {
+                this.style.backgroundColor = "yellow";
+            }
+        }
+    </script>
+
+    <br>
+
+    <!-- 案例：根据name属性获取标签 -->
+
+    <input type="text" value="您好" name="name1" /><br />
+    <input type="text" value="您好" name="name2" /><br />
+    <input type="text" value="您好" name="name1" /><br />
+    <input type="text" value="您好" name="name3" /><br />
+    <input type="text" value="您好" name="name1" /><br />
+    <input type="text" value="您好" name="name1" /><br />
+    <script>
+        console.log(document.getElementsByName("name1"));
+    </script>
+
+    <br>
+
+    <!-- 案例：根据类名获取标签 -->
+    <p>这是一个p</p>
+    <p class="cls">这是另一个p</p>
+    <span class="cls">这是第一个span</span><br />
+    <span>这是第二个span</span><br />
+    <div class="cls">这是第一个div</div>
+    <div>这是第二个div</div>
+    <input type="button" value="显示效果" id="btn" /><br />
+    <script>
+        console.log(document.getElementsByClassName("cls"));
+    </script>
+
+
+    <br>
+
+    <!-- 案例：模拟搜索框 :onfocus onblur-->
+    <input type="text" value="请输入搜索内容" id="txt" />
+    <script>
+        document.getElementById("txt").onfocus = function () {
+            if (this.value = "请输入搜索内容") {
+                this.value = "";
+                this.style.color = "black";
+            }
+        }
+
+        document.getElementById("txt").onblur = function () {
+            if (this.value.length == 0) {
+                this.value = "请输入搜索内容";
+                this.style.color = "gray";
+            }
+        }
+    </script>
+
+    <script>
+        /**
+         * innerText和textContent：
+         * 
+         * 设置标签中的文本内容，使用textContent属性（ie8不支持）
+         * 设置标签中的文本内容，使用innerText属性，都支持
+         * 
+         * textContent和innerText可以读文本也可以写文本
+         * 
+         * 浏览器如果不兼容这个属性，则这个属性的类型是undefined
+         * 
+        */
+
+
+        //兼容代码：
+
+        function setInnertext(element, text) {
+            if (typeof element.textContent == undefined) {
+                element.innerText = text;
+            } else {
+                element.textContent = text;
+            }
+        }
+
+        function getInnerText(elements) {
+            if (typeof element.textContent == undefined) {
+                return element.innerText;
+            } else {
+                return element.textContent;
+            }
+        }
+    </script>
+
+    <script>
+        /**
+         * innerText和innerHTML的区别：
+         * 
+         * innerText主要设置（获取）文本内容，没有标签效果；innerText可以获取标签中间的文本内容,但是标签中如果还有标签,那么最里面的标签的文本内容也能获取.---获取不到标签的,文本可以获取
+         * 
+         * innerHTML可以设置（获取）文本内容，主要是设置（获取）新的标签内容；真正的获取标签中间的所有内容
+         * 
+         * 结论：
+         * 
+         * 获取标签及内容：innerHTML
+         * 
+         * 设置标签：innerHTML
+         * 
+         * 设置文本：innerText;innerHTML;textContent
+        */
+    </script>
+
+
+
+    <ul id="score">
+        <li score="20">班主任的成绩</li>
+    </ul>
+    <script>
+        /**
+         * 自定义属性：系统没有的属性，自己添加的---可以用来储存数据
+         * 
+         * 如何获取（自定义）属性的值？？？
+         * 
+         * .getAttribute("属性名")
+         * 
+         * 如何设置（自定义）属性？
+         * 
+         * .setAttribute("属性名","属性值")
+         * 
+         * 如何移除某个元素的（自定义）属性？？？
+         * 
+         * .removeAttribute("属性名")
+         * 
+         * 
+        */
+
+        var li = document.getElementById("score").getElementsByTagName("li");
+        console.log(li[0].score);//undefined
+        console.log(li[0].getAttribute("score"));//20
+    </script>
+
+
+    <!-- 案例：选项卡切换 -->
+
+    <div id="container">
+        <div id="top">
+            <div>tap1</div>
+            <div>tap2</div>
+            <div>tap3</div>
+            <div>tap4</div>
+            <div>tap5</div>
+        </div>
+        <div id="bottom">
+            <div>this is tap1</div>
+            <div>this is tap2</div>
+            <div>this is tap3</div>
+            <div>this is tap4</div>
+            <div>this is tap5</div>
+        </div>
+    </div>
+    <script>
+        var tops = document.getElementById("top").getElementsByTagName("div");
+        var bottoms = document.getElementById("bottom").getElementsByTagName("div");
+        for (var i = 0; i < tops.length; i++) {
+            tops[i].setAttribute("idx", i);
+            tops[i].onclick = function () {
+                for (var j = 0; j < tops.length; j++) {
+                    tops[j].style.backgroundColor = "yellow";
+                }
+                this.style.backgroundColor = "red";
+                var index = this.getAttribute("idx");
+                for (var k = 0; k < bottoms.length; k++) {
+                    bottoms[k].style.display = "none";
+                }
+                bottoms[index].style.display = "block";
+            }
+        }
+    </script>
+
+    <script>
+        /**
+         * 总结获取元素的方式：
+         * 
+         * doucment.getElementById("id属性值");//返回一个DOM对象
+         * 
+         * doucment.getElementsByTagName("标签名");//返回一个伪数组
+         * 
+         * 下面的某些浏览器不兼容--
+         * 
+         * doucment.getElementsByName("name属性的值");//返回一个伪数组
+         * 
+         * doucument.getElementsByClassName("类名");//返回一个伪数组
+         * 
+         * document.querySelector("选择器的名字");//返回一个DOM对象
+         * 
+         * document.querySelectorAll("选择器的名字")//返回一个伪数组
+        */
+    </script>
+
+
+
+    <script>
+        /**
+         * 小结：
+         * 
+         * 组织超链接默认跳转事件：return false
+         * 
+         * 
+         * 
+         * 
+         * 获取元素的方式:
+         * 
+         * getElementById("")
+         * getElementByTagName("")
+         * 
+         * ie8以下不支持：
+         * getElemensByName("")
+         * getElementsByClassName("")
+         * querySelector("")
+         * querySelectorAll("")
+         * 
+         * 
+         * 
+         * 设置元素样式的方式：
+         * 对象.style.属性=“值”
+         * 对象.className=“类名”
+         * 
+         * 
+         * 
+         * innerText和textContent兼容问题
+         * 
+         * innerText都支持，ie8不支持textContent
+         * 
+         * 
+         * 
+         * innerText和innerHTML的区别
+         * 
+         * 都可以设置文本内容
+         * 
+         * 设置标签及内容使用innerHTML
+         * 
+         * 设置标签中的文本使用innerText或者innerHTML
+         * 
+         * 
+         * 
+         * 自定义属性的操作
+         * 
+         * 作用：可以用于存储数据
+         * 
+         * 自定义属性无法通过DOM对象的方式获取或者设置
+         * 
+         * 获取：getAttribute（“属性名”）
+         * 
+         * 设置：setAttribute（“属性名”，“值”）
+         * 
+         * 移除：removeAttribute（“属性名”）
+        */
+    </script>
+</body>
+
+</html>

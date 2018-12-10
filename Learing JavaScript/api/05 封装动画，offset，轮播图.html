@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>封装动画，offset，轮播图</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+
+    <!-- simple:协议按钮禁用 -->
+
+    <input type="button" value="请仔细阅读协议(5)" id="btn" disabled="disabled" />
+    <script>
+        var num = 5;
+        var btn = document.getElementById("btn");
+        var timeid = setInterval(function () {
+            btn.value = "请仔细阅读协议(" + num-- + ")";
+            if (num < 0) {
+                clearInterval(timeid);
+                btn.value = "同意";
+                btn.disabled = false;
+            }
+        }, 1000)
+    </script>
+    <br>
+
+    <!-- simple: div渐变-->
+
+    <div id="div1" style="width: 300px;height: 200px;background-color: hotpink;"></div>
+    <input type="button" value="渐变" id="btn1" />
+    <script>
+        var num2 = 10;
+        var div1 = document.getElementById("div1");
+        document.getElementById("btn1").onclick = function () {
+            var timeid2 = setInterval(function () {
+                num2--;
+                div1.style.opacity = num2 / 10;
+                if (num2 <= 0) {
+                    clearInterval(timeid2);
+                }
+            }, 500)
+        }
+    </script>
+    <br>
+
+    <!-- simple: 变宽-->
+
+    <div id="div2" style="width: 300px;height: 200px;background-color: hotpink;"></div>
+    <input type="button" value="变" id="btn2" />
+    <script>
+        var width = 300;
+        var div2 = document.getElementById("div2");
+        document.getElementById("btn2").onclick = function () {
+            timeid3 = setInterval(function () {
+                width += 10;
+                div2.style.width = width + "px";
+                if (width > 800) {
+                    clearInterval(timeid3);
+                }
+            }, 100)
+        }
+    </script>
+    <br>
+
+    <!-- simple:移动元素 -->
+
+    <input type="button" value="移动到400px" id="btn3" />
+    <input type="button" value="移动到800px" id="btn4" />
+    <div id="div4" style="margin-top: 30px;width: 200px;height: 100px;background-color: green;position: absolute;"></div>
+    <script>
+        var btn3 = document.getElementById("btn3");
+        var btn4 = document.getElementById("btn4");
+        var div4 = document.getElementById("div4");
+        var step = 0;
+
+        btn3.onclick = function () {
+            // console.log(div4.style.width);
+            // console.log(div4.offsetLeft);
+
+            // timeid4=setInterval(function(){
+            //     step+=9;
+            //     div4.style.left=step+"px";
+            //     div4.style.left=(800-div4.offsetLeft)<10?"800px":div4.offsetLeft+"px";
+            //     if(div4.style.left=="800px"){
+            //         clearInterval(timeid4);
+            //     }
+            // },100)
+
+            timeid4 = setInterval(function () {
+                var current = div4.offsetLeft;
+                var step = 9;
+                current += step;
+
+                if (current < 400) {
+                    div4.style.left = current + "px";
+                } else {
+                    clearInterval(timeid4);
+                }
+                // console.log(div4.offsetLeft);
+            }, 50);
+        }
+        btn4.onclick = function () {
+            timeid5 = setInterval(function () {
+                var current = div4.offsetLeft;
+                var step = 9;
+                current += step;
+
+                if (current < 800) {
+                    div4.style.left = current + "px";
+                } else {
+                    clearInterval(timeid5);
+                }
+                // console.log(div4.offsetLeft);
+            }, 50)
+        }
+
+        //div要移动，必须脱离文档流---position：absolute
+        //样式代码在style标签中设置，外面外面获取不到
+        //样式代码在style属性中设置，外面可以获取
+        //获取div的当前位置--offset---纯数字
+    </script>
+    <br>
+
+
+    <!-- simple：动画封装 -->
+
+    <input type="button" value="移动到400px" id="btn5" />
+    <input type="button" value="移动到800px" id="btn6" />
+    <div id="div5" style="margin-top: 30px;width: 200px;height: 100px;background-color: red;position: absolute;"></div>
+    <script>
+        var btn5 = document.getElementById("btn5");
+        var btn6 = document.getElementById("btn6");
+        var div5 = document.getElementById("div5");
+
+
+        btn5.onclick = function () {
+            moveAnimation(div5, 400)
+        };
+        btn6.onclick = function () {
+            moveAnimation(div5, 800)
+        };
+
+        //动画封装函数：
+
+        function moveAnimation(element, target) {
+            clearInterval(element.timeid);//每次进入动画前，先清理掉上次的id值；有效解决了多次点击，加速，一次只能清理一个id的情况
+
+            element.timeid = setInterval(function () {//将定时器的id存入元素的自定义属性里
+                var current = element.offsetLeft;
+                var step = 10;
+                step = current > target ? -step : step;//判断步长正负
+                current += step;//增量
+                if (Math.abs(current - target) > Math.abs(step)) {//不为整数的情况
+                    element.style.left = current + "px";
+                } else {
+                    element.style.left = target + "px";
+                    clearInterval(element.timeid);
+                }
+            }, 50);
+            console.log(element.timeid);
+        }
+    </script>
+    <br><br><br><br><br><br><br>
+
+
+
+    <!-- offset -->
+
+    <script>
+        /**
+         * offsetWidth:获取元素的宽度
+         * 
+         * offsetHight:获取元素的高度
+         * 
+         * offsetLeft:获取元素距离左边的距离
+         *      
+         *      没有脱文档流时：父级元素的margin+父级元素的padding+父级元素的border+自己的margin
+         * 
+         *      脱离了文档流时：自己的left+自己的margin（和父级元素无关）
+         * 
+         * offsetTop:获取元素距离元素上边的距离
+         * 
+         *      没有脱文档流时：父级元素的margin+父级元素的padding+父级元素的border+自己的margin
+         * 
+         *      脱离了文档流时：自己的top+自己的margin（和父级元素无关）
+        */
+    </script>
+
+    <script>
+        /**
+         * 直接通过document获取元素：
+         * 
+        */
+
+        //title
+        console.log(document.title);
+        //body
+        console.log(document.body);
+        //html
+        // console.log(document.html);//undefined
+        console.log(document.documentElement)
+    </script>
+
+    <script>
+        //获取当前鼠标的横纵坐标
+        document.onmouseover = function (e) {
+            // console.log(e);
+            console.log(e.clientX);
+            console.log(e.clientY);
+        }
+    </script>
+
+    <script>
+        /**
+         * 小结：
+         * 
+         * 定时器：
+         * 
+         * setTimeout(fn,time);
+         * 
+         * clearTimeout(timeid);
+         * 
+         * setInterval(fn,time);
+         * 
+         * clearInterval(timeid);
+         * 
+         * 
+         * 
+         * offset:
+         * 
+         * offsetWidth:获取元素的宽
+         * 
+         * offsetHeight:获取元素的高
+         * 
+         * offsetLeft:
+         * 
+         * offsetTop:
+         * 
+         * 
+         * 
+         * 完整轮播图的思路：
+         * 
+         * 
+        */
+    </script>
+</body>
+
+</html>

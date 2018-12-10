@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>函数扩展，arguments，作用域（链），预解析</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <script>
+        //函数案例；
+
+        //求三个数的最大值；
+
+        function getThreeNumberMax(x, y, z) {
+            return x > y ? (x > z ? x : z) : (y > z ? y : z);
+        }
+        console.log(getThreeNumberMax(1, 2, 3));
+
+        //判断一个数是否是素数？
+
+        function isPrime(x) {
+            var i = 2;
+            while (i++ < x) {
+                //    console.log(i);
+                if (x % i == 0) {
+                    return false;
+                }
+                //    i++;
+            }
+            return true;
+        }
+        console.log(isPrime(2));
+
+        //求数组中的最大值，最小值，和？
+
+        var arr = [10, -1, 0, 25, 96, -38];
+        function getArr(arr) {
+            var max = arr[0];
+            var min = arr[0];
+            var sum = 0;
+
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] < min)
+                    min = arr[i];
+                if (arr[i] > max)
+                    max = arr[i];
+                sum += arr[i];
+            }
+            //    var array=[max,min,sum];
+            //    return array;
+            return [max, min, sum];
+        }
+        console.log(getArr(arr));
+        //直接返回一个数组，带回多个值，真香！
+
+
+        //实现数组反转？
+
+        var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        function reverseArray(arr) {
+            var temp;
+            for (var i = 0; i < arr.length / 2; i++) {
+                temp = arr[i];
+                arr[i] = arr[arr.length - 1 - i];
+                arr[arr.length - 1 - i] = temp;
+            }
+            return arr;
+        }
+        console.log(reverseArray(arr));
+
+        //实现冒泡排序？
+
+        var arr = [8, 7, 6, 5, 4, 3, 2, 1];
+        function bubbleSort(arr) {
+            for (var i = 0; i < arr.length - 1; i++) {
+                for (var j = 0; j < arr.length - 1 - i; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        var temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+        console.log(bubbleSort(arr));
+
+        //判断年份是不是闰年？
+
+        var year = 2018;
+        function isLeepYear(year) {
+            return year % 4 == 0 && year % 100 !== 0 || year % 400 == 0;
+        }
+        console.log(isLeepYear(year));
+
+        //输入年月日，获取这个日期的是这年的那一天？
+
+        function getDays(year, month, day) {
+            var arr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            if (month == 1)
+                return day;
+            for (var i = 0; i < month - 1; i++) {
+                day += arr[i];
+            }
+            if (isLeepYear(year) && month > 2)
+                day++;
+            return day;
+        }
+        console.log(getDays(2018, 11, 21));
+    </script>
+
+    <script>
+        /**
+         * 
+         * arguments 对象：
+         * 如果不知道，用户是否传入了参数，或者说不知道用户传入了几个参数，没办法计算
+         * 但是如果在函数中知道了参数的个数，就可以计算
+         * 
+        */
+
+        //simple
+
+        function f1() {
+            console.log(arguments.length);//获取传入参数的长度
+            console.log(arguments);//arguments对象可以获取出传入参数的值
+        }
+        f1();
+
+        //simple
+
+        function f2() {
+            var sum = 0;
+            for (var i = 0; i < arguments.length; i++)
+                sum += arguments[i];
+            return sum;
+        }
+        console.log(f2(10, 22, 23));
+            //arguments是伪数组，
+    </script>
+    <script>
+        /**
+         * 函数的定义方式：
+         * 1.函数声明：
+         * 
+         * function 函数名（）｛
+         *      函数体
+         * ｝
+         * 
+         * 2.函数的另一种定义方式：函数表达式
+         * 
+         * var fn = function（）｛//###赋值###，不会预解析函数体
+         *      
+         * ｝；//###赋值语句###--一句赋值语句的末尾不能缺失“；”，否则报错
+         * 
+         * 其实，函数名等同于数组名-->指针，函数名中储存的是函数实体（代码）
+         * 
+         * 另外函数的调用格式：
+         * 
+         * （函数实体）（）；###也就是说，函数实体部分可以被一个
+         * 
+         * 变量名替代--->函数声明，or 函数表达式 的用法
+         * 
+         * 或者函数代码--->自调用,simple：(function(){...})();
+         * 
+        */
+
+        //函数定义：
+        function f2() {
+            console.log("this is f2 top")
+        }
+        f2();
+        function f2() {
+            console.log("this is f2 bottom")
+        }
+        f2();
+
+
+        //函数表达式：
+
+        var f1 = function () {
+            console.log("this is f1 top");
+        };
+        f1();//
+        var f1 = function () {
+            console.log("this is f1 bottom");
+        };
+        f1();//
+
+        //函数自调用：匿名函数，不知直接调用，声明的同时直接调用，一次性--安全
+        (function () {
+            console.log("this is ,,,");
+        })();//
+        (function () {
+            console.log("this is 000");
+        })();//
+    </script>
+    <script>
+        /**
+         * 函数也是一种数据类型
+         * 
+         * 如何获取某个变量的类型？---typeof
+        */
+
+        function fn() {
+            console.log("this is fn func");
+        }
+        console.log(typeof fn);
+    </script>
+    <script>
+        /**
+         * 函数可以作为参数使用（传入函数名），回调函数
+        */
+
+        function f1() {
+            console.log("this is f1");
+        }
+        function f2(f1) {
+            console.log("f2 is actived");
+            f1();
+            // console.log(f1());
+        }
+        f2(f1);
+    </script>
+    <script>
+        /**
+         * 函数可以作为返回值使用；
+         * 
+        */
+
+        function f1() {
+            return function () { console.log("i am a function"); }
+        }
+        var f2 = f1();
+        f2();
+    </script>
+    <script>
+        /**
+         * 变量；
+         * 
+         * 全局变量：用var声明的变量，可以在页面的任何地方使用;
+         * 
+         *      页面被关闭时，全局作用域被回收；
+         * 
+         *      除了函数以外，其他任何位置定义的变量都是全局变量
+         * 
+         * 局部变量：在函数内部定义的变量，外面不能直接访问到
+         * 
+         * 隐式全局变量：没有用var声明的变量叫做隐式全局变量
+         * 
+         * 全局变量不能被删除，隐式全局变量可以被删除；
+         * 
+         * 作用域：
+         * 
+         * 全局作用域：全局变量的使用范围
+         * 
+         * 局部作用域：局部变量的使用范围
+         * 
+         * 块级作用域：一对花括号就是一个块级作用域，在其中定义的变量只能在这个区域中使用
+         * 
+         *      但，js中没有块级作用域；
+        */
+
+        //全局变量：
+
+        console.log(year);//year全局变量，可以在不同的script标签中访问到
+
+        {
+            var num = 88;
+        }
+
+        if (1) {
+            var name = "heiheih";
+        }
+
+        for (var i = 0; i < 5; i++) {
+            var number = 99;
+        }
+
+        function fn() {
+            var time = "2018";
+        }
+        console.log(num);//88
+        console.log(name);//heiheih
+        console.log(number);//99
+        // console.log(time);//error,报错了不能向下执行，先注释掉
+        //JS中没有块级作用域
+
+        //隐式全局变量：
+
+        var str = "123";
+        str2 = "456";
+        console.log(str);
+        console.log(str2);
+
+        delete str;
+        delete str2;
+        console.log(str);//123
+        // console.log(str2);//error,代码不能向下执行，先注释
+            //隐式全局变量能被删掉，全局变量不能被删掉
+
+    </script>
+    <script>
+        /**
+         * 作用域链：
+        */
+        var number = 0;
+        function f1() {
+            var number = 1;
+            function f2() {
+                var number = 2;
+                function f3() {
+                    var number = 3
+                    console.log(number);
+                }
+                f3();
+            }
+            f2();
+        }
+        f1();
+
+        var number = 0;
+        function ff1() {
+            var number = 1;
+            function f2() {
+                var number = 2;
+                function f3() {
+                    //    var number=3
+                    console.log(number);
+                }
+                f3();
+            }
+            f2();
+        }
+        ff1();
+
+        var number = 0;
+        function fff1() {
+            var number = 1;
+            function f2() {
+                // var number=2;
+                function f3() {
+                    //    var number=3
+                    console.log(number);
+                }
+                f3();
+            }
+            f2();
+        }
+        fff1();
+
+        var number = 0;
+        function ffff1() {
+            // var number=1;
+            function f2() {
+                // var number=2;
+                function f3() {
+                    //    var number=3
+                    console.log(number);
+                }
+                f3();
+            }
+            f2();
+        }
+        ffff1();
+
+        //该作用域没有就逐级向上寻找
+    </script>
+    <script>
+        /**
+         * 预解析：预处理代码
+         * 
+         * 做什么？
+         * 
+         * 把变量和函数的声明提前到当前到当前所在作用域的最上面
+         * 
+         * 预解析分段，多对script标签中函数重名，预解析不会冲突
+         * 
+        */
+    </script>
+    <!-- 预解析分段，多对script标签中函数重名，预解析不会冲突 -->
+
+    <script>
+        function f1() {
+            console.log("this is f1,yeyyeye");
+        }
+        f1();
+    </script>
+    <script>
+        f1();
+        function f1() {
+            console.log("this is f1,yeyyeye");
+        }
+    </script>
+    <script>
+        //预解析：
+
+        //simlpe1
+
+        // var a = 25;
+        // function abc (){
+        //     alert(a);//undefined
+        //     var a = 10;
+        // }
+        // abc();
+        // console.log(a);//25
+
+        //simlpe2
+
+
+        // function a() {
+        //     console.log('aaaaa');
+        // }
+        // console.log(a);
+        // var a=1;
+
+        // console.log(a);//1
+        //变量的声明先解析，函数声明后解析
+
+        //simple3
+
+        //     var a = 18;
+        //     function f1() {
+        //         var b = 9;
+        //         console.log(a);//undefined
+        //         console.log(b);//9
+        //         var a = '123';
+        //    }
+        //    f1();
+
+        //simple4
+
+        function f1() {
+            var a = b = c = 9;//被这个连等给迷惑了！！！啊
+            console.log(a);//9
+            console.log(b);//9
+            console.log(c);//9
+        }
+        f1();
+        console.log(c);//  9
+        console.log(b);// 9
+        console.log(a);//报错
+
+        //解释上面
+
+        // function f1() {
+        //     var a;//局部变量
+        //     a=9;
+        //     //隐式全局变量
+        //     b=9;
+        //     c=9;
+        //     console.log(a);//9
+        //     console.log(b);//9
+        //     console.log(c);//9
+        // }
+        // f1();
+        // console.log(c);//  9
+        // console.log(b);// 9
+        // console.log(a);//报错
+
+    </script>
+</body>
+
+</html>

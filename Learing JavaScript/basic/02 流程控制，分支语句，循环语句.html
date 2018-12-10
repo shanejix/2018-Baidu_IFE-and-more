@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>分支语句，循环语句</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+</head>
+
+<body>
+    <script>
+        /**
+         * if-else:
+         * 
+         * 判断年份是否为闰年？
+        */
+
+        var year = 2018;
+
+        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+            console.log(year + "is leap year");
+        } else {
+            console.log(year + "is common year");
+        }
+    </script>
+    <script>
+        /**
+         * swich-case:
+         * 
+         * 一个月份有多少天?
+         * 
+        */
+
+        /*
+         var month=parseInt(prompt("write a month"));
+
+         switch(month){
+             case 1: console.log("31 days");break;
+             case 2: console.log("30 days");break;
+             case 3: console.log("31 days");break;
+             case 4: console.log("30 days");break;
+             case 5: console.log("31 days");break;
+             case 6: console.log("30 days");break;
+             case 7: console.log("31 days");break;
+             case 8: console.log("31 days");break;
+             case 9: console.log("30 days");break;
+             case 10: console.log("31 days");break;
+             case 11: console.log("30 days");break;
+             case 12: console.log("31 days");break;
+             default:console.log("write wrong!!");
+         }
+
+         */
+
+        var month = parseInt(prompt("write a month"));
+
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12: console.log("31 days"); break;
+
+            case 2:
+            case 4:
+            case 6:
+            case 9:
+            case 11: console.log("30 days"); break;
+
+            default: console.log("write wrong!!");
+        }
+
+    </script>
+
+    <script>
+        /**
+         * while:
+         * 
+         * 登陆验证
+        */
+
+        var userName = prompt("write your name!");
+        var userPassword = prompt("write your password");
+        while (userName != "admin" || userPassword != "123") {
+            console.log("write wrong!! please agin.")
+            userName = prompt("write your name!");
+            userPassword = prompt("write your password");
+        }
+        console.log("bingo");
+    </script>
+
+    <script>
+        /**
+         * for:
+         * 
+         * 实现一个表格；
+        */
+
+        document.write("<table border='1'>");
+        for (var row = 1; row <= 9; row++) {//row
+            document.write("<tr>");
+            for (var col = 1; col <= row; col++) {//colum
+                document.write("<td>");
+                document.write(col + "*" + row + "=" + col * row);
+                document.write("</td>");
+            }
+            document.write("</tr>");
+        }
+        document.write("</table>");
+    </script>
+</body>
+
+</html>

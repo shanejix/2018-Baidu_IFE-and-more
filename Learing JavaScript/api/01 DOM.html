@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <script>
+        /**
+         * JavaSript的单个部分：
+         * 
+         * DOM：document object model；文档对象模型---操作页面元素
+         * 
+         * BOM：browser object model;浏览器对象模型---操作的是浏览器
+         * 
+         * 
+         * 万物皆为对象：document
+         * 
+         * document--html--body--div--imput--对象有属性和方法
+         * 
+         * 例如：input的属性：type value name id class
+         * 
+         *      input的方法（事件）：onclick onmouseover
+         * 
+         * 形如： input = {
+         *          type:"radio",
+         *          id:"button",
+         *          class:"btn",
+         *          onlick:function(){
+         *              some code...
+         *          }
+         *      }
+         * 
+         * 
+         * html文件可以看做一个文档--对象，文档中的所有标签都可以看做一个对象
+         * 
+         * 一个标签就是一个元素就是一个对象
+         * 
+         * 标签可以嵌套，标签中有标签，元素中有元素
+         * 
+         * html文件中有一个<html>根标签（根元素）--里面嵌套很多标签（元素）--对象
+         * 
+         * 
+         * 元素（element）：页面中所有的标签都是元素--对象
+         * 
+         * 节点（node）：页面中所有的内容都是节点：标签，属性，文本
+         * 
+         * 
+         * 
+         * DOM树：由文档中所有的标签（元素）组成的树形结构
+         *     
+        */
+    </script>
+
+    <!-- 实现弹窗功能 -->
+
+    <!-- 
+
+    点击操作：就是一个事件：事件源->触发->响应
+
+    事件源：按钮
+    
+    触发：点击：事件名字
+
+    响应：弹框 
+-->
+
+
+    <!-- 第一版: -->
+
+    <input type="button" value="弹框1" onclick="alert('alert something btn0')" id="btn0">
+    <!-- 为什么onclick=“alert（）”需要用双引号包裹函数呢？ -->
+    <!-- html代码中嵌入了,不方便后期的修改和维护 -->
+    <!-- 应该把js代码和html分离 -->
+
+    <script>
+        console.log(document.getElementById("btn0").onclick);//????
+        document.getElementById("btn0").onclick();//?????
+    </script>
+
+
+    <!-- 第二版 -->
+
+    <script>
+        function f1() {
+            //write abundance of code
+            alert("alert something..... btn1");
+        }
+    </script>
+    <input type="button" value="弹框2" onclick=f1() id="btn1">
+    <!-- <input type="button" value="弹框2" onclick="f1()">在html5中f1()和""f1()"不是很严格，二者均可，版本一呢？不能去掉引号？ -->
+
+    <script>
+        console.log(document.getElementById("btn1").onclick);//?????
+        document.getElementById("btn1").onclick();//?????
+    </script>
+
+    <!-- 开始分离html和js -->
+
+    <input type="button" value="弹框2" id=btn>
+    <script>
+        function f2() {
+            alert("sperate jd and html btn");
+        }
+        //根据id获取这个标签（元素）--对象
+        var btno = document.getElementById("btn");
+        //为按钮注册点击事件
+        btno.onclick = f2;//不加括号，f2的函数名相当于变量，引用类型，f2指向f2函数的实体（代码）
+        //f2是命名函数，如果后写入或者引用的库与f2重名--当前函数就被覆盖了
+
+
+        console.log(btno.onclick);//?????
+        btno.onclick();//?????
+    </script>
+
+
+    <!-- 第三版 -->
+
+    <input type="button" value="弹框3" id=btn2>
+    <script>
+        var btno2 = document.getElementById("btn2");
+        btno2.onclick = function () {
+            alert("final version");
+        };
+        //使用函数表达式，解决了版本二的问题
+
+
+        console.log(btno2.onclick);//?????
+        btn2.onclick();//?????
+    </script>
+
+    <!-- 
+    第一版：onclick=f1()或者onclick=“f1()”，当浏览器监听到鼠标左键的点击时，执行的是    .onclick    ->值就是函数的调用
+    第二版和
+    第三版：btno.onclick=f2;和btno2.onclick=function(){...};不论通过函数名字还是函数表达式，都没发生直接发生调用
+            当监听到鼠标左键点击时，执行的是    .onclick()     ->函数的调用 
+        -->
+
+    <!-- 进一步实验上面的猜想有问题，两种三个版本都是通过    .onclick()  方式 -->
+
+
+
+
+
+    <input type="button" value="setting" id="setbtn">
+    <p id="p">i am a pragrah</p>
+    <script>
+        /**
+         * innerText=""
+         * 
+         * 凡是成对的标签，中间的文本内容，设置的时候，都使用innerText这个属性的方式
+         * 
+         * simple:点击按钮修改标签的显示内容
+        */
+        document.getElementById("setbtn").onclick = function () {
+            document.getElementById("p").innerText = "i am change";
+        }
+
+    </script>
+
+
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <script>
+        /**
+         * document.getElementsByTagNaem();
+         * 
+         * 返回的是一个伪数组
+         * 
+         * simple:
+        */
+        console.log(document.getElementsByTagName("span"));
+    </script>
+
+
+    <input type="button" value="button" id="btn17">
+    <script>
+        /**
+         * 在元素事件中，this就是当前这个元素对象
+         * 
+         * simple：
+        */
+        document.getElementById("btn17").onclick = function () {
+            this.value = "i was changed,but i am not button ";
+            this.type = "text";
+            this.id = "";
+        }
+    </script>
+
+
+
+    <div>ddd</div>
+    <div>ddd</div>
+    <div>ddd</div>
+    <div>ddd</div>
+    <div>ddd</div>
+    <script>
+        /**
+         * 排他功能：
+         * 
+         * 凡是css中属性是多个单词，在jsDOM操作的时候，去掉中间的“-”，最后一个单词的首字母大写：backgroundColor
+         * 
+         * css中的样式操作都在标签的style属性中
+         * 
+         * style属性的值都用“”包裹
+         * 
+         * simple：
+        */
+
+        var divs = document.getElementsByTagName("div");
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].style.width = "200px";//not 200px
+            divs[i].style.height = "100px";
+            divs[i].style.backgroundColor = "red";
+            divs[i].onclick = function () {
+                for (var j = 0; j < divs.length; j++)
+                    divs[j].style.backgroundColor = "red";
+                this.style.backgroundColor = "blue";
+            }
+        }
+    </script>
+
+
+    <input class="xxx" id="input">
+    <script>
+        /**
+         * html属性和值都是自己，并且都只有一个，可以不写这个属性，不用赋值
+         * 
+         * value和innerText的区别；
+         * 
+         * 操作DOM设置class类名不用class用className
+         * 
+        */
+
+        console.log(document.getElementById("input").class);//undefined
+        document.getElementById("input").class = "ooo";
+        console.log(document.getElementById("input").class);//ooo
+        console.log(document.getElementById("input").className);//xxx
+    </script>
+
+    <script>
+        /**
+         * 总结：
+         * 
+         * javascript的单个部分：
+         * 
+         * ECMAscript标准，DOM（文件对象模型--操作页面），BOM（浏览器对象模型）
+         * 
+         * DOM树：把html页面或者xml文件看做一个文档，文档就是一个对象，文档中所有的标签都是元素，元素也可以看做一个对象
+         * 
+         * 标签嵌套组成的层次结构，可以模拟成属性结构---树状图---DOM树
+         * 
+         * 
+         * 获取元素：
+         * 
+         * document.getElementById("id属性值")
+         * 
+         * document.getElementsByTagName("标签的名字")
+         * 
+         * 操作基本标签的属性：src，title，alt，href，id，class
+         * 
+         * 操作表单标签的属性：name,value,type,checked,selected,disabled,readonly
+         * 
+         * 
+         * 元素的样式操作：
+         * 
+         * 对象.style.属性="值"；
+         * 
+         * 对象.className="值"；
+         * 
+         * 为元素添加事件的操作：
+         * 
+         * 事件：事件源-触发-响应
+         * 
+         * this---就是当前元素事件中的当前对象
+         * 
+         * 
+         * 内置对象：
+         * 
+         * 自定义对象：用户自己写的
+         * 
+         * 浏览器对象：
+         * 
+         * DOM对象：通过DOM方式获取的元素得到的对象
+         * 
+         * 
+         * 元素：element-页面中的标签
+         * 
+         * 节点：node-页面中所有的内容：标签，属性，文本
+         * 
+         * 根元素：html标签
+         * 
+         * 页面中的顶级对象：document
+        */
+    </script>
+</body>
+
+</html>

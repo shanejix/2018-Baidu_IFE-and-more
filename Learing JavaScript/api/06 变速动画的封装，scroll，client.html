@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>变速动画的封装，scroll，client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <!-- <script src="main.js"></script> -->
+    <style>
+        #div2{
+            width: 200px;
+            height: 200px;
+            background: blue;
+            border: 5px red solid;
+        }
+        #div7{
+            width: 200px;
+            height: 100px;
+            background-color: purple;
+            left:100px;
+            top:0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="div1" style="width:100px;height: 100px;background: yellow"></div>
+    <div id="div2"></div>
+    <div id="div3"></div>
+    <script>
+        /**
+         * offset：
+         * 
+         * 元素style标签中的css样式和外部导入的css样式无法通过--对象.style.属性的方式来获取
+         * 
+         * offsetWidth：元素的宽（包含边框）
+         * 
+         * offsetHight：元素的高（包含边框）
+         * 
+         * offsetLeft
+         * 
+         * offsetTop
+         * 
+        */
+        console.log(document.getElementById("div1").style.width);//100px
+        console.log(document.getElementById("div2").style.width);//空白；style标签中的css样式获取不到
+        console.log(document.getElementById("div3").style.width);//导入的外部css样式获取不到
+
+        console.log(document.getElementById("div1").offsetHeight);//数字，100
+        console.log(document.getElementById("div2").offsetWidth);//数字，210---包含边框
+        console.log(document.getElementById("div2").offsetHeight);//数字，210----包含边框
+        console.log(document.getElementById("div3").offsetHeight);//数字，300
+
+        console.log(document.getElementById("div1").offsetLeft);//
+        console.log(document.getElementById("div2").offsetLeft);//
+        console.log(document.getElementById("div3").offsetLeft);//
+    </script>
+    <br>
+
+
+    <div id="div4" style="width:100px;height:100px;background:yellow;border: red 5px solid">div4</div>
+    <div id="div5" style="width:100px;height:100px;background:red;overflow: auto;">div5 scroll
+        scrollscrollscrollscrollscrollscrollscrollscrollscroll</div>
+    <script>
+        /**
+         * 
+         * scroll:
+         * 
+         * scrollWidth:元素中内容的实际的宽度（不包含边框），如果没有内容就是元素的宽
+         * 
+         * scrollHeigh:元素中内容的实际的高（不包含边框），如果没有内容就是元素实际的高
+         * 
+         * 
+        */
+
+        console.log(document.getElementById("div4").scrollWidth);//100 没有内容，元素的宽（不包含边框）
+        console.log(document.getElementById("div4").scrollHeight);//100 没有内容，元素的高（不包含边框）
+
+        console.log(document.getElementById("div5").scrollWidth);//有内容，内容的宽
+        console.log(document.getElementById("div5").scrollHeight);//有内容，内容的高
+
+        console.log(document.getElementById("div5").scrollTop);//
+        console.log(document.getElementById("div5").scrollLeft);//
+
+        //实时获取
+        document.getElementById("div5").onscroll = function () {
+            console.log(this.scrollLeft);
+        }
+    </script>
+    <br>
+
+
+    <input type="button" value="移动到400px" id="btn1" />
+    <input type="button" value="移动到800px" id="btn2" />
+    <input type="button" value="移动到400px" id="btn3" />
+    <input type="button" value="移动到800px" id="btn4" />
+    <div id="div6" style="width:200px;height:200px;background:red;position: absolute"></div>
+    <script>
+        /**
+         * 动画的封装：
+        */
+
+        //平动动画
+
+        function moveAnimation(element, target) {
+            clearInterval(element.timeid);
+            element.timeid = setInterval(function () {
+                //元素当前的位置
+                var current = element.offsetLeft;
+                //步长
+                var step = 10;
+                //判断步长的正负
+                step = (target - current > 0) ? step : -step;
+                // step=(target-current>0)?Math.abs(step):-Math.abs(step);
+                //增量
+                current += step;
+                //
+                element.style.left = current + "px";
+                //判断是否为整数倍，以及结束条件
+                if (Math.abs(target - current) < Math.abs(step)) {
+                    element.style.left = target + "px";
+                    clearInterval(element.timeid);
+                }
+            }, 20);
+        }
+
+        //改进：变速动画-缓动动画-----每次移动的步长不一
+
+        function variableAnimaton(element, target) {
+            clearInterval(element.timeid);
+            element.timeid = setInterval(function () {
+                //元素当前的位置
+                var current = element.offsetLeft;
+                //步长
+                var step = Math.ceil((target - current) / 10);
+                //判断步长的正负
+                step = (target - current > 0) ? Math.abs(step) : -Math.abs(step);
+                //增量
+                current += step;
+                //
+                element.style.left = current + "px";
+                //判断是否为整数倍，以及结束条件
+                if (Math.abs(target - current) < Math.abs(step)) {//-----------------bug----------
+                    element.style.left = target + "px";
+                    clearInterval(element.timeid);
+                }
+            }, 20);
+        }
+
+        //优化版：
+
+        function variableAnimaton(element, target) {
+            clearInterval(element.timeid);
+            element.timeid = setInterval(function () {
+                //元素当前的位置
+                var current = element.offsetLeft;
+                //步长
+                var step = (target - current) / 10;
+                //判断步长
+                step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                //增量
+                current += step;
+                //
+                element.style.left = current + "px";
+                //判断是否为整数倍，以及结束条件
+                if (current == target) {
+                    clearInterval(element.timeid);
+                }
+            }, 20);
+        }
+
+        var btn1 = document.getElementById("btn1");
+        var btn2 = document.getElementById("btn2");
+        var btn3 = document.getElementById("btn3");
+        var btn4 = document.getElementById("btn4");
+        var div6 = document.getElementById("div6");
+
+        btn1.onclick = function () {
+            // moveAnimation(div6,400);
+            variableAnimaton(div6, 400);
+        };
+        btn2.onclick = function () {
+            // moveAnimation(div6,800);
+            variableAnimaton(div6, 800);
+        };
+        btn3.onclick = function () {
+            moveAnimation(div6, 400);
+            // variableAnimaton(div6,800);
+        };
+        btn4.onclick = function () {
+            moveAnimation(div6, 800);
+            // variableAnimaton(div6,800);
+        };
+
+    </script>
+    <br>
+
+
+    <div id="div7">div7</div>
+    <script>
+        /**
+         * 获取元素计算后样式的属性：---<style>标签或者css样式中的属性
+         * 
+         * getComputeStyle();//chrome   firefox
+         * 
+         * currentStyle();//ie8
+         * 
+        */
+
+        var div7 = document.getElementById("div7");
+
+        console.log(div7.offsetHeight);
+        console.log(div7.offsetWidth);
+        console.log(div7.offsetLeft);//0
+        console.log(div7.offsetTop);//21  ??
+
+        console.log(window.getComputedStyle(div7, null).left);//100px;
+        console.log(getComputedStyle(div7, null).top);//0px
+        console.log(window.getComputedStyle(div7, null)["left"]);//100px;
+        console.log(getComputedStyle(div7, null)["top"]);//0px
+
+        //兼容代码：获取任意一个元素的任意一个属性
+
+        function getStyle(element, attr) {
+            if (window.getComputedStyle) {//###注意这儿的写法###---函数名，方法名---等同于变量名字---如果一个对象的方法不存在则对象.方法---undefined
+                return window.getComputedStyle(element, null)[attr];
+            } else {
+                return element.currentStyle[attr];
+            }
+        }
+
+        //优化下
+
+        function getStyle2(element, attr) {
+            return window.getComputedStyle ? window.getComputedStyle(element, null)[attr] : element.currentStyle[attr];
+        }
+
+        //优化下
+
+        function getStyle3(element, attr) {
+            return window.getComputedStyle ? window.getComputedStyle(element, null)[attr] : element.currentStyle[attr] || 0;
+        }
+
+        console.log(getStyle(div7, "left"));//100px
+        console.log(getStyle2(div7, "left"));//100px
+
+    </script>
+    <br>
+
+
+    <div id="div8" style="width:200px;height:200px;background:blue;position: absolute;">div8</div>
+    <input type="button" value="click" id="btn8" style="margin-left: 200px;" />
+    <script>
+        /**
+         * 变速动画函数封装：增加任意一个属性---height,width,left,top;带有px
+        */
+
+        function variableAnimaton2(element, target, attr) {
+            clearInterval(element.timeid);
+            element.timeid = setInterval(function () {
+                //元素当前attr属性的值
+                var current = parseInt(getStyle(element, attr));
+                //步长
+                var step = Math.ceil((target - current) / 10);
+                //判断步长的正负
+                step = (target - current > 0) ? Math.abs(step) : -Math.abs(step);//--------------
+                //增量
+                current += step;
+                //
+                element.style[attr] = current + "px";
+                //判断是否为整数倍，以及结束条件
+                if (Math.abs(target - current) < Math.abs(step)) {
+                    element.style[attr] = target + "px";
+                    clearInterval(element.timeid);
+                }
+            }, 20);
+        }
+
+        //改进：
+
+        function variableAnimaton2(element, target, attr) {
+            clearInterval(element.timeid);
+            element.timeid = setInterval(function () {
+                //元素当前attr属性的值
+                var current = parseInt(getStyle(element, attr));
+                //步长
+                var step = (target - current) / 10;
+                //判断步长
+                step = (step > 0) ? Math.ceil(step) : Math.floor(step);
+                //增量
+                current += step;
+                //
+                element.style[attr] = current + "px";
+                //判断是否为整数倍，以及结束条件
+                if (current == target) {
+                    clearInterval(element.timeid);
+                }
+            }, 20);
+
+            console.log("gg");
+        }
+
+        var div8 = document.getElementById("div8");
+        var btn8 = document.getElementById("btn8");
+
+        btn8.onclick = function () {
+            variableAnimaton2(div8, 800, "left");
+            variableAnimaton2(div8, 300, "width");
+            variableAnimaton2(div8, 500, "height");
+            variableAnimaton2(div8, 500, "top");
+            //并非只执行了一次（3次）
+            //前面的效果没了？只有最后一个函数的效果？？为什么？？？
+        }
+    </script>
+
+
+    <div id="div9" style="width:200px;height:200px;background:rebeccapurple;position: absolute;">div9</div>
+    <input type="button" value="click9" id="btn9" style="margin-left: 200px;" />
+    <script>
+        /**
+         * 变速动画函数封装：增加任意多个属性
+        */
+
+        function variableAnimaton3(element, json) {
+            clearInterval(element.timeid);
+            element.timeid = setInterval(function () {
+                //设置一个标兵
+                var flag = true;
+
+                for (var attr in json) {
+                    //元素当前attr属性的值
+                    var current = parseInt(getStyle(element, attr));
+                    //target----不能用json[attr]替换-----报错----why
+                    var target = json[attr];
+                    //步长
+                    var step = (target - current) / 10;
+                    //判断步长
+                    step = (target > 0) ? Math.ceil(step) : Math.floor(step);
+                    //增量
+                    current += step;
+                    //
+                    element.style[attr] = current + "px";
+                    //判断是否为整数倍，以及结束条件
+                    if (current != target) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    clearInterval(element.timeid);
+                }
+            }, 20);
+        }
+
+        var div9 = document.getElementById("div9");
+        var btn9 = document.getElementById("btn9");
+
+        btn9.onclick = function () {
+            variableAnimaton3(div9, { "height": 300, "width": 300, "left": 500, "top": 80 });
+        }
+    </script>
+
+
+
+    <div id="div10" style="width:200px;height:200px;background:hotpink;position: absolute;">div10</div>
+    <input type="button" value="click10" id="btn10" style="margin-left: 200px;" />
+    <script>
+        /**
+         * 变速函数封装：增加任意多个属性和回调函数
+        */
+
+        function getStyle(element, attr) {
+            return window.getComputedStyle ? window.getComputedStyle(element, null)[attr] : element.currentStyle[attr] || 0;
+        }
+
+        function variableAnimaton4(element, json, fn) {
+            clearInterval(element.timeid);
+
+            element.timeid = setInterval(function () {
+                var flag = true;
+
+                for (var attr in json) {
+
+                    current = parseInt(getStyle(element, attr));
+
+                    var target = json[attr]
+
+                    step = (target - current) / 10;
+
+                    step = step > 0 ? Math.ceil(step) : Math.floor(step);
+
+                    current += step;
+
+                    element.style[attr] = current + "px";
+
+                    if (current != target) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    clearInterval(element.timeid);
+
+                    //所有属性达到才执行fn
+
+                    if (fn) {
+                        fn();
+                    }
+                }
+
+            }, 20)
+        }
+
+        var div10 = document.getElementById("div10");
+        var btn10 = document.getElementById("btn10");
+
+        btn10.onclick = function () {
+            var json1 = { "width": 400, "height": 500, "left": 500, "top": 80 };
+            variableAnimaton4(div10, json1, function () {
+                var json2 = { "width": 40, "height": 50, "left": 50, "top": 800 };
+                variableAnimaton4(div10, json2, function () {
+                    var json3 = { "width": 450, "height": 550, "left": 550, "top": 600 };
+                    variableAnimaton4(div10, json3);
+                })
+            });
+        }
+    </script>
+
+
+
+    <div id="div11" style="width:200px;height:200px;background:rebeccapurple;position: absolute;z-index: -10;">div11</div>
+    <input type="button" value="click11" id="btn11" style="margin-left: 200px;" />
+    <script>
+        /**
+         * 变速函数封装：增加任意多个属性和回调函数,增加层级和透明度
+         * 
+        */
+
+        function variableAnimaton5(element, json, fn) {
+            clearInterval(element.timeid);
+
+            element.timeid = setInterval(function () {
+
+                var flag = true;
+
+                for (var attr in json) {
+
+                    if (attr == "opacity") {
+
+                        var current = parseInt(getStyle(element, attr)) * 100;
+
+                        var target = json[attr] * 100;
+
+                        step = (target - current) / 10;
+
+                        step = step > 0 ? Math.ceil(step) : Math.floor(step);
+
+                        current += step;
+
+                        element.style[attr] = current / 100;
+
+                    } else if (attr == "zIndex") {
+
+                        element.style[attr] = json[attr];//层级改变直接改变值
+
+                    } else {//带px的属性
+
+                        var current = parseInt(getStyle(element, attr));
+
+                        var target = json[attr]
+
+                        step = (target - current) / 10;
+
+                        step = step > 0 ? Math.ceil(step) : Math.floor(step);
+
+                        current += step;
+
+                        element.style[attr] = current + "px";
+
+                        if (current != target) {
+                            flag = false;
+                        }
+                    }
+                }
+                if (flag) {
+                    clearInterval(element.timeid);
+
+                    //所有属性达到才执行fn
+
+                    if (fn) {
+                        fn();
+                    }
+                }
+
+            }, 20)
+        }
+
+        var div11 = document.getElementById("div11");
+        var btn11 = document.getElementById("btn11");
+
+        btn11.onclick = function () {
+            variableAnimaton5(div11, { "width": 40, "height": 50, "opacity": 1, "zIndex": 1000 });
+        }
+
+    </script>
+
+    <div id="div20" style="width: 200px;
+height: 210px;
+background: yellow;
+border: 20px solid black;
+border-left-width: 50px;">div20</div>
+    <script>
+        /**
+         * 
+         * client:可视区域
+         * 
+         * clientWidth:可视区域的宽（没有边框），边框内部的宽度
+         * 
+         * clientHeight:可视区域的高（没有边框），边框内部大的高度
+         * 
+         * clientLeft:左边边框的宽度
+         * 
+         * clientTop:上面边框的宽度
+         * 
+         * 
+         * 
+         * offset：
+         * 
+         * offsetWidth:
+         * 
+         * offsetHight:
+         * 
+         * offsetLeft:
+         * 
+         * offsetTop:
+         * 
+         * 
+         * scroll:
+         * 
+         * scrollWidth:
+         * 
+         * scrollHeight:
+         * 
+         * scrollLeft:
+         * 
+         * scrollTop:
+         * 
+         * 
+        */
+        console.log(document.getElementById("div20").clientHeight);
+        console.log(document.getElementById("div20").clientWidth);
+        console.log(document.getElementById("div20").clientLeft);
+        console.log(document.getElementById("div20").clientTop);
+
+    </script>
+
+
+<script>
+    /**
+     * 小结：
+     * 
+     * 三大系列：
+     * 
+     * offset:
+     * 
+     * offsetWidth:
+     * 
+     * offsetHeight:
+     * 
+     * offsetLeft：
+     * 
+     * offsetTop:
+     * 
+     * 
+     * scroll:
+     * 
+     * scrollWidth:
+     * 
+     * scrollHeight:
+     * 
+     * scrollLeft:
+     * 
+     * scrollTop:
+     * 
+     * 
+     * client:
+     * 
+     * clientWidth:
+     * 
+     * clientHeight:
+     * 
+     * clientLeft:
+     * 
+     * clientTop:
+     * 
+     * clientX:
+     * 
+     * clientY:
+     * 
+     * 
+     * 
+     * 
+     * 动画函数：
+     * 
+     * 匀速------》变速
+    */
+</script>
+
+</body>
+
+</html>

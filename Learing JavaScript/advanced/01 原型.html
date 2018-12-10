@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>原型</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+    <style>
+        .map {
+            width: 800px;
+            height: 600px;
+            background-color: #CCC;
+            position: relative;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <script>
+        /**
+         * 回顾：
+         * 
+         * js的单个部分：ECMAScript标准，DOM，BOM
+         * 
+         * js是一门：
+         * 
+         * 脚本语言
+         * 
+         * 解释性语言
+         * 
+         * 弱类型语言
+         * 
+         * 基于对象的语言
+         * 
+         * 动态类型的语言
+         * 
+         * 
+         * 面向对象的特性：
+         * 
+         * 封装，继承，多态，（抽象性）
+         * 
+        */
+
+        //创建对象的三种方式：
+
+        //1.通过字面量的方式创建对象
+
+        var obj = [];
+
+        //2.调用系统构造函数创建对象
+
+        var obj = new Object();
+
+        //3.通过自定义构造函数的方式创建对象
+
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        var per = new Person("Sara", 22);
+
+        //自定义构造函数创建对象的过程
+        //申请空间存储对象-this绑定为当前对象-初始化属性和方法的值-返回this
+
+        //通过工厂模式创建对象
+
+        function person(name, age) {
+            var per = new Object();//var per=[];
+            per.name = name;
+            per.age = age;
+            return per;
+        }
+
+    </script>
+
+    <script>
+        /**
+         * 构造函数和实例对象之间的关系：
+        */
+
+        //自定义构造函数
+
+        function Person(name, age, sex) {
+            this.name = name;
+            this.age = age;
+            this.sex = sex;
+            this.eat = function () {
+                console.log("eating someting");
+            }
+        }
+
+        //构造函数---创建对象（实例化）
+
+        var per = new Person("Sara", 22, "famale");
+
+        console.dir(per);
+        console.dir(Person);
+
+        console.dir(per.__proto__);
+        console.dir(per.__proto__.constructor);
+        console.dir(Person.prototype);
+        console.dir(Person.prototype.constructor);
+
+        console.log(per.constructor == Person);//true
+        console.log(per.__proto__.constructor == Person);//true
+        console.log(per.__proto__.constructor == Person.prototype.constructor);//true
+        console.log(per.__proto__ == Person.prototype);//ture
+
+
+        function Animal(name) {
+            this.name = name;
+        }
+
+        var dog = new Animal("wangwang");
+
+        //判断这个对象是不是这种数据类型
+
+        console.log(dog.constructor == Animal)//ture
+        console.log(dog instanceof Animal)//ture
+        console.log(dog.constructor == Person)//false
+        console.log(dog instanceof Person)//false
+
+        //实例化对象和构造函数之间的关系：
+
+        //实例对象是通过构造函数创建的---就是实例化的过程
+
+        //如何判断这个对象是不是这个数据类型？
+
+        //1.通过构造器的方式：
+
+        //2.通过 instanceof 的方式
+
+    </script>
+
+    <script>
+
+        function Person(name) {
+            this.name = name;
+            this.say = function () {
+                console.log("i am " + this.name);
+            }
+        }
+
+        var per1 = new Person("Sara");
+        var per2 = new Person("Lori");
+
+        per1.say();
+        per2.say();
+        console.log(per1.say == per2.say);//false
+
+        //可见per1.say();和per2.say();是私有的方法
+
+        //如何实现方法共用
+
+        function say() {
+            console.log("hhhh");
+        }
+
+        function Animal(name) {
+            this.name = name;
+            this.say = say;
+        }
+
+        var dog1 = new Animal("Sara");
+        var dog2 = new Animal("Lori");
+
+        dog1.say();
+        dog2.say();
+        console.log(dog1.say == dog2.say);//ture
+
+        //通过原型来实现---数据共享，节省内存
+
+        function People(sex, age) {
+            this.sex = sex;
+            this.age = age;
+        }
+
+        People.prototype.eat = function () {
+            console.log("eat apple");
+        }
+
+        var p1 = new People();
+        var p2 = new People();
+
+        p1.eat();
+        p2.eat();
+        console.log(p1.eat == p2.eat);//true
+
+        console.dir(p1);
+
+        /**
+         * 原型？
+         * 
+         * 实例对象中有__proto__这个属性--原型（也是一个对象）--浏览器使用，不是标准属性
+         * 
+         * 构造函数中有prototype这个属性--原型（也是一个对象）--标准属性
+         * 
+         * 实例对象中的__proto__和构造函数中的prototype相等
+         * 
+         * 实例对象是通过构造函数来创建的，构造函数中有prototype原型对象，因此实例对象的__proto__指向了构造函数的原型对象prototype
+         * 
+         * 
+         * 
+         * 三者之间的关系？
+         * 
+         * 构造函数可以实例化对象；构造函数中有一个属性prototype，是构造函数的原型对象
+         * 
+         * 构造函数的原型对象（prototype）中有一个construtor构造器，这个构造器指向就是自己所在的原型对象所在的构造函数
+         * 
+         * 实例化对象的原型（__proto__）指向的是该构造函数的原型对象
+         * 
+         * 构造函数的原型对象（prototype）中的方法可以被对象直接访问
+        */
+
+
+    </script>
+
+    <script>
+        /**
+         * 原型的作用之一：数据共享
+         * 
+         * 什么数据需要写在原型中？
+         * 
+         * 属性需要共享，方法需要共享，需要共享的数据写在原型中，不需要共享的数据写在构造函数中
+        */
+    </script>
+
+    <script>
+        //原型的简单写法
+
+        function Student(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        //原型的简单写法
+        Student.prototype = {
+            //需要手动修改构造器的指向
+            constructor: Student,
+            height: "179",
+            weight: "55kg",
+            name: "student",
+            study: function () {
+                console.log("study!!");
+                this.eat();
+            },
+            eat: function () {
+                console.log("eat!!!");
+            }
+        };
+
+        var stu = new Student("Sara");
+        stu.eat();
+        stu.study();//原型中的方法是可以相互访问的
+
+        console.log(stu.name);
+        console.log(stu.height);
+        console.log(stu.hahah);//undefined
+
+        //实例对象使用的属性和方法，先在实例中查找，找到了则直接使用，
+
+        //找不到则去实例对象的__proto__指向的原型对象prototype中找，找到了则使用，找不到则报错
+
+    </script>
+
+    <script>
+        //可以为内置对象添加方法
+
+    </script>
+
+    <script>
+        //把局部对象变成全局变量---将局部变量添加到window就可以了
+
+        //自调用函数--函数声明时，直接调用（一次性函数）
+
+        (function () {
+            var num = 10;//局部变量
+
+            window.num = num;
+
+        })(window);
+
+        console.log(num);
+        console.log(window.num);
+
+
+        //把随机数对象暴露给全局对象
+
+        //通过自调用函数产生一个随机数对象
+
+        (function (window) {
+            function Random() { }
+            Random.prototype.getRandom = function (min, max) {
+                return Math.floor(Math.random() * (max - min) + min);
+            }
+            // window.Random=Random;
+            window.Random = new Random();
+        })(window);
+
+        //在自调用函数外面，调用随机数对象产生随机数
+
+        // var rm=new Random();
+        var rm = Random;
+        rm.getRandom(0, 5);
+        console.log(rm.getRandom(0, 5));
+
+    </script>
+
+
+
+    <!-- 产生随机小方块 -->
+
+    <div class="map"></div>
+
+    <script>
+        //产生随机数对象
+
+        (function (window) {
+            function Random() {
+
+            }
+            Random.prototype.getRandom = function (min, max) {
+                return Math.floor(Math.random() * (max - min) + min);
+            }
+
+            window.Random = new Random();
+        })(window);
+
+        //产生小方块对象
+
+        (function (window) {
+
+            var map = document.getElementsByClassName("map")[0];
+
+            function Food(width, height, color) {
+                this.width = width || 20;
+                this.height = height || 20;
+                this.color = color;
+
+                this.left = 0;
+                this.top = 0;
+
+                this.element = document.createElement("div");
+            }
+
+            Food.prototype.init = function (map) {
+                var div = this.element;
+
+                div.style.width = this.width + "px";
+                div.style.height = this.height + "px";
+                div.style.background = this.color;
+
+                this.left = Random.getRandom(0, map.offsetWidth / this.width) * this.width;
+                this.top = Random.getRandom(0, map.offsetHeight / this.height) * this.height;
+
+                div.style.position = "absolute";
+                div.style.left = this.left + "px";
+                div.style.top = this.top + "px";
+
+                map.appendChild(div);
+            }
+
+            var foo = new Food(20, 20, "red");
+
+            foo.init(map);
+
+            // window.Food=Food;
+
+        })(window);
+
+        // var map=document.getElementById("map");
+
+        // var foo=new Food(20,20,"red");
+
+        // foo.init(map);
+
+    </script>
+
+
+</body>
+
+</html>

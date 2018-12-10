@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>apply,call,bind,高阶函数，闭包，沙箱</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <script>
+        /**
+         * apply和call的使用
+         * 
+         * 作用改变this的指向
+        */
+        //构造函数-Person
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        //通过原型共享方法
+        Person.prototype.say = function (x, y) {
+            console.log("hello " + this.score + " " + (x + y));
+            return 888;
+        }
+        //实例化对象
+        var per = new Person("Sara", 22);
+        per.say();
+        per.say();
+
+        //构造函数--Student
+        function Student(score) {
+            this.score = score;
+        }
+        //实例化对象
+        var stu = new Student(150);
+
+        //此时say实际上当做对象来使用（函数也是对象，apply和call在Functiion的prototype原型中）
+
+        per.say.apply();
+        per.say.call();
+
+        per.say.apply(null);
+        per.say.call(null);
+
+        //apply和call中没有传入参数或者为null，this就是默认的
+
+        per.say.apply(null, [100, 200]);
+        per.say.call(null, 10, 20);
+
+        //apply和call效果一样，参数传递的方式不一样
+
+        per.say.apply(stu, [100, 200]);
+        per.say.call(stu, 10, 20);
+
+       //改变了this的指向
+
+       //如果想使用别的对象的方法，并且希望这个方法是当前对象的，可以使用apply和call改变this的指向
+
+    </script>
+
+    <script>
+        //bind方法
+
+        function f1(x, y) {
+            console.log((x + y) + "---" + this.age);
+        }
+        function Person(age) {
+            this.age = age;
+        }
+        Person.prototype.say = function () {
+            console.log("....");
+        }
+        var per = new Person(22);
+
+        var ff = f1.bind(per, 10, 20);
+
+        ff();
+
+
+        //bind方法--复制一份，参数可以在条用之前传入，也可以在调用之后传入
+
+        //返回值是复制之后的方法
+
+        //改变了this的指向
+
+
+        // simple:调用随机数
+
+        function Random() {
+            this.num = Math.random();
+        }
+        Random.prototype.show1 = function () {
+            console.log(this.num);
+        }
+        Random.prototype.show2 = function () {
+            setInterval(this.show1.bind(this), 1000);
+        }
+        rd = new Random();
+        rd.show2();
+    </script>
+    <script>
+        /**
+         * 高阶函数：
+         * 
+         * 函数中的参数：
+         * 
+         * name属性：函数的名字可读不可写
+         * 
+         * arguments属性：实参的个数
+         * 
+         * length属性：形参的个数
+         * 
+         * caller属性：调用（f1在f2中调用调用者就是f2）
+        */
+        function f1(x, y) {
+            console.log(f1.name);
+            console.log(f1.arguments.length);
+            console.log(f1.length);
+            console.log(f1.caller);//调用者
+        }
+        function f2() {
+            console.log("f2函数的代码");
+            f1(1, 2, 3);
+        }
+        f2();
+
+        //高阶函数-函数作为参数使用
+
+        var arr = [1, 100, 20, 200, 40, 50, 120, 10];
+        var arr1 = ["acdef", "abcd", "bcedf", "bced"];
+        arr.sort(function (a, b) {
+            if (a > b) {
+                return 1;
+            }
+            else if (a == b) {
+                return 0;
+            }
+            else {
+                return -1;
+            }
+        })
+        console.log(arr);
+        console.log(arr1);
+
+        //高阶函数-函数作为返回值使用
+
+        //三部电影,电影有名字,大小,上映时间
+        function File(name, size, time) {
+            this.name = name;//电影名字
+            this.size = size;//电影大小
+            this.time = time;//电影的上映时间
+        }
+        function fff(attr) {
+            //函数作为返回值
+            return function (a, b) {
+                if (a[attr] > b[attr]) {
+                    return 1;
+                }
+                else if (a[attr] == b[attr]) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        }
+        var f1 = new File("雪山飞狐.avi", "400M", "1999-12-12");
+        var f2 = new File("海王", "200M", "2018-12-7");
+        var f3 = new File("功夫.avi", "800M", "2010-12-12");
+        var arr3 = [f1, f2, f3];
+        ff = fff("size");
+        //函数作为参数
+        arr3.sort(ff);
+        console.log(arr3);
+    </script>
+    <script>
+        /**
+         * 闭包：
+         * 
+         * 闭包的概念：
+         * 
+         * 闭包的模式：函数模式的闭包，对象模式大的闭包
+         * 
+         * 闭包的作用：缓存数据，延长作用域链
+         * 
+         * 闭包的优点和缺点：缓存数据
+        */
+
+        //函数模式的闭包：函数中有函数
+
+        function f1() {
+            var num = 10;
+
+            function f2() {
+                console.log(num);
+            }
+            // f2();
+
+            num++;
+            return num;
+        }
+
+        console.log(f1());//11
+        console.log(f1());//11
+        console.log(f1());//11
+
+        //对象模式的闭包：函数中有对象
+
+        function f3() {
+            var number = 100;
+            var obj = {
+                age: number
+            };
+            console.log(obj.age);
+
+            return function () {
+                number++;
+                return number;
+            }
+        }
+        f3();
+
+        var ff = f3();
+        console.log(ff());//101
+        console.log(ff());//102
+        console.log(ff());//103
+
+        //缓存数据，延长作用域
+
+        //想要缓存数据就把这个数据放在外层函数和里层函数的中间位置
+
+    </script>
+    <script>
+        //沙箱：一个环境
+
+        var num = 10;
+
+        console.log(num);//10
+
+        (function () {
+
+            num = 99;
+
+            console.log(num);//undefined
+
+            var num = 100;
+
+            num = 1000;
+
+            console.log(num);//1000
+        }());
+
+        console.log(num);//10
+
+        //一个封闭的环境，内部不会影响外部
+    </script>
+</body>
+
+</html>

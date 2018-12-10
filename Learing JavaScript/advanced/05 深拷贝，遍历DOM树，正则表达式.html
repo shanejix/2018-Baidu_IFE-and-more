@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>深拷贝，遍历DOM树，正则表达式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <script>
+        //浅拷贝:
+
+        var obj1 = {
+            age: 10,
+            sex: "男",
+            car: ["奔驰", "宝马", "特斯拉", "奥拓"]
+        };
+
+        var obj2 = {};
+
+        //遍历obj1，复制到obj2
+
+        for (var key in obj1) {
+            obj2[key] = obj1[key];
+        }
+
+        console.log(obj2);
+
+
+        //深拷贝：
+
+        var obj3 = {
+            age: 10,
+            sex: "男",
+            car: ["奔驰", "宝马", "特斯拉", "奥拓"],
+            dog: {
+                name: "大黄",
+                age: 5,
+                color: "黑白色"
+            }
+        };
+
+        var obj4 = {};
+
+        function extend(a, b) {
+            for (var key in a) {
+                //获取a对象中每个属性的值
+                var item = a[key];
+
+                if (item instanceof Array) {//判断这个属性的值是不是数组
+                    b[key] = [];//如果是数组，那么b的对象中添加一个新的属性，并且这个属性的值也是数组
+                    extend(item, b[key]);//递归的调用自己，把item复制到b中
+                } else if (item instanceof Object) {//判断这个值是不是对象类型
+                    b[key] = {};//如果是对象类型，那么在b对象中添加一个属性--空对象
+                    extend(item, b[key]);//递归调用自己，将item复制到b中
+                } else {//普通数据直接复制
+                    b[key] = item;
+                }
+            }
+        }
+        extend(obj3, obj4);
+        console.log(obj4);
+    </script>
+    <script>
+        //遍历DOM树
+
+        function travelDom(node) {
+            if (node) {
+                console.log("nodename" + node.nodeName);
+
+                for (var i = 0; i < node.children.length; i++) {
+                    travelDom(node.children[i]);
+                }
+            }
+            return null;
+        }
+    </script>
+    <script>
+        /**
+         * 正则表达式：Regular Express--匹配字符串
+         * 
+         * 在大多数语言中可以使用
+         * 
+         * 元字符：
+         * 
+         *  .   表示出了\n以外任意的一个字符
+         * 
+         *  []  表示范围：[0-9] 任意一个数字 
+         * 
+         *  [1-8]   1到8之间任意一个数字
+         * 
+         *  [a-z]   a到z之间任意一个字母
+         * 
+         *  [A-Z]   A到Z之间任意一个字母
+         * 
+         *  [0-9a-zA-Z]     所有的字母或者数字的一个
+         * 
+         *  [.]     表示一个“.”
+         *  
+         *  
+         * 元字符，限定符
+         * 
+         *  *   前面的表达式出现0次或者多次
+         * 
+         *  +   前面的表达式出现1次或者多次
+         * 
+         *  ？  前面的表达式出现0次或者1次
+         * 
+         *  限定符：限定前面表达式出现的次数
+         * 
+         *  {}更加明确前面出现的表达式的次数
+         * 
+         *  {0,}    0次到1次
+         * 
+         *  {1,}    1次到多次
+         * 
+         *  {1,1}   0次到1次
+         * 
+         *  {5,10}  5次到10次
+         * 
+         *  {4}     4次
+         * 
+         * 
+         *  ^   表示已什么开始，或者取反
+         * 
+         *  ^[0-9]      以数字开头
+         * 
+         *  [^0-9]      取反，非数字
+         * 
+         *  [^0-9a-zA-Z_]   特殊符号
+         * 
+         *  $   表示以什么结束
+         * 
+         *  [a-z]$  必须以小写字母结束
+         * 
+         *  
+         * 
+         *  \d  任意一个数字
+         *  
+         *  \D  任意一个非数字
+         * 
+         *  \s  任意一个空白符号
+         * 
+         *  \S  任意一个非空白符号
+         * 
+         *  \w  任意一个非特殊符号
+         * 
+         *  \W  任意一个特殊符号
+         * 
+         *  \b  单词的边界
+         * 
+         * 
+         * 邮箱正则表达式：
+         * 
+         *  [0-9a-zA-Z_.-]+[@][0-9a-zA-Z_.-]+([.][a-zA-Z]+){1,2}
+        */
+
+        //创建正则表达式对象：两种
+
+        //1.通过构造函数创建对象
+
+        var reg = new RegExp(/\d{5}/);
+
+        var str = "my number is 23323";
+
+        console.log(reg.test(str));
+
+        //2.字面量的方式创建对象
+
+        var reg2 = /\d{1,5}/;
+
+        console.log(reg2.test("number is 555"));
+
+    /**
+     * 其他方法的使用：
+     * 
+     *  g   表示全局模式
+     * 
+     *  i   表示忽略大小写
+     * 
+     *  ()  表示分组--RegExp.$1表示取第一组;RegExp.$2表示取第一组
+     * 
+     *  string.match();
+     * 
+     *  string.replace();
+     * 
+     *  reg.exec();
+     * 
+     *  
+    */
+
+    // simple:密码强度的验证
+
+    </script>
+    <script>
+        //数组和伪数组：
+
+        //伪数组的长度不能动态增长，数组可以
+
+        //伪数组不能使用数组中的方法，数组可以
+
+        //数组的__proto__指向Array的prototype
+
+    </script>
+</body>
+
+</html>

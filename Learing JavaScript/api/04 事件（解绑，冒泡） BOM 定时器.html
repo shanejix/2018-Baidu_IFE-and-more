@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>事件（解绑，冒泡）BOM 定时器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+
+    <script>
+        /**
+         * 总结绑定事件的区别：
+         * 
+         * addEventListener();
+         * 
+         * attachEvent();
+         * 
+         * 相同点：都可以为元素绑定事件
+         * 
+         * 不同点：
+         * 
+         * 1.方法名不一样
+         * 
+         * 2.参数个数不一样，addEventListener（）三个；attachEvent（）两个
+         * 
+         * 3.addEventListener（）谷歌火狐支持，ie11支持；ie8不支持
+         * 
+         *      attachEvent（）谷歌火狐不支持，ie11不支持；ie8支持
+         * 
+         * 4.this不同addEventListener（）是当前绑定事件的对象
+         * 
+         *      attachEvent中的this是window
+         * 
+         * 5.adddEventListener中的事件类型（事件名字）有on
+        */
+    </script>
+    <br>
+
+
+    <!-- 解绑事件：三种---对应的方式解绑 -->
+
+
+    <!-- 对象.on事件名字=事件处理函数；--绑定事件 -->
+
+    <input type="button" value="btn1" id="btn1" />
+    <input type="button" value="干掉第一个按钮的事件1" id="btn2" />
+    <script>
+        document.getElementById("btn1").onclick = function () {
+            console.log("btn1 was clicked");
+        }
+        document.getElementById("btn2").onclick = function () {
+            document.getElementById("btn1").onclick = null;//对应的方式解绑
+        }
+    </script>
+    <br>
+
+    <!-- 对象.addEventListener()；--绑定事件 -->
+
+    <input type="button" value="btn3" id="btn3" />
+    <input type="button" value="干掉第一个按钮的事件3" id="btn4" />
+    <script>
+        //注意：###addEventListener()中的匿名函数无法解绑###    onclick=null和removeEventListener（）都不行
+
+        // document.getElementById("btn3").addEventListener("click",function(){
+        //     console.log("btn1 was clicked");
+        // },false);
+
+        var fn = function () {
+            console.log("btn1 was clicked");
+        };
+
+        document.getElementById("btn3").addEventListener("click", fn, false);
+
+        document.getElementById("btn4").onclick = function () {
+            document.getElementById("btn3").removeEventListener("click", fn, false)
+        }
+        //使用命名函数（函数表达式）解绑事件
+
+    </script>
+    <br>
+
+
+    <!-- 对象.attachEvent()；--绑定事件 -->
+
+    <!-- <input type="button" value="btn5" id="btn5"/>
+    <input type="button" value="干掉第一个按钮的事件5" id="btn6"/>
+    <script>
+        document.getElementById("btn5").attachEvent("onclick",fn,);
+        document.getElementById("btn6").onclick=function(){
+            document.getElementById("btn5").detachEvent("onclick",fn,);
+        }
+    </script> -->
+
+    <!-- 
+
+    解绑事件注意事项：
+
+    用什么方式绑定事件，就用对应的方式解绑事件
+
+    1.对象.on事件名字=事件处理函数；--绑定事件
+
+        对象.on事件名字=null；--解绑事件
+
+    2.对象.addEventListener("没有on的事件名字",命名函数名,false)；--绑定事件
+
+        对象.removeEventListener("没有on的事件名字",命名函数名,false)；--解绑事件
+
+    3.对象.attachEvent("有on的事件名字",命名函数名)；--绑定事件
+
+        对象.detachEvent（"有on的事件名字",命名函数名）；--解绑事件 -->
+
+    <br>
+
+    <!-- 事件冒泡： -->
+
+    <!-- 多个元素嵌套，有层次关系，这些元素都注册了相同的事件，如果里面的事件触发了，会向上冒泡逐级触发相同的事件 -->
+
+    <div id="div1" style="width: 300px;height: 200px;background-color: red;">
+        <div id="div2" style="width: 250px;height: 150px;background-color: greenyellow;">
+            <div id="div3" style="width: 200px;height: 100px;background-color: blueviolet;"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("div1").onclick = function () {
+            console.log("div1 was clicked!!!");
+        };
+        document.getElementById("div2").onclick = function () {
+            console.log("div2 was clicked!!!");
+        };
+        document.getElementById("div3").onclick = function (e) {
+            console.log("div3 was clicked!!!");
+            // window.event.cancelBubble=true;//阻止事件冒泡
+            // e.stopPropagation();//阻止事件冒泡
+        };
+
+        //e---事件参数对象：window.event（ie标准）和e（火狐标准，在ie8中不存在）都是事件参数对象（一个对象）
+
+        // document.body.onclick=function(e){
+        //     console.log(arguments);
+        //     console.log(arguments[0]);
+        //     console.log(e);
+        // }
+
+        //如何阻止事件冒泡
+
+        //window.event.cancelBubble=ture;ie特有的，谷歌支持火狐不支持
+
+        //e.stopPropagation();谷歌火狐支持
+
+
+    </script>
+    <br>
+
+    <!-- 事件阶段： -->
+
+    <div id="div4" style="width: 300px;height: 200px;background-color: red;">
+        <div id="div5" style="width: 250px;height: 150px;background-color: greenyellow;">
+            <div id="div6" style="width: 200px;height: 100px;background-color: blueviolet;"></div>
+        </div>
+    </div>
+    <script>
+        // var arr=[document.getElementById("div4"),document.getElementById("div5"),document.getElementById("div6"),];
+        // arr.forEach(function(ele){
+        //     ele.addEventListener("click",function(){
+        //         console.log(this.id);
+        //     },true)
+        // })
+        document.getElementById("div4").addEventListener("click", function (e) {
+            console.log(this.id);
+            console.log(e.eventPhase);
+        }, false);
+        document.getElementById("div5").addEventListener("click", function (e) {
+            console.log(this.id);
+            console.log(e.eventPhase);
+        }, false);
+        document.getElementById("div6").addEventListener("click", function (e) {
+            console.log(this.id);
+            console.log(e.eventPhase);
+        }, false);
+
+        /**
+         * 事件有三个阶段：
+         * 
+         * 1.事件捕获阶段：从外向里
+         * 
+         * 2.事件目标阶段：最开始选择的那个
+         * 
+         * 3.事件冒泡阶段：从里向外
+         * 
+         * addEventListener（“没有on的事件类型”，事件处理函数，控制事件类型阶段）；
+         * 
+         * window.event（ie标准）和e（火狐标准，在ie8中不存在）都是事件参数对象（一个对象）
+         * 
+         * 通过eventPhase这个属性可以知道当前处于什么事件阶段：1-捕获；2-目标；3-冒泡
+         * 
+        */
+    </script>
+    <br>
+
+
+    <!-- simple:为同一个元素绑定多个不同事件指向通一个事件处理函数 -->
+
+    <input type="button" value="btn7" id="btn7" />
+    <script>
+        // var btn7=document.getElementById("btn7");
+        // btn7.onclick=function(){
+        //     alert("this is btn7!!");
+        // };
+        // btn7.onmouseover=function(){
+        //     btn7.style.backgroundColor="red";
+        // };
+        // btn7.onmouseout=function(){
+        //     btn7.style.backgroundColor="";
+        // };
+
+        //改进：不用写 多个匿名函数
+
+        var btn7 = document.getElementById("btn7");
+        btn7.onclick = fn;
+        btn7.onmouseover = fn;
+        btn7.onmouseout = fn;
+
+        function fn(e) {
+            switch (e.type) {//e.type---事件的类型
+                case "click":
+                    alert(this.id);
+                    break;
+                case "mouseover":
+                    this.style.background = "red";
+                    break;
+                case "mouseout":
+                    this.style.background = "";
+                    break;
+            }
+        }
+    </script>
+    <br>
+
+    <script>
+        /**
+         * BOM：Browser Object Model--浏览器对象模型--操作浏览器
+         * 
+         * 浏览器的顶级对象：widow
+         * 
+         * 页面中的顶级对象：document
+         * 
+         * 页面中所有内容都是属于浏览器的，内容也是
+         * 
+        */
+
+        var num = 1111;
+        console.log(window.num);
+
+        function fn() {
+            console.log("this is f1!!")
+        }
+        window.fn();
+
+        window.document.write("window write")
+
+        //页面中所有内容都是window的，因此window可以省略
+
+        console.log(window);
+        console.log(top);
+
+        //window等于top
+
+
+        //window.lert();window.prompt();window.confirm();系统的对话框不用（不能定制）
+
+        //页面加载事件:页面加载完毕（所有内容，标签，属性，文本，外部引入文件），才会触发
+
+        window.onload = function () {
+            console.log("onload!!");
+        }
+
+        onload = function () {
+            console.log("onload!!!!!!")
+        }
+
+        //页面关闭后才触发事件
+
+        window.onunload = function () {
+            alert("window wad closed!!!")
+        }
+        //关闭页面之前触发
+
+        window.onbeforeunload = function () {
+            alert("closing....")
+        }
+
+        //location对象
+
+        console.log(window.location);
+
+        //地址栏#及以后的内容
+        console.log(window.location.hash);
+        //主机名及端口号
+        console.log(window.location.host);
+        //主机名
+        console.log(window.location.hostname);
+        //端口号
+        console.log(window.location.hash);
+        //文件路径--相对路径
+        console.log(window.location.pathname);
+        //协议
+        console.log(window.location.protocol);
+        //搜索的内容
+        console.log(window.location.search);
+
+
+        //location.href="";设置页面跳转
+
+        //location.assign("");设置页面跳转
+
+        //location.reload();重载--刷新
+
+        //location.replace();--没有历史记录
+
+
+
+        //history 对象
+
+        //.forward()
+
+        //.back()
+
+        //.go()
+
+        console.log(window.history);
+
+
+
+        //navigator对象
+
+        //通过userAgent可以判断用户浏览器的类型
+        console.log(window.navigator.userAgent);
+        //通过platform可以判断浏览器所在的系统平台类型
+        console.log(window.navigator.platform);
+
+
+    </script>
+    <br>
+
+
+    <!-- 
+
+    定时器：BOM中两个定时器 
+
+    setInterval();
+
+    setTimeout();
+
+    -->
+
+    <!-- simple: -->
+
+    <input type="button" value="摇起来" id="btn8" />
+    <input type="button" value="停止" id="btn9" />
+    <div id="div8" style="width:200px;height:200px;position:absolute;background:yellow;">
+        <div></div>
+    </div>
+
+    <script>
+        var timeid;
+        document.getElementById("btn8").onclick = function () {
+            // clearInterval(timeid);//解决连个问题的方法
+            
+            timeid = setInterval(function () {
+                var x = parseInt(Math.random() * 100) + 1;
+                var y = parseInt(Math.random() * 100) + 1;
+                document.getElementById("div8").style.top = x + "px";
+                document.getElementById("div8").style.left = y + "px";
+            }, 100)
+        }
+        document.getElementById("btn9").onclick = function () {
+            clearInterval(timeid);
+        }
+
+        //两个问题：
+
+        //点击多次“摇起来”按钮时，速度明显加快（创建了多个定时器，但是timeid只存了一个定时器的id）
+
+        //只能清理一个定时器
+    </script>
+    <br>
+
+
+
+    <!-- simple:模拟百度搜索框 -->
+
+
+    <div id="box">
+        <input type="text" id="txt" value="">
+        <input type="button" value="搜索" id="btn">
+        <!-- <div id="div8" style="width:200px;height:100px;border:1px solid red"></div> -->
+    </div>
+    <script>
+        var key = ["123", "1", "1234", "2222", "23333"];
+        var box = document.getElementById("box");
+        var text = document.getElementById("txt");
+
+
+        text.onkeyup = function () {
+            console.log(text.value);//input中的value值，是动态变化的---厉害
+
+            var temparr = [];
+            for (var i = 0; i < key.length; i++) {
+                if (key[i].indexOf(text.value) == 0) {
+                    temparr.push(key[i]);
+                }
+            }
+
+            if (text.value && temparr.length != 0) {//-----&&后面写temp为啥效果不一样。
+                if (!document.getElementById("div9")) {
+                    var div = document.createElement("div");
+                    div.id = "div9";
+                    div.style.width = "200px";
+                    div.style.height = "100px";
+                    div.style.border = "1px solid red";
+                    box.appendChild(div);
+                }
+
+                var ul = document.createElement("ul");
+                for (var j = 0; j < temparr.length; j++) {
+                    var li = document.createElement("li");
+                    li.innerHTML = temparr[j];
+                    ul.appendChild(li);
+
+                    li.onmouseover = function () {
+                        this.style.background = "red";
+                    };
+                    li.onmouseout = function () {
+                        this.style.background = "";
+                    };
+                }
+                document.getElementById("div9").innerHTML = "";
+                document.getElementById("div9").appendChild(ul);
+            } else {
+                box.removeChild(document.getElementById("div9"));
+            }
+        }
+    </script>
+
+    <script>
+        /**
+         * 小结：
+         * 
+         * 为元素绑定事件的三种方式：
+         * 
+         * 1.对象.on事件类型=事件处理函数；
+         * 
+         * 2.对象.addEventListener（）；ie8不支持
+         * 
+         * 3.对象.attachEvent（）；ie8支持
+         * 
+         * 元素解绑的三种方式：
+         * 
+         * 1.对象.on事件类型=null；
+         * 
+         * 2.对象.removeEventListener（）；
+         * 
+         * 3.对象.detachEvent（）
+         * 
+         * 事件冒泡：
+         * 
+         * 阻止事件冒泡：
+         * 
+         * 1.e.stopPropagation（）；
+         * 
+         * 2.window.event.cancelBublle=ture;
+         * 
+         * 
+         * window.event====e
+         * 
+         * BOM:浏览器对象模型
+         * 
+         * history：back（）    forward（） go（）
+         * 
+         * location：href   assign（）  reload（）  replace（） 
+         * 
+         * navigator：userAgent 
+         * 
+         * 
+         * 地址栏#及后面的内容：
+         * 
+         * hash
+         * host
+         * hostname
+         * pathname
+         * port
+         * protocol
+         * search
+         * 
+         * 
+         * 定时器：
+         * 
+         * 返回自己的id值：
+         * 
+         * var timeid=serInterval(fn,time);
+         * 
+         * 清理定时器
+         * 
+         * window.clearInterval(定时器id)
+         * 
+        */
+    </script>
+
+</body>
+
+</html>

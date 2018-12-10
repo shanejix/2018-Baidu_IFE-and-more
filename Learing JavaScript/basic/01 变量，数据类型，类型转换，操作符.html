@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>变量，数据类型，类型转换，操作符</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <script>
+        /*
+         * JavaScript是什么？
+         * 脚本语言:不需要编译直接运行
+         * 解释性语言：遇到一行就执行一行
+         * 动态型语言
+         * 基于对象的语言
+         * 弱类型语言：声明变量的时候都使用var 
+         *
+         * ---
+         * 如果script标签是引入外部js文件的作用，那么这对标签中不要写任何代码
+         * 否则会出现意想不到的bug，如果要重写，新开一对script标签，里面写代码
+         * 
+         * ---
+         * 变量：
+         * 
+         * js中变量声明都用var关键字---数据有数据了类型
+         * 作用-->存储变量或操作数据（读和写）
+         * 初始化，赋值
+         * 
+         * ---
+         * 基本代码规范：
+         * 
+         * 声明变量都用var
+         * 每行代码结束都应该有分号；---养成习惯
+         * 字符串可以用单引号或双引号
+         * JS区分大小写
+         * 
+         * 变量名的命名规范--
+         * 1.变量名要有意义
+         * 2.以字母，数字，下划线，$符号，数字不能开头
+         * 3.变量名一般都小写
+         * 4.变量名--采用驼峰命名法
+         * 5.不能使用关键字和保留字
+         * 
+         * ---
+         * 养成写注释的习惯
+         * 
+         */
+    </script>
+    <script>
+        //交换变量
+
+        //思路一：借助第三方变量
+        var num1 = 10;
+        var num2 = 20;
+        var temp = num1;
+        num1 = num2;
+        num2 = temp;
+        console.log(num1);
+        console.log(num2);
+
+    </script>
+    <script>
+        //交换变量
+
+        //思路二：一般适用于数字交换
+        var num1 = 10;
+        var num2 = 20;
+        num1 = num1 + num2;
+
+        num2 = num1 - num2;
+        num1 = num1 - num2;
+        console.log(num1);
+        console.log(num2);
+
+    </script>
+    <script>
+        //交换变量
+
+        //思路二：位运算
+        var num1 = 10;
+        var num2 = 20;
+        num1 = num1 ^ num2;
+        num2 = num1 ^ num2;
+        num1 = num1 ^ num2;
+        console.log(num1);
+        console.log(num2);
+
+    </script>
+    <script>
+        /**
+         * js中数据类型有那些？
+         * 
+         * 原始数据类型包括：number,string,boolean,null,undefined,object
+         * string:"" or ''
+         * boolean:(ture(1) or false(0))
+         * null:对象指向为空可赋值为null
+         * undefined:变量声明了没有初始化时，结果为undefined；函数没有返回值，被接收了是undefined；undefined和一个数字计算结果是NaN
+         * object:
+         * 
+         * ---
+         * 如何获取这个变量的数据类型？-> typeof()
+         * 
+         * typeof 变量；
+         * typeof(变量)；
+         * 
+        */
+        var num = 10;
+        var str = "ha";
+        var flag = true;
+        var nll = null;
+        var undef;
+        var obj = new Object();
+
+        console.log(typeof (num));//number
+        console.log(typeof (str));//string
+        console.log(typeof (flag));//boolean
+        console.log(typeof (nll));//object
+        console.log(String(nll));//null
+        console.log(typeof (undef));//undefined
+        console.log(typeof (obj));//object
+    </script>
+    <script>
+        /**
+         * 数字类型：number
+         * 
+         * 整数和浮点数（小数）
+         * 
+         * 范围：最大--Number.MAX_VALUE 最小--Number.MIN_VALUE
+         * 
+         * 不要用小数去验证小数：浮点数内部储存的原因
+         * 
+         * NaN不等于NaN;
+         * 
+         * 判断是不是一个数字用isNaN();
+         * 
+        */
+        var number;
+        console.log(number + 10);//NaN
+        console.log(number + 10 == NaN);//false
+        console.log(isNaN(number + 10));//true
+    </script>
+    <script>
+        /**
+         * 字符串类型：string
+         * 
+         * 长度：string.length
+         * 转义符：\t \' \\
+         * 
+         * 字符串的拼接：使用+号可以，一个是数字另一个是字符串也会发生拼接
+         * 
+         * 隐式转换：浏览器自动将字符串类型转换为数字类型
+         * 
+        */
+        var str = "100";
+        var n = 20;
+        console.log(str + n);//字符拼接
+        console.log(str - n);//隐式转换
+        console.log(n - str);//隐式转换
+        console.log(str * n)//隐式转换
+
+        str = "100*";
+        console.log(str + n);//字符拼接
+        console.log(str - n);//NaN
+        console.log(n - str);//NaN
+        console.log(str * n)//NaN
+    </script>
+    <script>
+        /**
+         * 类型转换：
+         * 
+         * 其他类型转数字：三种
+         * parseInt();
+         * parseFloat();
+         * Number();//比上面两种都严格
+         * 
+         * 其他类型转字符串类型：
+         * .toString();--变量有意义可调用
+         * String();--变量无意义使用
+         * 
+         * 其他类型转布尔类型；
+        */
+
+        console.log(parseInt("10"));//10
+        console.log(parseInt("10tttm"));//10
+        console.log(parseInt("gg10"));//NaN
+        console.log(parseInt("1ddd10"));//1
+        console.log(parseInt("10.98"));//10
+        console.log(parseInt("10.99ssd"));//10
+        console.log(parseInt("12.12ddf12.01"));//12
+
+        console.log(parseFloat("10"));//10
+        console.log(parseFloat("10tttm"));//10
+        console.log(parseFloat("gg10"));//NaN
+        console.log(parseFloat("1ddd10"));//1
+        console.log(parseFloat("10.98"));//10.98
+        console.log(parseFloat("10.99ssd"));//10.99
+        console.log(parseFloat("12.12ddf12.01"));//12.12
+
+
+        console.log(Number("10"));//10
+        console.log(Number("10tttm"));//NaN
+        console.log(Number("gg10"));//NaN
+        console.log(Number("1ddd10"));//NaN
+        console.log(Number("10.98"));//10.98
+        console.log(Number("10.99ssd"));//NaN
+        console.log(Number("12.12ddf12.01"));//NaN
+
+        var something;
+        //    console.log(something.toString);//报错
+        console.log(String(something));//undefined
+        var something2 = null;
+        // console.log(something2.toString);//报错
+        console.log(String(something2));
+        var something3 = 1024;
+        console.log(something3.toString());
+        console.log(String(something3));
+
+        console.log(Boolean(1));//ture
+        console.log(Boolean(100));//ture
+        console.log(Boolean(0));//false
+        console.log(Boolean(-10));//true
+        console.log(Boolean(""));//false
+        console.log(Boolean(" "));//true
+        console.log(Boolean("heihihe"));//ture
+        console.log(Boolean("嘿嘿嘿"));//ture
+        console.log(Boolean(null));//false
+        console.log(Boolean(undefined));//false
+        console.log(Boolean(true));//ture
+        console.log(Boolean(false));//false
+    </script>
+    <script>
+        /**
+         * 操作符：
+         * 
+         * 算数运算符
+         * 一元运算符
+         * 二元运算符
+         * 三元运算符
+         * 符合运算符
+         * 关系预算符
+         * 逻辑运算符
+         * 
+         * 字面量：把一个值直接赋给一个变量
+        */
+
+        var s = "100";
+        console.log(s == 100);//true，不严格的相等
+        console.log(s === 100);//false,严格大的相等，既检查值也检查类型
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

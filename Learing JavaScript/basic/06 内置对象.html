@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>内置对象</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+    <script>
+        /**
+         * 1.内置对象--js自带的对象
+         * 2.自定义对象--自己定义的构造函数创创建的对象
+         * 3.浏览器对象---BOM
+         * 
+         * 
+         * 内置对象：
+         * 
+         * Math
+         * Date
+         * String
+         * Array
+         * Object
+         * 
+         * 如何验证变量是不是对象？
+         * 
+         * instanceof
+         * 
+         * 
+         * 
+         * 实例化对象：通过构造函数创建出来，实例化的对象
+         * 
+         * 静态对象：不需要创建，直接就是一个对象，方法（静态方法）直接通过这个对象调用
+         * 
+         * 实例方法必须通过实例对象调用
+        */
+    </script>
+    <script>
+        /**
+         * Math对象
+         * 
+         * Math.PI---
+         * Math.E
+         * Math.abs()
+         * Math.ceil()
+         * Math.floor()
+         * Math.random()
+         * Math.Max()
+         * Math.Min()
+         * Math.sprt()
+         * Math.pow()
+         * 
+        */
+
+
+        //伪随机数
+        console.log(parseInt(Math.random() * 100) + 1);
+        console.log(Number(Math.random() * 100) + 1);
+        console.log(Math.floor(Math.random() * 100) + 1);
+
+        console.log(Math.abs("10"));//10
+        console.log(Math.abs("10tttm"));//NaN
+        console.log(Math.abs("gg10"));//NaN
+        console.log(Math.abs("1ddd10"));//NaN
+        console.log(Math.abs("10.98"));//10.98
+        console.log(Math.abs("10.99ssd"));//NaN
+        console.log(Math.abs("12.12ddf12.01"));//NaN
+
+        console.log(Math.floor("10"));//10
+        console.log(Math.floor("10tttm"));//NaN
+        console.log(Math.floor("gg10"));//NaN
+        console.log(Math.floor("1ddd10"));//NaN
+        console.log(Math.floor("10.98"));//10
+        console.log(Math.floor("10.99ssd"));//NaN
+        console.log(Math.floor("12.12ddf12.01"));//NaN
+
+
+        //simple；实现Math.max()方法
+
+        function max() {
+            var max = arguments[0];
+            for (var i = 0; i < arguments.length; i++) {
+                if (arguments[i] > max) {
+                    max = arguments[i];
+                }
+            }
+            return max;
+        }
+
+        function MyMath() {
+            this.max = function () {
+                var max = arguments[0];
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i] > max) {
+                        max = arguments[i];
+                    }
+                }
+                return max;
+            }
+        }
+        var mm = new MyMath();
+        console.log(Math.max(10, -2, 100));
+        console.log(max(10, -2, 100));
+        console.log(mm.max(10, -2, 100));
+
+        //simple:产生一个十六进制的颜色值
+
+        function random16() {
+            var str = "#";
+            var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
+            for (var i = 0; i < 6; i++) {
+                var num = Math.floor(Math.random() * 16);
+                str = str + arr[num];
+                // console.log(str);
+            }
+            console.log(str);
+            return str;
+        }
+        random16();
+
+    </script>
+    <script>
+        /**
+         * Date对象：
+         * 
+        */
+
+        //创建Date对象
+        var date = new Date();
+        console.log(date);
+        //传入时间
+        var date = new Date(2018 - 11 - 23);
+        console.log(date);
+        var date = new Date("2018-11-23");
+        console.log(date);
+        var date = new Date("2018/11/23");
+        console.log(date);
+        //获取时间
+        var date = Date.now();
+        console.log(date);//毫秒
+
+        var date = new Date();
+        //获取年份
+        console.log(date.getFullYear());
+        //yue
+        console.log(date.getMonth());//月份从0开始，实际月份加1
+        //ri
+        console.log(date.getDate());
+        //shi
+        console.log(date.getHours());
+        //fen
+        console.log(date.getMinutes());
+        //miao
+        console.log(date.getSeconds());
+
+        //星期
+        console.log(date.getDay())//星期从0开始---周日
+
+
+        var date = new Date();
+        console.log(date.toDateString());//
+        console.log(date.toLocaleDateString());//
+        console.log(date.toTimeString());//
+        console.log(date.toLocaleTimeString());//
+        console.log(date.valueOf());//console.log(Date.now());
+        console.log(Date.now());//
+        console.log(date.toString());//console.log(new Date());
+        // console.log(new Date());//
+
+
+        //simple:格式化时间-2018年11月23日 14：53
+
+        function getMyDate() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var d = date.getDate();
+            var hour = date.getHours();
+            var minutes = date.getMinutes();
+
+            var str = year + "年" + month + "月" + d + "日" + hour + "：" + minutes;
+            return str;
+        }
+        console.log(getMyDate());
+    </script>
+    <script>
+        /**
+         * Stirng对象：
+         * 
+         * 在c语言中字符串用字符数组表示，js中没有字符类型
+         * 
+         * 字符串再js中可以用单引号也可以用双引号
+         * 
+         * 字符串可以被看做数组，因此可以使用for循环遍历
+         * 
+         * 字符串特性：不可变性，字符创的值不能改变---看起来能改变是因为指向改变了，并不是真的改变了
+         * 
+        */
+
+        //只读
+
+        var str = "hello";
+        str[1] = "w";//无效
+        console.log(str);
+        for (var i = 0; i < str.length; i++) {
+            console.log(str[i]);
+        }
+
+        //指向改变了，
+        var str = "123";
+        str = "188";
+        console.log(str);//123去哪儿了？？？？
+    </script>
+    <script>
+        /**
+         * String 对象的方法：
+         * 
+         * 实例方法--->必须通过new的方式创建对象（实例对象）来调用方法
+         * 
+         * 静态方法--->直接通过大写的构造函数的名字调用的方法（大写的对象名字来调用）
+         * 
+         * 实例方法和静态方法的区别？实例方法，静态方法都在哪儿？
+         * 
+         * 
+         * 
+         * .length
+         * .charAt()
+         * .fromCharCode()
+         * .concat()
+         * .indexOf()
+         * .lastIndexOf()
+         * .replace()
+         * .slice()
+         * .split()
+         * .substr()
+         * .sbustring()
+         * .toLocaleLowerCase()
+         * .toLowerCase()
+         * .toLocaleUpperCase()
+         * .trim();
+        */
+
+        //simple:找到字符串所有o出现的位置
+        var str = "hello wood odd ob obb oo xxo";
+        var index = 0;
+        var key = "o";
+        while ((index = str.indexOf(key, index)) != -1) {
+            console.log(index);
+            index += key.length;
+        }
+
+        //simple:字符创中每个字符出现的次数
+
+        var str = "akhfkahfhahakf";
+        var json = {};
+        for (var i = 0; i < str.length; i++) {
+            var k = str[i];//str[i]---是字符串--不用转化
+            if (json[k]) {//无---undefined---false
+                json[k]++;
+            } else {
+                json[k] = 1;
+            }
+        }
+        for (var key in json) {
+            console.log(key + "   " + json[key]);
+        }
+    </script>
+    <script>
+        /**
+         * Array 对象
+         * 
+         * Array.isArray()
+         * instanceof
+         * .from()
+         * .cancat()
+         * .every()
+         * .filter()
+         * .push()
+         * .pop()
+         * .shift()
+         * .unshift()
+         * .forEach()
+         * .indecOf()
+         * .join()
+         * .map()
+         * .reverse()
+         * .sort()
+         * .slice()
+         * .splice()
+         * 
+        */
+
+        //
+        var obj = [];
+        console.log(obj instanceof Array);
+        console.log(Array.isArray(obj));
+
+
+    </script>
+    <script>
+        /**
+         * 基本包装类型：
+         * 
+         * 普通变量不能调用属性和方法
+         * 
+         * 对象可以直接调用属性和方法
+         * 
+         * 基本包装类型：本身是基本包装类型，但是在代码的执行过程中，如果这种类型的变量调用了属性和方法，
+         * 那么这种类型就不在是基本类型了，而是基本包装类型。这个变量也不是普通变量而是基本包装类型对象
+         * 
+        */
+
+        //simple:
+
+        var num = 10;
+        var num2 = Number("10");//类型转换
+        var num3 = new Number("10");//基本包装类型
+
+        //simple:
+        var flag = new Boolean(false);
+        var result = true && flag;
+        console.log(result);//对象
+        var result = flag && true;
+        console.log(result);//true
+
+            //如果是一个对象&&ture，那么结果是true
+            //如果是一个true&&对象，那么结果是对象
+        //false呢？？？？
+    </script>
+</body>
+
+</html>
