@@ -6,4 +6,4 @@
 
 
 
-![codenote](..\images\codenote.png)
+![codenote](../images/codenote.png)
