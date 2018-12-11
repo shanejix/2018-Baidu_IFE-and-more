@@ -10,39 +10,62 @@
     <script>
         /*
          * JavaScript是什么？
+         * 
          * 脚本语言:不需要编译直接运行
+         * 
          * 解释性语言：遇到一行就执行一行
+         * 
          * 动态型语言
+         * 
          * 基于对象的语言
+         * 
          * 弱类型语言：声明变量的时候都使用var 
          *
-         * ---
+         * 
+         * 
          * 如果script标签是引入外部js文件的作用，那么这对标签中不要写任何代码
          * 否则会出现意想不到的bug，如果要重写，新开一对script标签，里面写代码
          * 
-         * ---
+         * 
+         * 
          * 变量：
          * 
-         * js中变量声明都用var关键字---数据有数据了类型
+         * js中变量声明都用var关键字---数据有数据类型
+         * 
          * 作用-->存储变量或操作数据（读和写）
+         * 
          * 初始化，赋值
          * 
-         * ---
+         * 
+         * 
+         * 
          * 基本代码规范：
          * 
          * 声明变量都用var
+         * 
          * 每行代码结束都应该有分号；---养成习惯
+         * 
          * 字符串可以用单引号或双引号
+         * 
          * JS区分大小写
          * 
+         * 
+         * 
+         * 
          * 变量名的命名规范--
+         * 
          * 1.变量名要有意义
+         * 
          * 2.以字母，数字，下划线，$符号，数字不能开头
+         * 
          * 3.变量名一般都小写
+         * 
          * 4.变量名--采用驼峰命名法
+         * 
          * 5.不能使用关键字和保留字
          * 
          * ---
+         * 
          * 养成写注释的习惯
          * 
          */
@@ -92,16 +115,26 @@
          * js中数据类型有那些？
          * 
          * 原始数据类型包括：number,string,boolean,null,undefined,object
+         * 
          * string:"" or ''
+         * 
          * boolean:(ture(1) or false(0))
+         * 
          * null:对象指向为空可赋值为null
-         * undefined:变量声明了没有初始化时，结果为undefined；函数没有返回值，被接收了是undefined；undefined和一个数字计算结果是NaN
+         * 
+         * undefined:变量声明了没有初始化时，结果为undefined；
+         * 
+         * 函数没有返回值，被接收了是undefined；undefined和一个数字计算结果是NaN
+         * 
+         * 
+         * 
          * object:
          * 
-         * ---
+         * 
          * 如何获取这个变量的数据类型？-> typeof()
          * 
          * typeof 变量；
+         * 
          * typeof(变量)；
          * 
         */
@@ -119,9 +152,11 @@
         console.log(String(nll));//null
         console.log(typeof (undef));//undefined
         console.log(typeof (obj));//object
+
     </script>
     <script>
         /**
+         * 
          * 数字类型：number
          * 
          * 整数和浮点数（小数）
@@ -135,16 +170,19 @@
          * 判断是不是一个数字用isNaN();
          * 
         */
+
         var number;
         console.log(number + 10);//NaN
         console.log(number + 10 == NaN);//false
         console.log(isNaN(number + 10));//true
+
     </script>
     <script>
         /**
          * 字符串类型：string
          * 
          * 长度：string.length
+         * 
          * 转义符：\t \' \\
          * 
          * 字符串的拼接：使用+号可以，一个是数字另一个是字符串也会发生拼接
@@ -170,15 +208,23 @@
          * 类型转换：
          * 
          * 其他类型转数字：三种
+         * 
          * parseInt();
+         * 
          * parseFloat();
+         * 
          * Number();//比上面两种都严格
          * 
+         * 
+         * 
          * 其他类型转字符串类型：
+         * 
          * .toString();--变量有意义可调用
+         * 
          * String();--变量无意义使用
          * 
          * 其他类型转布尔类型；
+         * 
         */
 
         console.log(parseInt("10"));//10
@@ -234,14 +280,21 @@
          * 操作符：
          * 
          * 算数运算符
+         * 
          * 一元运算符
+         * 
          * 二元运算符
+         * 
          * 三元运算符
-         * 符合运算符
-         * 关系预算符
+         * 
+         * 复合运算符
+         * 
+         * 关系运算符
+         * 
          * 逻辑运算符
          * 
          * 字面量：把一个值直接赋给一个变量
+         * 
         */
 
         var s = "100";
