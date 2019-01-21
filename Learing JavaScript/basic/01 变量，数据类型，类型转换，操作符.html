@@ -226,16 +226,41 @@
          * 其他类型转布尔类型；
          * 
         */
-
-        console.log(parseInt("10"));//10
+        //parseInt()
+        
+        //忽略字符串前面的空格直到找到第一个非空格字符
+        console.log(parseInt("      10"));//10
+        //第一个字符不是数字或者负号则返回NaN-----空字符串返回NaN，Number（）为0
+        console.log(parseInt("      gg10"));//NaN
+        console.log(parseInt("      -10"));//-10
+        console.log(parseInt("      "));//NaN
+        //是数字继续解析直到遇到非数字
+        console.log(parseInt("10110"));//10110
         console.log(parseInt("10tttm"));//10
-        console.log(parseInt("gg10"));//NaN
         console.log(parseInt("1ddd10"));//1
+        //在parseInt（）中小数点不被视为有效的数字
         console.log(parseInt("10.98"));//10
         console.log(parseInt("10.99ssd"));//10
         console.log(parseInt("12.12ddf12.01"));//12
+        //进制转换
+        console.log(parseInt("0xf"));//15
+        console.log(parseInt("f"));//NaN
+        console.log(parseInt("f",16));//15
+            //忽略了前导零被当做十进制,因此用第二个参数加以区别
+        console.log(parseInt("070"));//70
+        console.log(parseInt("70"));//70
+        console.log(parseInt("70",2));//NaN
+        console.log(parseInt("10",2));//2
+        console.log(parseInt("70",8));//56
+            //忽略了前导零
+        console.log(parseInt("000070"));//70
 
-        console.log(parseFloat("10"));//10
+
+
+
+        //parseFoat()
+
+        console.log(parseFloat("    -000010"));//-10
         console.log(parseFloat("10tttm"));//10
         console.log(parseFloat("gg10"));//NaN
         console.log(parseFloat("1ddd10"));//1
@@ -243,14 +268,42 @@
         console.log(parseFloat("10.99ssd"));//10.99
         console.log(parseFloat("12.12ddf12.01"));//12.12
 
+        //Number()
 
-        console.log(Number("10"));//10
+        //Boolean 值：true为1；false为0
+        console.log(Number(true));//1
+        console.log(Number(false));//0
+        //数字：简单的传入和返回
+        console.log(Number(0));//0
+        console.log(Number(1));//1
+        console.log(Number(-100));//-100
+        console.log(Number(100));//100
+        //null：0
+        console.log(Number(null));//0
+        //undefined：NaN
+        console.log(Number(undefined));//NaN
+        //字符串：
+        //只包含数字，转换为十进制，忽略前导零，有浮点则转换为浮点，忽略字符串前面的空格直到找到第一个非空格字符
+        console.log(Number("        10"));//10
+        console.log(Number("10.001"));//10.001
+        console.log(Number("00010.001"));//10.001
+        console.log(Number("-00010.001"));//-10.001
+        //含十六进制格式转换为十进制
+        console.log(Number("0xf"));//16
+        //空字符串转换为零
+        console.log(Number(""));//0
+        //tab
+        console.log(Number(" "));//0
+        //除了以上格式以下都为NaN
         console.log(Number("10tttm"));//NaN
         console.log(Number("gg10"));//NaN
         console.log(Number("1ddd10"));//NaN
-        console.log(Number("10.98"));//10.98
         console.log(Number("10.99ssd"));//NaN
         console.log(Number("12.12ddf12.01"));//NaN
+
+        //对象，则调用对象的valueof()方法，按上述规则，返回Nan则调用对象的toString()方法，按上述方法
+
+
 
         var something;
         //    console.log(something.toString);//报错
@@ -296,6 +349,101 @@
          * 字面量：把一个值直接赋给一个变量
          * 
         */
+
+        //一元操作符
+
+        //递增递减操作符
+
+        var s1 = "2";
+        var s2 = "z";
+        var b = false;
+        var f = 1.1;
+        var o = {
+            valueOf: function() {
+            return -1;
+            }
+        };
+        //包含有效数字的字符串，先转换为数字值，再加减1
+        s1++; // 值变成数值3
+        //不包含有效数值的字符串，变量的值NaN
+        s2++; // 值变成NaN
+        //布尔false时，先转换为0；布尔true时先转换为1
+        b++; // 值变成数值1
+        //浮点值时，直接加减
+        f--; // 值变成0.10000000000000009（由于浮点舍入错误所致）
+        //对象时，先调用valuleOf()方法，返回NaN则继续调用toString()方法
+        o--; // 值变成数值-2
+
+        //一元加减操作符
+
+        //放数值前面，不会产生影响
+        var num = 25;
+        num = +num; // 仍然是25
+        //在非数字前面，和Number()转型函数一样
+        var s1 = "01";
+        var s2 = "1.1";
+        var s3 = "z";
+        var b = false;
+        var f = 1.1;
+        var o = {
+            valueOf: function() {
+                return -1;
+            }
+        };
+        s1 = +s1; // 值变成数值1
+        s2 = +s2; // 值变成数值1.1
+        s3 = +s3; // 值变成NaN
+        b = +b; // 值变成数值0
+        f = +f; // 值未变，仍然是1.1
+        o = +o; // 值变成数值-1
+
+
+        //逻辑与
+
+        // 有一个操作数不是布尔值时，不一定返回布尔值
+
+        //如果第一个操作数是对象，则返回第二个操作数；
+        //如果第二个操作数是对象，则只有在第一个操作数的求值结果为true 的情况下才会返回该对象；
+        //如果两个操作数都是对象，则返回第二个操作数；
+        //如果有一个操作数是null，则返回null；
+        //如果有一个操作数是NaN，则返回NaN；
+        //如果有一个操作数是undefined，则返回undefined
+
+        //逻辑或
+
+        // 有一个操作数不是布尔值时，不一定返回布尔值
+
+        //如果第一个操作数是对象，则返回第一个操作数；
+        //如果第一个操作数的求值结果为false，则返回第二个操作数；
+        //如果两个操作数都是对象，则返回第一个操作数；
+        //如果两个操作数都是null，则返回null；
+        //如果两个操作数都是NaN，则返回NaN；
+        //如果两个操作数都是undefined，则返回undefined
+
+
+        console.log(-0-(-0));
+        console.log(+0-(+0));
+        console.log(+0-(-0));
+
+
+
+
+        console.log(null == undefined);// true 
+        console.log("NaN" == NaN);// false 
+        console.log(5 == NaN);// false 
+        console.log(NaN == NaN);// false 
+        console.log(NaN != NaN);// true 
+        console.log(false == 0);// true
+        console.log(true == 1);// true
+        console.log(true == 2);// false
+        console.log(undefined == 0);// false
+        console.log(null == 0);// false
+        console.log("5"==5);// true
+
+
+        console.log(undefined==null);//true
+        console.log(undefined===null);//false
+
 
         var s = "100";
         console.log(s == 100);//true，不严格的相等
